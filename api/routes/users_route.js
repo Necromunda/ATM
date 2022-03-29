@@ -33,10 +33,10 @@ router.get('/:id?',
     });
   }
 });
-/*
+
 router.put('/:id', 
 function(request, response) {
-  book.update(request.params.id, request.body, function(err, dbResult) {
+  users.update(request.params.id, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -47,7 +47,7 @@ function(request, response) {
 
 router.delete('/:id', 
 function(request, response) {
-  book.delete(request.params.id, function(err, dbResult) {
+  users.delete(request.params.id, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -55,5 +55,5 @@ function(request, response) {
     }
   });
 });
-*/
+
 module.exports = router;
