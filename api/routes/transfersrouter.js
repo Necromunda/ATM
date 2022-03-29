@@ -21,4 +21,40 @@ router.get('/:id?',
   }
 });
 
+router.post('/', 
+function(req, res) {
+  transfers.add(req.body, function(err, dbResult) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(req.body);
+    }
+  });
+});
+
+router.delete('/:id', 
+function(req, res) {
+  transfers.delete(req.params.id, function(err, dbResult) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(dbResult);
+    }
+  });
+});
+
+
+router.put('/:id', 
+function(req, res) {
+  transfers.update(req.params.id, req.body, function(err, dbResult) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(dbResult);
+    }
+  });
+});
+
+
+
 module.exports = router;
