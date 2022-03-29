@@ -21,6 +21,7 @@ router.get('/:id?',
   }
 });
 
+// Lisää siirron req bodyn antamilla tiedoilla
 router.post('/', 
 function(req, res) {
   transfers.add(req.body, function(err, dbResult) {
@@ -32,6 +33,7 @@ function(req, res) {
   });
 });
 
+// Poistaa siirron parametrinä annettavalla transfer_id:llä
 router.delete('/:id', 
 function(req, res) {
   transfers.delete(req.params.id, function(err, dbResult) {
@@ -43,7 +45,7 @@ function(req, res) {
   });
 });
 
-
+// Päivättää siirron parametrinä annettavalla transfer_id:llä, ja request bodyssä annettavilla tiedoilla
 router.put('/:id', 
 function(req, res) {
   transfers.update(req.params.id, req.body, function(err, dbResult) {

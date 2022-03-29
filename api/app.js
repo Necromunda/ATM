@@ -20,5 +20,4 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/transfers', transfersrouter)
 
-console.log("testi")
 module.exports = app;
