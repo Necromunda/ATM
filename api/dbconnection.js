@@ -6,7 +6,7 @@ dotenv.config();
 const dbconnection = mysql.createPool({
     host:'localhost',
     user: 'root',
-    password: 'salasana',
+    password: 'root',
     database: 'banksimul'
 })
 
