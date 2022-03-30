@@ -20,7 +20,11 @@ router.get('/:id?',
       if (err) {
         response.json(err);
       } else {
-        response.json(dbResult);
+        if (dbResult == '') {
+          response.send("ID not found")
+        } else {
+          response.json(dbResult);
+        }
       }
     });
   } else {
@@ -40,7 +44,11 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
-      response.json(dbResult);
+      if (dbResult.affectedRows == 0) {
+        response.send("ID not found")
+      } else {
+        response.json(dbResult);
+      }
     }
   });
 });
@@ -51,7 +59,11 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
-      response.json(dbResult);
+      if (dbResult.affectedRows == 0) {
+        response.send("ID not found")
+      } else {
+        response.json(dbResult);
+      }
     }
   });
 });
