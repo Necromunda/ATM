@@ -8,4 +8,4 @@ Aja api kansiossa komento npm install. Sitten sovellus käynnistyy komennolla np
 ### Tietokanta
 
 ## ER-kaavio
-Tietokannan ER-kaavio näyttää tältä <img src="documents/er-kaavio.png">
+Tietokannan ER-kaavio näyttää tältä <img src="Documents/er-kaavio.png">
