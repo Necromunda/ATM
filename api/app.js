@@ -2,11 +2,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const helmet = require('helmet');
-const cors = require('cors');
+var helmet = require('helmet');
+var cors = require('cors');
 
-
-
+var usersRouter = require('./routes/users_route');
 var transfersrouter = require('./routes/transfersrouter');
 var cardsrouter = require('./routes/cardsrouter');
 
@@ -21,5 +20,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/transfers', transfersrouter)
 app.use('/cards', cardsrouter);
+app.use('/users', usersRouter);
 
 module.exports = app;
