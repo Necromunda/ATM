@@ -8,7 +8,7 @@ const cors = require('cors');
 
 
 var transfersrouter = require('./routes/transfersrouter');
-var accountsrouter = require('./routes/accountsrouter');
+var accountsRouter = require('./routes/accountsRouter');
 
 var app = express();
 
@@ -20,6 +20,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/transfers', transfersrouter)
-app.use('/accounts', accountsrouter)
+app.use('/account_model', accountsRouter)
 
 module.exports = app;

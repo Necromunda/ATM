@@ -1,6 +1,6 @@
 const db = require("../dbconnection");
 
-const accounts = {
+const account = {
     getById: function(id, callback) {
         return db.query('SELECT * FROM accounts WHERE account_id=?', [id], callback);
     },
@@ -22,4 +22,4 @@ const accounts = {
     }
 };
 
-module.exports = router;
+module.exports = account;
