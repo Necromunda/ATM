@@ -2,11 +2,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const helmet = require('helmet');
-const cors = require('cors');
+var helmet = require('helmet');
+var cors = require('cors');
 
-
-
+var usersRouter = require('./routes/users_route');
 var transfersrouter = require('./routes/transfersrouter');
 
 var app = express();
@@ -18,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use('/transfers', transfersrouter)
+app.use('/users', usersRouter);
+app.use('/transfers', transfersrouter);
 
 module.exports = app;
