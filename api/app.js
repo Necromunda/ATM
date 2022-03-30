@@ -7,6 +7,7 @@ var cors = require('cors');
 
 var usersRouter = require('./routes/users_route');
 var transfersrouter = require('./routes/transfersrouter');
+var accountsRouter = require('./routes/accounts_route');
 
 var app = express();
 
@@ -19,5 +20,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/users', usersRouter);
 app.use('/transfers', transfersrouter);
+app.use('/accounts_model', accountsRouter)
 
 module.exports = app;
