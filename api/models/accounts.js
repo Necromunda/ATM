@@ -1,6 +1,6 @@
 const db = require("../dbconnection");
 
-const account = {
+const accounts = {
     getById: function(id, callback) {
         return db.query('SELECT * FROM accounts WHERE account_id=?', [id], callback);
     },
@@ -22,4 +22,4 @@ const account = {
     }
 };
 
-module.exports = account;
+module.exports = accounts;

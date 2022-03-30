@@ -6,10 +6,9 @@ const helmet = require('helmet');
 const cors = require('cors');
 
 
-
 var transfersrouter = require('./routes/transfersrouter');
-var accountsRouter = require('./routes/accountsRouter');
 
+var accountsrouter = require('./routes/accountsrouter');
 var app = express();
 
 app.use(helmet());
@@ -20,6 +19,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/transfers', transfersrouter)
-app.use('/account_model', accountsRouter)
+
+
+
+app.use('/accounts', accountsrouter)
 
 module.exports = app;
