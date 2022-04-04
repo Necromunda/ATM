@@ -8,7 +8,7 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
-      response.json(request.body);
+        response.json(request.body);
     }
   });
 });
@@ -44,8 +44,11 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
+      /*if (request.body.fname == '' || request.body.lname == '' || request.body.address == '' || request.body.address == '')  {
+        response.send("Field was empty");
+      }*/ 
       if (dbResult.affectedRows == 0) {
-        response.send("ID not found")
+        response.send("ID not found");
       } else {
         response.json(dbResult);
       }

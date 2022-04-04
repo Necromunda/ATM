@@ -2,6 +2,9 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
+#include "rfid_dll.h"
+#include "rfid_dll_engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -14,8 +17,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void getCardNumberFromDll();
 
 private:
     Ui::MainWindow *ui;
+    RFID_DLL *pRFID;
+    QString cardNumber;
+
+public slots:
+    void recvCardNumberFromDll(QString);
+
 };
 #endif // MAINWINDOW_H
