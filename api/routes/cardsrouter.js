@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const cards = require('../models/cards'); //<- cardsin sijasta users? ahistaaaaaAAAaa
+const cards = require('../models/cards'); //<- cardsin sijasta users? Vai transfers?
 
 router.post('/', 
 function(request, response) {
@@ -25,13 +25,14 @@ router.get('/:id?',
       }
     });
   } else {
-    cards.getAll(function(err, dbResult) {
+    response.json("Invalid ID")
+    /* cards.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
         response.json(dbResult);
       }
-    });
+    }); */
   }
 });
 
