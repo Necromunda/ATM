@@ -6,8 +6,9 @@ dotenv.config();
 const dbconnection = mysql.createPool({
     host:'127.0.0.1',
     user: 'root',
-    password: 'testi',
+    password: 'Dreamwalker',
     database: 'banksimul'
 })
+//gines vituttaa tasaisesti kaikkia, ainakin melkeen
 
 module.exports = dbconnection
