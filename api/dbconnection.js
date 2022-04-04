@@ -6,7 +6,7 @@ dotenv.config();
 const dbconnection = mysql.createPool({
     host:'127.0.0.1',
     user: 'root',
-    password: 'Dreamwalker',
+    password: 'testi',
     database: 'banksimul'
 })
 //gines vituttaa tasaisesti kaikkia, ainakin melkeen
