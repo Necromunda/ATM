@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const users = require('../models/users_model');
+const users = require('../models/users');
 
 router.post('/', 
 function(request, response) {

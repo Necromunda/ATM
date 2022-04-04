@@ -28,7 +28,7 @@ app.use(authenticateToken);
 app.use('/accounts', accountsrouter)
 app.use('/transfers', transfersrouter)
 app.use('/cards', cardsrouter);
-app.use('/users_model', usersRouter);
+app.use('/users', usersRouter);
 
 
 function authenticateToken(req, res, next) {
