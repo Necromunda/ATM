@@ -4,10 +4,10 @@ const mysql = require('mysql2');
 dotenv.config();
 
 const dbconnection = mysql.createPool({
-    host: dotenv.HOST,
-    user: dotenv.USER,
-    password: dotenv.PASSWORD,
-    database: dotenv.DATABASE
+    host: "127.0.0.1",
+    user: "root",
+    password: "testi",
+    database: "banksimul"
 });
 
 module.exports = dbconnection

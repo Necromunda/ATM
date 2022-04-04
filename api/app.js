@@ -7,7 +7,7 @@ var cors = require('cors');
 const jwt = require('jsonwebtoken');
 
 var loginRouter = require('./routes/loginrouter');
-var usersRouter = require('./routes/users_route');
+var usersRouter = require('./routes/usersrouter');
 var transfersrouter = require('./routes/transfersrouter');
 var accountsrouter = require('./routes/accountsrouter');
 var cardsrouter = require('./routes/cardsrouter');
@@ -28,7 +28,7 @@ app.use(authenticateToken);
 app.use('/accounts', accountsrouter)
 app.use('/transfers', transfersrouter)
 app.use('/cards', cardsrouter);
-app.use('/users_model', usersRouter);
+app.use('/users', usersRouter);
 
 
 function authenticateToken(req, res, next) {
