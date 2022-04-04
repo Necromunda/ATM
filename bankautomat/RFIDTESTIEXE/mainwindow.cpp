@@ -22,7 +22,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::getCardNumberFromDll()
 {
-    pRFID->getCardNumber();
+    pRFID->getCardNumberFromEngine();
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
