@@ -12,7 +12,6 @@ var transfersrouter = require('./routes/transfersrouter');
 var accountsrouter = require('./routes/accountsrouter');
 var cardsrouter = require('./routes/cardsrouter');
 
-
 var app = express();
 
 app.use(helmet());
@@ -29,7 +28,6 @@ app.use('/accounts', accountsrouter)
 app.use('/transfers', transfersrouter)
 app.use('/cards', cardsrouter);
 app.use('/users', usersRouter);
-
 
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
