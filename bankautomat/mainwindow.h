@@ -17,12 +17,14 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void getCardNumberFromDll();
 
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
     QString cardNumber;
+
+signals:
+    void getNumber(void);
 
 public slots:
     void recvCardNumberFromDll(QString);
