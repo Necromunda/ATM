@@ -5,8 +5,7 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    w.getCardNumberFromDll();
+    MainWindow w;   // Create mainwindow
+    w.show();   // Display mainwindow
     return a.exec();
 }
