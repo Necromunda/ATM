@@ -2,35 +2,35 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
-}
-
-RFID_DLL_ENGINE::~RFID_DLL_ENGINE()
-{
-}
-
-void RFID_DLL_ENGINE::getCardNumber()
-{
     portSettings();
-    QObject::connect(&serial, &QSerialPort::readyRead, [&]
-    {
-        //this is called when readyRead() is emitted
-        qDebug() << "New data available: " << serial.bytesAvailable();
-        datas = serial.readAll();
-        qDebug() << datas;
-        datas.remove(0,4);
-        datas.chop(3);
-        cardNumber = QString(datas);
-        emit sendCardNumber(cardNumber);
-    });
-    QObject::connect(&serial,
-                     static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
-                     (&QSerialPort::error),
-                     [&](QSerialPort::SerialPortError error)
-    {
-        //this is called when a serial communication error occurs
-        qDebug() << "An error occured: " << error;
-        exit(0);
-    });
+}
+
+void RFID_DLL_ENGINE::readRFID()
+{
+    if (settingsSet) {
+        QObject::connect(&serial, &QSerialPort::readyRead, [&]
+        {
+            //this is called when readyRead() is emitted
+            qDebug() << "New data available: " << serial.bytesAvailable();
+            datas = serial.readAll();
+            qDebug() << datas;
+            datas.remove(0,4);
+            datas.chop(3);
+            cardNumber = QString(datas);
+            emit sendCardNumber(cardNumber);
+        });
+        QObject::connect(&serial,
+                         static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
+                         (&QSerialPort::error),
+                         [&](QSerialPort::SerialPortError error)
+        {
+            //this is called when a serial communication error occurs
+            qDebug() << "An error occured: " << error;
+            exit(0);
+        });
+    } else {
+        portSettings();
+    }
 }
 
 void RFID_DLL_ENGINE::portSettings(void)
@@ -51,5 +51,5 @@ void RFID_DLL_ENGINE::portSettings(void)
         qDebug() << serial.errorString();
     if(!serial.open(QIODevice::ReadOnly))
         qDebug() << serial.errorString();
-    //qDebug() << serial.bytesAvailable();
+    settingsSet = true;
 }

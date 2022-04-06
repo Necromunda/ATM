@@ -14,14 +14,14 @@ class RFID_DLL_ENGINE : public QObject
 
 public:
     RFID_DLL_ENGINE(QObject *parent = nullptr);
-    ~RFID_DLL_ENGINE();
-    void getCardNumber(void);
+    void readRFID(void);
     void portSettings(void);
 
 private:
     QSerialPort serial;
     QByteArray datas;
     QString cardNumber;
+    bool settingsSet = false;
 
 signals:
     void sendCardNumber(QString);
