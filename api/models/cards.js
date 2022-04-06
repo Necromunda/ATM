@@ -7,6 +7,9 @@ const cards = {
   getById: function(id, callback) {
     return db.query('select * from cards where accounts_account_id=?', [id], callback);
   },
+  getAll: function(callback) {
+    return db.query('SELECT * FROM cards', callback);
+ },
   add: function(cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {

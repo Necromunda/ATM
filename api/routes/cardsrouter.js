@@ -24,14 +24,14 @@ router.get('/:id?',
       }
     });
   } else {
-    response.json("Invalid ID")
-    /* cards.getAll(function(err, dbResult) {
+    //response.json("Invalid ID")
+    cards.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
         response.json(dbResult);
       }
-    }); */
+    }); 
   }
 });
 
