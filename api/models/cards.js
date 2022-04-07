@@ -20,15 +20,15 @@ const cards = {
       );
     });
   },
-  delete: function(id, callback) {
-    return db.query('delete from cards where accounts_account_id=?', [id], callback);
+  delete: function(card_number, callback) {
+    return db.query('delete from cards where card_number=?', [card_number], callback);
   },
-  update: function(id, cards, callback) {
+  update: function(card_number, cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {
       return db.query(
-        'update cards set card_number=?, pin_code=?, locked=?, accounts_account_id=?, users_user_id=? where accounts_account_id=?', //, accounts_account_id, users_user_id & ,?,?
-        [cards.card_number, hashed_pin_code, cards.locked, cards.accounts_account_id, cards.users_user_id, [id]], //, cards.accounts_account_id, cards.users_user_id 
+        'update cards set pin_code=?, locked=?, accounts_account_id=?, users_user_id=? where card_number=?', //, accounts_account_id, users_user_id & ,?,?
+        [hashed_pin_code, cards.locked, cards.accounts_account_id, cards.users_user_id, [card_number]], //, cards.accounts_account_id, cards.users_user_id 
         callback
       );
     });

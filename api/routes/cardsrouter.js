@@ -24,7 +24,6 @@ router.get('/:id?',
       }
     });
   } else {
-    //response.json("Invalid ID")
     cards.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
@@ -35,9 +34,9 @@ router.get('/:id?',
   }
 });
 
-router.put('/:id', 
+router.put('/:card_number', 
 function(request, response) {
-  cards.update(request.params.id, request.body, function(err, dbResult) {
+  cards.update(request.params.card_number, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -46,13 +45,17 @@ function(request, response) {
   });
 });
 
-router.delete('/:id', 
+router.delete('/:card_number', 
 function(request, response) {
-  cards.delete(request.params.id, function(err, dbResult) {
+  cards.delete(request.params.card_number, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
+      if (dbResult.affectedRows == 0) {
+        response.send("ID not found");
+      } else {
       response.json(dbResult);
+      }
     }
   });
 });
