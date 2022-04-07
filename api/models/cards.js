@@ -16,7 +16,6 @@ const cards = {
         callback
       );
     });
-    
   },
   delete: function(id, callback) {
     return db.query('delete from cards where accounts_account_id=?', [id], callback);
@@ -30,7 +29,6 @@ const cards = {
         callback
       );
     });
-    
   }
 };
 module.exports = cards;

@@ -1,4 +1,4 @@
-const transfers = require('../models/cards');
+const transfers = require('../models/transfers');
 
 const express = require ('express');
 const router = express.Router();
