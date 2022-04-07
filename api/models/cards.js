@@ -4,8 +4,8 @@ const bcrypt = require('bcryptjs');
 const saltRounds=10;
 
 const cards = {
-  getById: function(id, callback) {
-    return db.query('select * from cards where accounts_account_id=?', [id], callback);
+  getById: function(card_number, callback) {
+    return db.query('select * from cards where card_number=?', [card_number], callback);
   },
   getAll: function(callback) {
     return db.query('SELECT * FROM cards', callback);

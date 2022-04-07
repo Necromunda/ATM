@@ -13,14 +13,18 @@ function(request, response) {
   });
 });
 
-router.get('/:id?',
+router.get('/:card_number?',
  function(request, response) {
-  if (request.params.id) {
-    cards.getById(request.params.id, function(err, dbResult) {
+  if (request.params.card_number) {
+    cards.getById(request.params.card_number, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
+        if (dbResult == '') {
+          response.send("ID not found")
+        } else {
         response.json(dbResult[0]);
+        }
       }
     });
   } else {
