@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = nullptr;
     delete pRFID;
     pRFID = nullptr;
 }

@@ -1,6 +1,7 @@
 QT -= gui
 QT += serialport
 QT +=network
+QT += widgets
 
 TEMPLATE = lib
 DEFINES += RFID_DLL_LIBRARY
@@ -13,15 +14,20 @@ CONFIG += c++11
 
 SOURCES += \
     rfid_dll.cpp \
-    rfid_dll_engine.cpp
+    rfid_dll_engine.cpp \
+    rfid_window.cpp
 
 HEADERS += \
     RFID_DLL_global.h \
     rfid_dll.h \
-    rfid_dll_engine.h
+    rfid_dll_engine.h \
+    rfid_window.h
 
 # Default rules for deployment.
 unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+
+FORMS += \
+    rfid_window.ui

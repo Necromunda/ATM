@@ -64,7 +64,7 @@ void RFID_DLL_ENGINE::checkIfCardExists()
     qDebug() << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN START
-    QByteArray myToken="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA1MDA5QkE1MkQiLCJpYXQiOjE2NDkzMTkyNDYsImV4cCI6MTY0OTMyMjg0Nn0.3spDwzJ469WlSkatICIYU3dSIqbeKUmITTqWEOj_Xok";
+    QByteArray myToken="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA1MDA5QkE1MkQiLCJpYXQiOjE2NDkzMzE1NzAsImV4cCI6MTY0OTMzNTE3MH0.7Gp-U8Up6b3hO5lkor_XSBZTJqb7hgyh7e7pa32QlSA";
     request.setRawHeader(QByteArray("Authorization"),(myToken));
     //WEBTOKEN END
     getManager = new QNetworkAccessManager(this);
