@@ -13,7 +13,6 @@ function(request, response) {
   });
 });
 
-
 router.get('/:id?',
  function(request, response) {
   if (request.params.id) {
@@ -46,7 +45,6 @@ function(request, response) {
     }
   });
 });
-
 
 router.delete('/:id', 
 function(request, response) {

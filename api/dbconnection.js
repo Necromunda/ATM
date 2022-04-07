@@ -8,7 +8,6 @@ const dbconnection = mysql.createPool({
     user: process.env.USER,
     password: process.env.PASSWORD,
     database: process.env.DATABASE
-})
-//gines vituttaa tasaisesti kaikkia, ainakin melkeen
+});
 
 module.exports = dbconnection
