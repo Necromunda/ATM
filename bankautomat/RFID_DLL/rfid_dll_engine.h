@@ -33,9 +33,9 @@ signals:
     void sendCardNumber(QString);
     void checkCard();
 
-public slots:
-    void checkIfCardExists();
-    void db(QNetworkReply*);
+private slots:
+    void dbConnect();
+    void checkIfCardExists(QNetworkReply*);
 };
 
 #endif // RFID_DLL_ENGINE_H

@@ -3,7 +3,7 @@
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
     connect(this,SIGNAL(checkCard()),
-            this,SLOT(checkIfCardExists()));
+            this,SLOT(dbConnect()));
     portSettings();
 }
 
@@ -21,7 +21,6 @@ void RFID_DLL_ENGINE::readRFID()
             cardNumber = QString(datas);
             qDebug() << cardNumber;
             emit checkCard();
-//            emit sendCardNumber(cardNumber);
         });
         QObject::connect(&serial,
                          static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
@@ -58,7 +57,7 @@ void RFID_DLL_ENGINE::portSettings(void)
     settingsSet = true;
 }
 
-void RFID_DLL_ENGINE::checkIfCardExists()
+void RFID_DLL_ENGINE::dbConnect()
 {
     QString site_url="http://localhost:3000/cards/"+cardNumber;
     qDebug() << site_url;
@@ -69,12 +68,12 @@ void RFID_DLL_ENGINE::checkIfCardExists()
     //WEBTOKEN END
     getManager = new QNetworkAccessManager(this);
 
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(db(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkIfCardExists(QNetworkReply*)));
 
     reply = getManager->get(request);
 }
 
-void RFID_DLL_ENGINE::db(QNetworkReply *reply)
+void RFID_DLL_ENGINE::checkIfCardExists(QNetworkReply *reply)
 {
     // Getting json.array as a response, then converting it to a json.object
     //    response_data=reply->readAll();

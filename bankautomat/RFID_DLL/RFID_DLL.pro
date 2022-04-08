@@ -14,14 +14,12 @@ CONFIG += c++11
 
 SOURCES += \
     rfid_dll.cpp \
-    rfid_dll_engine.cpp \
-    rfid_window.cpp
+    rfid_dll_engine.cpp
 
 HEADERS += \
     RFID_DLL_global.h \
     rfid_dll.h \
-    rfid_dll_engine.h \
-    rfid_window.h
+    rfid_dll_engine.h
 
 # Default rules for deployment.
 unix {
@@ -29,5 +27,4 @@ unix {
 }
 !isEmpty(target.path): INSTALLS += target
 
-FORMS += \
-    rfid_window.ui
+FORMS +=

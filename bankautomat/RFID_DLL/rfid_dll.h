@@ -3,7 +3,6 @@
 
 #include "RFID_DLL_global.h"
 #include "rfid_dll_engine.h"
-#include "rfid_window.h"
 #include <QObject>
 #include <QDebug>
 
@@ -15,7 +14,6 @@ public:
     ~RFID_DLL();
 
 private:
-    rfid_window *pRFID_WINDOW;
     RFID_DLL_ENGINE *pRFID_ENGINE;
     QString cardNumber;
 
