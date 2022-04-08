@@ -30,12 +30,12 @@ private:
     bool settingsSet = false;
 
 signals:
-    void sendCardNumber(QString);
+    void sendCardNumber(QString, bool);
     void checkCard();
 
 private slots:
     void dbConnect();
-    void checkIfCardExists(QNetworkReply*);
+    void checkCardValidity(QNetworkReply*);
 };
 
 #endif // RFID_DLL_ENGINE_H

@@ -68,12 +68,12 @@ void RFID_DLL_ENGINE::dbConnect()
     //WEBTOKEN END
     getManager = new QNetworkAccessManager(this);
 
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkIfCardExists(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkCardValidity(QNetworkReply*)));
 
     reply = getManager->get(request);
 }
 
-void RFID_DLL_ENGINE::checkIfCardExists(QNetworkReply *reply)
+void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
 {
     // Getting json.array as a response, then converting it to a json.object
     //    response_data=reply->readAll();
@@ -89,7 +89,7 @@ void RFID_DLL_ENGINE::checkIfCardExists(QNetworkReply *reply)
     //    }
 
     // Getting json.object as a response
-    response_data=reply->readAll();
+//    response_data=reply->readAll();
 //    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
 //    QJsonObject json_obj = json_doc.object();
 //    QString card;
@@ -99,12 +99,13 @@ void RFID_DLL_ENGINE::checkIfCardExists(QNetworkReply *reply)
 
 //    bool compare = card.contains(cardNumber+"\r", Qt::CaseSensitive);
 //    qDebug() << cardNumber;
+    response_data=reply->readAll();
     if (response_data == "true") {
         qDebug() << "Card exists";
-        emit sendCardNumber(cardNumber);
+        emit sendCardNumber(cardNumber,true);
     } else {
         qDebug() << "Card doesn't exist";
-        emit sendCardNumber("Card doesn't exist");
+        emit sendCardNumber(cardNumber,false);
     }
 
     reply->deleteLater();
