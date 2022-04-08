@@ -19,7 +19,6 @@ void RFID_DLL_ENGINE::readRFID()
             datas.remove(0,3);
             datas.chop(3);
             cardNumber = QString(datas);
-            qDebug() << cardNumber;
             emit checkCard();
         });
         QObject::connect(&serial,
@@ -39,7 +38,7 @@ void RFID_DLL_ENGINE::readRFID()
 void RFID_DLL_ENGINE::portSettings(void)
 {
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
-        qDebug() << "Name : " << info.portName();
+        qDebug() << "Port : " << info.portName();
         serial.setPort(info);
     }
     if(!serial.setBaudRate(QSerialPort::Baud1200))
@@ -60,7 +59,7 @@ void RFID_DLL_ENGINE::portSettings(void)
 void RFID_DLL_ENGINE::dbConnect()
 {
     QString site_url="http://localhost:3000/verify/"+cardNumber;
-    qDebug() << site_url;
+    qDebug() << "Checking card validity in " << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN START
 //    QByteArray myToken="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA1MDA5QkE1MkQiLCJpYXQiOjE2NDk0MDc1MDcsImV4cCI6MTY0OTQxMTEwN30.Mf-VFtOutNa5G6Qt4RGSWwa46GX8kY8te8HSkTXhTsw";
@@ -101,10 +100,11 @@ void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
 //    qDebug() << cardNumber;
     response_data=reply->readAll();
     if (response_data == "true") {
-        qDebug() << "Card exists";
+        qDebug() << "Card valid";
+        qDebug() << "Proceeding to pin.dll";
         emit sendCardNumber(cardNumber,true);
     } else {
-        qDebug() << "Card doesn't exist";
+        qDebug() << "Card not valid";
         emit sendCardNumber(cardNumber,false);
     }
 

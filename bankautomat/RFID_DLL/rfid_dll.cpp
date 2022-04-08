@@ -25,7 +25,6 @@ void RFID_DLL::recvCardNumberFromEngine(QString cardNum, bool valid)
         cardNumber = cardNum;
         emit sendCardNumberToExe(cardNumber);
     } else {
-        cardNumber = "Card not valid";
-        emit sendCardNumberToExe(cardNumber);
+        emit sendCardNumberToExe("Card not valid");
     }
 }
