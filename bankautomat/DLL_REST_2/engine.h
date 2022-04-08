@@ -11,7 +11,7 @@ class Engine : public QObject
     Q_OBJECT
 public:
     Engine(QObject *parent = nullptr);
-    void getData(int);
+    void getData(int, QString);
 
 private:
     QNetworkAccessManager *manager;

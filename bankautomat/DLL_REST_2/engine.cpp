@@ -5,7 +5,7 @@ Engine::Engine(QObject *parent) : QObject(parent)
 
 }
 
-void Engine::getData(int i)
+void Engine::getData(int i, QString token)
 {
     manager = new QNetworkAccessManager();
     QObject::connect(manager, &QNetworkAccessManager::finished,
@@ -22,6 +22,10 @@ void Engine::getData(int i)
         }
     );
     request.setUrl(QUrl("http://localhost:3000/transfers/"+QString::number(i)));
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+    QByteArray bearerToken="Bearer ";
+    bearerToken+=token;
+    request.setRawHeader(QByteArray("Authorization"),(bearerToken));
     manager->get(request);
 
 

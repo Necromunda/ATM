@@ -17,7 +17,7 @@ void DLL_REST_2::getTransfersFromEngine(QString msg)
     emit sendTransfersToExe(msg);
 }
 
-void DLL_REST_2::getData(int i)
+void DLL_REST_2::getData(int i, QString token)
 {
-    pENGINE->getData(i);
+    pENGINE->getData(i, token);
 }

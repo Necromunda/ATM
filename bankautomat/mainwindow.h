@@ -28,7 +28,7 @@ private:
 
 signals:
     void getNumber(void);
-    void getTransfers(int);
+    void getTransfers(int, QString);
 
 public slots:
     void recvCardNumberFromDll(QString);

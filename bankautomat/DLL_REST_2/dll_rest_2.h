@@ -19,7 +19,7 @@ signals:
     void sendTransfersToExe(QString);
 public slots:
     void getTransfersFromEngine(QString);
-    void getData(int);
+    void getData(int, QString);
 
 };
 

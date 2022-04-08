@@ -17,8 +17,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
             this,SLOT(recvCardNumberFromDll(QString)));
 
-    connect(this, SIGNAL(getTransfers(int)),
-            pREST2,SLOT(getData(int)));
+    connect(this, SIGNAL(getTransfers(int, QString)),
+            pREST2,SLOT(getData(int, QString)));
     connect(pREST2,SIGNAL(sendTransfersToExe(QString)),
             this,SLOT(recvTransfersFromDll(QString)));
 
@@ -51,11 +51,13 @@ void MainWindow::recvTransfersFromDll(QString msg)
 void MainWindow::on_transfersButton_clicked()
 {
     QString x = ui->transferID->text();
-    if(x != ""){
-        emit getTransfers(x.toInt());
+    QString token = ui->tokenEdit->text();
+    if(x != "" && token != ""){
+        emit getTransfers(x.toInt(), token);
     }
     else{
         ui->transferID->setText("Kirjoita account id");
+        ui->tokenEdit->setText("Kirjoita token");
     }
 }
 

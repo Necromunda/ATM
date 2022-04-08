@@ -54,7 +54,18 @@
      </layout>
     </item>
     <item>
-     <widget class="QLineEdit" name="transferID"/>
+     <widget class="QLineEdit" name="tokenEdit">
+      <property name="text">
+       <string>Token tähän</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="transferID">
+      <property name="text">
+       <string>Account ID tähän</string>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QPushButton" name="transfersButton">

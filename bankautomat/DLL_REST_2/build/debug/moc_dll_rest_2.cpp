@@ -61,14 +61,14 @@ static const uint qt_meta_data_DLL_REST_2[] = {
 
  // slots: name, argc, parameters, tag, flags
        3,    1,   32,    2, 0x0a /* Public */,
-       4,    1,   35,    2, 0x0a /* Public */,
+       4,    2,   35,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, QMetaType::Int,    2,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString,    2,    2,
 
        0        // eod
 };
@@ -81,7 +81,7 @@ void DLL_REST_2::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->sendTransfersToExe((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 1: _t->getTransfersFromEngine((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->getData((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 2: _t->getData((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
