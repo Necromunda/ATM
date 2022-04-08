@@ -1,5 +1,6 @@
 QT       += core gui
 QT       += serialport
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -28,3 +29,8 @@ win32: LIBS += -L$$PWD/RFID_DLL/build/debug/ -lRFID_DLL
 
 INCLUDEPATH += $$PWD/RFID_DLL
 DEPENDPATH += $$PWD/RFID_DLL
+
+win32: LIBS += -L$$PWD/DLL_REST_2/build/debug/ -lDLL_REST_2
+
+INCLUDEPATH += $$PWD/DLL_REST_2
+DEPENDPATH += $$PWD/DLL_REST_2

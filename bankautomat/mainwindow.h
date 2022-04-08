@@ -5,6 +5,8 @@
 #include <QDebug>
 #include "rfid_dll.h"
 #include "rfid_dll_engine.h"
+#include "dll_rest_2.h"
+#include "engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,13 +23,18 @@ public:
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
+    DLL_REST_2 *pREST2;
     QString cardNumber;
 
 signals:
     void getNumber(void);
+    void getTransfers(int);
 
 public slots:
     void recvCardNumberFromDll(QString);
+    void recvTransfersFromDll(QString);
 
+private slots:
+    void on_transfersButton_clicked();
 };
 #endif // MAINWINDOW_H
