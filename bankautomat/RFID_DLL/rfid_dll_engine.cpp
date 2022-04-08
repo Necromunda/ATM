@@ -59,12 +59,12 @@ void RFID_DLL_ENGINE::portSettings(void)
 
 void RFID_DLL_ENGINE::dbConnect()
 {
-    QString site_url="http://localhost:3000/cards/"+cardNumber;
+    QString site_url="http://localhost:3000/verify/"+cardNumber;
     qDebug() << site_url;
     QNetworkRequest request((site_url));
     //WEBTOKEN START
-    QByteArray myToken="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA1MDA5QkE1MkQiLCJpYXQiOjE2NDk0MDc1MDcsImV4cCI6MTY0OTQxMTEwN30.Mf-VFtOutNa5G6Qt4RGSWwa46GX8kY8te8HSkTXhTsw";
-    request.setRawHeader(QByteArray("Authorization"),(myToken));
+//    QByteArray myToken="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjA1MDA5QkE1MkQiLCJpYXQiOjE2NDk0MDc1MDcsImV4cCI6MTY0OTQxMTEwN30.Mf-VFtOutNa5G6Qt4RGSWwa46GX8kY8te8HSkTXhTsw";
+//    request.setRawHeader(QByteArray("Authorization"),(myToken));
     //WEBTOKEN END
     getManager = new QNetworkAccessManager(this);
 
@@ -90,16 +90,16 @@ void RFID_DLL_ENGINE::checkIfCardExists(QNetworkReply *reply)
 
     // Getting json.object as a response
     response_data=reply->readAll();
-    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-    QJsonObject json_obj = json_doc.object();
-    QString card;
-    card=json_obj["card_number"].toString()+"\r";
+//    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+//    QJsonObject json_obj = json_doc.object();
+//    QString card;
+//    card=json_obj["card_number"].toString()+"\r";
 
-    qDebug() << card;
+//    qDebug() << card;
 
-    bool compare = card.contains(cardNumber+"\r", Qt::CaseSensitive);
-    qDebug() << cardNumber;
-    if (compare) {
+//    bool compare = card.contains(cardNumber+"\r", Qt::CaseSensitive);
+//    qDebug() << cardNumber;
+    if (response_data == "true") {
         qDebug() << "Card exists";
         emit sendCardNumber(cardNumber);
     } else {
