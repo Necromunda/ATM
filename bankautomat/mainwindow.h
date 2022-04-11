@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QDebug>
 #include "rfid_dll.h"
-#include "rfid_dll_engine.h"
+#include "login_dll.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,6 +21,7 @@ public:
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
+    LOGIN_DLL *pLOGIN;
     QString cardNumber;
 
 signals:

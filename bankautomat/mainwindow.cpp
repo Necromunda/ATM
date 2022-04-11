@@ -25,6 +25,8 @@ MainWindow::~MainWindow()
     delete ui;
     delete pRFID;
     pRFID = nullptr;
+    delete pLOGIN;
+    pLOGIN = nullptr;
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
