@@ -17,6 +17,7 @@ RFID_DLL::~RFID_DLL()
 void RFID_DLL::getCardNumberFromEngine(void)
 {
     pRFID_ENGINE->readRFID();
+    qDebug()<<"getting cardnumber f engine";
 }
 
 void RFID_DLL::recvCardNumberFromEngine(QString card)

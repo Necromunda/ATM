@@ -2,14 +2,18 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
+    qDebug() << "RFID engine konstruktori?";
     portSettings();
 }
 
 void RFID_DLL_ENGINE::readRFID()
 {
+    qDebug() << "RFID dll engine";
     if (settingsSet) {
+        qDebug()<<"RFID dll enginen if-ehto";
         QObject::connect(&serial, &QSerialPort::readyRead, [&]
         {
+            qDebug()<<"Settings set?";
             //this is called when readyRead() is emitted
             qDebug() << "New data available: " << serial.bytesAvailable();
             datas = serial.readAll();
@@ -29,6 +33,7 @@ void RFID_DLL_ENGINE::readRFID()
             exit(0);
         });
     } else {
+        qDebug() << "Suck a fucking duck";
         portSettings();
     }
 }

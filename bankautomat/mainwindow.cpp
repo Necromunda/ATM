@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // This signal starts the process of reading the RFID-device
     emit getNumber();
+//    pRFID->getCardNumberFromEngine();
+    qDebug()<<cardNumber;
 }
 
 MainWindow::~MainWindow()
