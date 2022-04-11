@@ -13,31 +13,34 @@ function(request, response) {
   });
 });
 
-router.get('/:id?',
+router.get('/:card_number?',
  function(request, response) {
-  if (request.params.id) {
-    cards.getById(request.params.id, function(err, dbResult) {
+  if (request.params.card_number) {
+    cards.getById(request.params.card_number, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
-        response.json(dbResult);
+        if (dbResult == '') {
+          response.send("ID not found")
+        } else {
+        response.json(dbResult[0]);
+        }
       }
     });
   } else {
-    response.json("Invalid ID")
-    /* cards.getAll(function(err, dbResult) {
+    cards.getAll(function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
         response.json(dbResult);
       }
-    }); */
+    }); 
   }
 });
 
-router.put('/:id', 
+router.put('/:card_number', 
 function(request, response) {
-  cards.update(request.params.id, request.body, function(err, dbResult) {
+  cards.update(request.params.card_number, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
@@ -46,13 +49,17 @@ function(request, response) {
   });
 });
 
-router.delete('/:id', 
+router.delete('/:card_number', 
 function(request, response) {
-  cards.delete(request.params.id, function(err, dbResult) {
+  cards.delete(request.params.card_number, function(err, dbResult) {
     if (err) {
       response.json(err);
     } else {
+      if (dbResult.affectedRows == 0) {
+        response.send("ID not found");
+      } else {
       response.json(dbResult);
+      }
     }
   });
 });
