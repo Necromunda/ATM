@@ -14,6 +14,17 @@ public:
 
 private:
     LOGIN_ENGINE *pLOGIN_ENGINE;
+    QString cardNumber;
+    QByteArray myToken;
+
+signals:
+    void sendCardNumberToLoginEngine(QString);
+    void sendTokenToExe(QByteArray);
+
+private slots:
+    void recvCardNumberFromExe(QString);
+    void recvTokenFromEngine(QByteArray);
+
 };
 
 #endif // LOGIN_DLL_H

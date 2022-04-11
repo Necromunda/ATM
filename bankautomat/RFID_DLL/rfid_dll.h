@@ -12,15 +12,16 @@ class RFID_DLL_EXPORT RFID_DLL : public QObject
 public:
     RFID_DLL(QObject *parent = nullptr);
     ~RFID_DLL();
+    void openRFID(void);
 
 private:
     RFID_DLL_ENGINE *pRFID_ENGINE;
     QString cardNumber;
 
 signals:
-    void sendCardNumberToExe(QString);
+    void sendCardNumberToExe(QString, bool);
 
-public slots:
+private slots:
     void getCardNumberFromEngine(void);
     void recvCardNumberFromEngine(QString, bool);
 };

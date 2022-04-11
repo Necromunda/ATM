@@ -23,12 +23,15 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     QString cardNumber;
+    QByteArray myToken;
 
 signals:
     void getNumber(void);
+    void sendCardNumberToLogin(QString);
 
 public slots:
-    void recvCardNumberFromDll(QString);
+    void recvCardNumberFromDll(QString, bool);
+    void recvTokenFromLogin(QByteArray);
 
 };
 #endif // MAINWINDOW_H

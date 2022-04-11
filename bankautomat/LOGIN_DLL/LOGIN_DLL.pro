@@ -1,5 +1,6 @@
 QT -= gui
 QT += widgets
+QT +=network
 
 TEMPLATE = lib
 DEFINES += LOGIN_DLL_LIBRARY

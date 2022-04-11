@@ -6,17 +6,18 @@ LoginUi::LoginUi(QWidget *parent) :
     ui(new Ui::LoginUi)
 {
     ui->setupUi(this);
+    this->setWindowModality(Qt::WindowModal);
 }
 
 LoginUi::~LoginUi()
 {
+    qDebug() << "destroying login window";
     delete ui;
 }
 
 void LoginUi::on_pushButton_Ok_clicked()
 {
     pin = ui->lineEdit->displayText();
-    qDebug() << pin;
     emit sendPinToEngine(pin);
 }
 

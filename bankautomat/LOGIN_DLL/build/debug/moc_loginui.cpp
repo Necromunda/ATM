@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LoginUi_t {
-    QByteArrayData data[14];
-    char stringdata0[302];
+    QByteArrayData data[15];
+    char stringdata0[318];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -33,22 +33,24 @@ struct qt_meta_stringdata_LoginUi_t {
 static const qt_meta_stringdata_LoginUi_t qt_meta_stringdata_LoginUi = {
     {
 QT_MOC_LITERAL(0, 0, 7), // "LoginUi"
-QT_MOC_LITERAL(1, 8, 24), // "on_pushButton_Ok_clicked"
-QT_MOC_LITERAL(2, 33, 0), // ""
-QT_MOC_LITERAL(3, 34, 27), // "on_pushButton_Clear_clicked"
-QT_MOC_LITERAL(4, 62, 23), // "on_pushButton_0_clicked"
-QT_MOC_LITERAL(5, 86, 23), // "on_pushButton_1_clicked"
-QT_MOC_LITERAL(6, 110, 23), // "on_pushButton_2_clicked"
-QT_MOC_LITERAL(7, 134, 23), // "on_pushButton_3_clicked"
-QT_MOC_LITERAL(8, 158, 23), // "on_pushButton_4_clicked"
-QT_MOC_LITERAL(9, 182, 23), // "on_pushButton_5_clicked"
-QT_MOC_LITERAL(10, 206, 23), // "on_pushButton_6_clicked"
-QT_MOC_LITERAL(11, 230, 23), // "on_pushButton_7_clicked"
-QT_MOC_LITERAL(12, 254, 23), // "on_pushButton_8_clicked"
-QT_MOC_LITERAL(13, 278, 23) // "on_pushButton_9_clicked"
+QT_MOC_LITERAL(1, 8, 15), // "sendPinToEngine"
+QT_MOC_LITERAL(2, 24, 0), // ""
+QT_MOC_LITERAL(3, 25, 24), // "on_pushButton_Ok_clicked"
+QT_MOC_LITERAL(4, 50, 27), // "on_pushButton_Clear_clicked"
+QT_MOC_LITERAL(5, 78, 23), // "on_pushButton_0_clicked"
+QT_MOC_LITERAL(6, 102, 23), // "on_pushButton_1_clicked"
+QT_MOC_LITERAL(7, 126, 23), // "on_pushButton_2_clicked"
+QT_MOC_LITERAL(8, 150, 23), // "on_pushButton_3_clicked"
+QT_MOC_LITERAL(9, 174, 23), // "on_pushButton_4_clicked"
+QT_MOC_LITERAL(10, 198, 23), // "on_pushButton_5_clicked"
+QT_MOC_LITERAL(11, 222, 23), // "on_pushButton_6_clicked"
+QT_MOC_LITERAL(12, 246, 23), // "on_pushButton_7_clicked"
+QT_MOC_LITERAL(13, 270, 23), // "on_pushButton_8_clicked"
+QT_MOC_LITERAL(14, 294, 23) // "on_pushButton_9_clicked"
 
     },
-    "LoginUi\0on_pushButton_Ok_clicked\0\0"
+    "LoginUi\0sendPinToEngine\0\0"
+    "on_pushButton_Ok_clicked\0"
     "on_pushButton_Clear_clicked\0"
     "on_pushButton_0_clicked\0on_pushButton_1_clicked\0"
     "on_pushButton_2_clicked\0on_pushButton_3_clicked\0"
@@ -64,26 +66,32 @@ static const uint qt_meta_data_LoginUi[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      12,   14, // methods
+      13,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
-       0,       // signalCount
+       1,       // signalCount
+
+ // signals: name, argc, parameters, tag, flags
+       1,    1,   79,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       1,    0,   74,    2, 0x08 /* Private */,
-       3,    0,   75,    2, 0x08 /* Private */,
-       4,    0,   76,    2, 0x08 /* Private */,
-       5,    0,   77,    2, 0x08 /* Private */,
-       6,    0,   78,    2, 0x08 /* Private */,
-       7,    0,   79,    2, 0x08 /* Private */,
-       8,    0,   80,    2, 0x08 /* Private */,
-       9,    0,   81,    2, 0x08 /* Private */,
-      10,    0,   82,    2, 0x08 /* Private */,
-      11,    0,   83,    2, 0x08 /* Private */,
-      12,    0,   84,    2, 0x08 /* Private */,
-      13,    0,   85,    2, 0x08 /* Private */,
+       3,    0,   82,    2, 0x08 /* Private */,
+       4,    0,   83,    2, 0x08 /* Private */,
+       5,    0,   84,    2, 0x08 /* Private */,
+       6,    0,   85,    2, 0x08 /* Private */,
+       7,    0,   86,    2, 0x08 /* Private */,
+       8,    0,   87,    2, 0x08 /* Private */,
+       9,    0,   88,    2, 0x08 /* Private */,
+      10,    0,   89,    2, 0x08 /* Private */,
+      11,    0,   90,    2, 0x08 /* Private */,
+      12,    0,   91,    2, 0x08 /* Private */,
+      13,    0,   92,    2, 0x08 /* Private */,
+      14,    0,   93,    2, 0x08 /* Private */,
+
+ // signals: parameters
+    QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
     QMetaType::Void,
@@ -108,22 +116,31 @@ void LoginUi::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         auto *_t = static_cast<LoginUi *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->on_pushButton_Ok_clicked(); break;
-        case 1: _t->on_pushButton_Clear_clicked(); break;
-        case 2: _t->on_pushButton_0_clicked(); break;
-        case 3: _t->on_pushButton_1_clicked(); break;
-        case 4: _t->on_pushButton_2_clicked(); break;
-        case 5: _t->on_pushButton_3_clicked(); break;
-        case 6: _t->on_pushButton_4_clicked(); break;
-        case 7: _t->on_pushButton_5_clicked(); break;
-        case 8: _t->on_pushButton_6_clicked(); break;
-        case 9: _t->on_pushButton_7_clicked(); break;
-        case 10: _t->on_pushButton_8_clicked(); break;
-        case 11: _t->on_pushButton_9_clicked(); break;
+        case 0: _t->sendPinToEngine((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 1: _t->on_pushButton_Ok_clicked(); break;
+        case 2: _t->on_pushButton_Clear_clicked(); break;
+        case 3: _t->on_pushButton_0_clicked(); break;
+        case 4: _t->on_pushButton_1_clicked(); break;
+        case 5: _t->on_pushButton_2_clicked(); break;
+        case 6: _t->on_pushButton_3_clicked(); break;
+        case 7: _t->on_pushButton_4_clicked(); break;
+        case 8: _t->on_pushButton_5_clicked(); break;
+        case 9: _t->on_pushButton_6_clicked(); break;
+        case 10: _t->on_pushButton_7_clicked(); break;
+        case 11: _t->on_pushButton_8_clicked(); break;
+        case 12: _t->on_pushButton_9_clicked(); break;
         default: ;
         }
+    } else if (_c == QMetaObject::IndexOfMethod) {
+        int *result = reinterpret_cast<int *>(_a[0]);
+        {
+            using _t = void (LoginUi::*)(QString );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LoginUi::sendPinToEngine)) {
+                *result = 0;
+                return;
+            }
+        }
     }
-    Q_UNUSED(_a);
 }
 
 QT_INIT_METAOBJECT const QMetaObject LoginUi::staticMetaObject = { {
@@ -155,15 +172,22 @@ int LoginUi::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 12)
+        if (_id < 13)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 12;
+        _id -= 13;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 12)
+        if (_id < 13)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 12;
+        _id -= 13;
     }
     return _id;
+}
+
+// SIGNAL 0
+void LoginUi::sendPinToEngine(QString _t1)
+{
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE

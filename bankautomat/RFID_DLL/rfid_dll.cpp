@@ -14,6 +14,11 @@ RFID_DLL::~RFID_DLL()
     pRFID_ENGINE = nullptr;
 }
 
+void RFID_DLL::openRFID()
+{
+    pRFID_ENGINE->openRFID();
+}
+
 void RFID_DLL::getCardNumberFromEngine(void)
 {
     pRFID_ENGINE->readRFID();
@@ -23,8 +28,8 @@ void RFID_DLL::recvCardNumberFromEngine(QString cardNum, bool valid)
 {
     if (valid) {
         cardNumber = cardNum;
-        emit sendCardNumberToExe(cardNumber);
+        emit sendCardNumberToExe(cardNumber, true);
     } else {
-        emit sendCardNumberToExe("Card not valid");
+        emit sendCardNumberToExe("Card not valid", false);
     }
 }

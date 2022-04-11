@@ -19,6 +19,7 @@ public:
     RFID_DLL_ENGINE(QObject *parent = nullptr);
     void readRFID(void);
     void portSettings(void);
+    void closeRFID(void);
 
 private:
     QSerialPort serial;
@@ -32,6 +33,9 @@ private:
 signals:
     void sendCardNumber(QString, bool);
     void checkCard();
+
+public slots:
+    void openRFID(void);
 
 private slots:
     void dbConnect();

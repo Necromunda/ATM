@@ -15,14 +15,15 @@
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
-#include <QtWidgets/QWidget>
+#include <QtWidgets/QVBoxLayout>
 
 QT_BEGIN_NAMESPACE
 
 class Ui_LoginUi
 {
 public:
-    QWidget *gridLayoutWidget;
+    QVBoxLayout *verticalLayout;
+    QLineEdit *lineEdit;
     QGridLayout *gridLayout;
     QPushButton *pushButton_8;
     QPushButton *pushButton_0;
@@ -36,86 +37,88 @@ public:
     QPushButton *pushButton_4;
     QPushButton *pushButton_3;
     QPushButton *pushButton_Ok;
-    QLineEdit *lineEdit;
 
     void setupUi(QDialog *LoginUi)
     {
         if (LoginUi->objectName().isEmpty())
             LoginUi->setObjectName(QString::fromUtf8("LoginUi"));
-        LoginUi->resize(285, 209);
+        LoginUi->resize(272, 198);
         LoginUi->setMaximumSize(QSize(16777215, 16777215));
-        gridLayoutWidget = new QWidget(LoginUi);
-        gridLayoutWidget->setObjectName(QString::fromUtf8("gridLayoutWidget"));
-        gridLayoutWidget->setGeometry(QRect(10, 70, 256, 123));
-        gridLayout = new QGridLayout(gridLayoutWidget);
+        verticalLayout = new QVBoxLayout(LoginUi);
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        lineEdit = new QLineEdit(LoginUi);
+        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
+        lineEdit->setMaxLength(4);
+        lineEdit->setEchoMode(QLineEdit::Normal);
+        lineEdit->setReadOnly(true);
+
+        verticalLayout->addWidget(lineEdit);
+
+        gridLayout = new QGridLayout();
         gridLayout->setObjectName(QString::fromUtf8("gridLayout"));
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        pushButton_8 = new QPushButton(gridLayoutWidget);
+        pushButton_8 = new QPushButton(LoginUi);
         pushButton_8->setObjectName(QString::fromUtf8("pushButton_8"));
 
         gridLayout->addWidget(pushButton_8, 1, 1, 1, 1);
 
-        pushButton_0 = new QPushButton(gridLayoutWidget);
+        pushButton_0 = new QPushButton(LoginUi);
         pushButton_0->setObjectName(QString::fromUtf8("pushButton_0"));
 
         gridLayout->addWidget(pushButton_0, 4, 1, 1, 1);
 
-        pushButton_2 = new QPushButton(gridLayoutWidget);
+        pushButton_2 = new QPushButton(LoginUi);
         pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
 
         gridLayout->addWidget(pushButton_2, 3, 1, 1, 1);
 
-        pushButton_9 = new QPushButton(gridLayoutWidget);
+        pushButton_9 = new QPushButton(LoginUi);
         pushButton_9->setObjectName(QString::fromUtf8("pushButton_9"));
 
         gridLayout->addWidget(pushButton_9, 1, 2, 1, 1);
 
-        pushButton_5 = new QPushButton(gridLayoutWidget);
+        pushButton_5 = new QPushButton(LoginUi);
         pushButton_5->setObjectName(QString::fromUtf8("pushButton_5"));
 
         gridLayout->addWidget(pushButton_5, 2, 1, 1, 1);
 
-        pushButton_1 = new QPushButton(gridLayoutWidget);
+        pushButton_1 = new QPushButton(LoginUi);
         pushButton_1->setObjectName(QString::fromUtf8("pushButton_1"));
 
         gridLayout->addWidget(pushButton_1, 3, 0, 1, 1);
 
-        pushButton_Clear = new QPushButton(gridLayoutWidget);
+        pushButton_Clear = new QPushButton(LoginUi);
         pushButton_Clear->setObjectName(QString::fromUtf8("pushButton_Clear"));
 
         gridLayout->addWidget(pushButton_Clear, 4, 0, 1, 1);
 
-        pushButton_7 = new QPushButton(gridLayoutWidget);
+        pushButton_7 = new QPushButton(LoginUi);
         pushButton_7->setObjectName(QString::fromUtf8("pushButton_7"));
 
         gridLayout->addWidget(pushButton_7, 1, 0, 1, 1);
 
-        pushButton_6 = new QPushButton(gridLayoutWidget);
+        pushButton_6 = new QPushButton(LoginUi);
         pushButton_6->setObjectName(QString::fromUtf8("pushButton_6"));
 
         gridLayout->addWidget(pushButton_6, 2, 2, 1, 1);
 
-        pushButton_4 = new QPushButton(gridLayoutWidget);
+        pushButton_4 = new QPushButton(LoginUi);
         pushButton_4->setObjectName(QString::fromUtf8("pushButton_4"));
 
         gridLayout->addWidget(pushButton_4, 2, 0, 1, 1);
 
-        pushButton_3 = new QPushButton(gridLayoutWidget);
+        pushButton_3 = new QPushButton(LoginUi);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
 
         gridLayout->addWidget(pushButton_3, 3, 2, 1, 1);
 
-        pushButton_Ok = new QPushButton(gridLayoutWidget);
+        pushButton_Ok = new QPushButton(LoginUi);
         pushButton_Ok->setObjectName(QString::fromUtf8("pushButton_Ok"));
 
         gridLayout->addWidget(pushButton_Ok, 4, 2, 1, 1);
 
-        lineEdit = new QLineEdit(LoginUi);
-        lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
-        lineEdit->setGeometry(QRect(100, 30, 81, 24));
-        lineEdit->setMaxLength(4);
-        lineEdit->setEchoMode(QLineEdit::Normal);
-        lineEdit->setReadOnly(true);
+
+        verticalLayout->addLayout(gridLayout);
+
 
         retranslateUi(LoginUi);
 
