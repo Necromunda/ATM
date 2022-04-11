@@ -1,5 +1,6 @@
 QT -= gui
 QT += serialport
+QT +=network
 
 TEMPLATE = lib
 DEFINES += RFID_DLL_LIBRARY
@@ -24,3 +25,5 @@ unix {
     target.path = /usr/lib
 }
 !isEmpty(target.path): INSTALLS += target
+
+FORMS +=
