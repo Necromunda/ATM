@@ -28,10 +28,9 @@ MainWindow::~MainWindow()
 void MainWindow::on_btn_sendCardNum_clicked()
 {
     qDebug() << "baseurl="+baseurl;
-    objectloginMenu->show();
 
 
-    QNetworkRequest request((baseurl+"/cards"));
+    QNetworkRequest request((baseurl+"/verify/"+cardnum));
 
     cardNumberManager = new QNetworkAccessManager(this);
 
@@ -42,7 +41,24 @@ void MainWindow::on_btn_sendCardNum_clicked()
 
 void MainWindow::cardNumberSlot(QNetworkReply *reply)
 {
-    response_data=reply->readAll();
-    qDebug()<<response_data;
+    //response_data=reply->readAll();
+    //qDebug()<<"saammeko mitaan"+response_data;
+    qDebug()<<"DATA : "+response_data;
+     QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+     QJsonArray json_array = json_doc.array();
+     QString card;
+     foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        //card+=QString::number(json_obj["id_book"].toInt())+", "+json_obj["name"].toString()+", "+json_obj["author"].toString()+"\r";
+        card+=json_obj["cardnumber"].toString()+"\r";
+     }
+        qDebug()<<response_data;
+        if(cardnum==card){
+            objectloginMenu->show();
+        }
+        else
+        {
+            qDebug()<<"You fcked it again, mr. Anderson";
+     }
 }
 

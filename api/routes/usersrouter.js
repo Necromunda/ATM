@@ -23,7 +23,7 @@ router.get('/:id?',
         if (dbResult == '') {
           response.send("ID not found")
         } else {
-          response.json(dbResult);
+          response.json(dbResult[0]);
         }
       }
     });

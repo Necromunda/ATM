@@ -4,8 +4,8 @@ RFID_DLL::RFID_DLL(QObject *parent) : QObject(parent)
 {
     pRFID_ENGINE = new RFID_DLL_ENGINE;
 
-    connect(pRFID_ENGINE,SIGNAL(sendCardNumber(QString)),
-            this,SLOT(recvCardNumberFromEngine(QString)));
+    connect(pRFID_ENGINE,SIGNAL(sendCardNumber(QString, bool)),
+            this,SLOT(recvCardNumberFromEngine(QString, bool)));
 }
 
 RFID_DLL::~RFID_DLL()
@@ -20,8 +20,12 @@ void RFID_DLL::getCardNumberFromEngine(void)
     qDebug()<<"getting cardnumber f engine";
 }
 
-void RFID_DLL::recvCardNumberFromEngine(QString card)
+void RFID_DLL::recvCardNumberFromEngine(QString cardNum, bool valid)
 {
-    cardNumber = card;
-    emit sendCardNumberToExe(cardNumber);
+    if (valid) {
+        cardNumber = cardNum;
+        emit sendCardNumberToExe(cardNumber);
+    } else {
+        emit sendCardNumberToExe("Card not valid");
+    }
 }

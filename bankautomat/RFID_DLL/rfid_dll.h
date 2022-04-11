@@ -22,7 +22,7 @@ signals:
 
 public slots:
     void getCardNumberFromEngine(void);
-    void recvCardNumberFromEngine(QString);
+    void recvCardNumberFromEngine(QString, bool);
 };
 
 #endif // RFID_DLL_H

@@ -8,11 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     pRFID = new RFID_DLL;
 
-    // Connecting signal from mainwindow to rfid_dll slot getCardNumberFromEngine()
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
 
-    // Connecting signal from rfid_dll to mainwindow slot recvCardNumberFromDll()
     connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
             this,SLOT(recvCardNumberFromDll(QString)));
 
@@ -25,13 +23,15 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = nullptr;
     delete pRFID;
     pRFID = nullptr;
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
 {
-    cardNumber = recvd; // Contains the card number
+    // Contains the verified card number
+    cardNumber = recvd;
 
     // Displaying the card number for debugging purposes, not needed in final product
     ui->label_2->setText(cardNumber);
