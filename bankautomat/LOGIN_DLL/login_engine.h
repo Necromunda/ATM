@@ -12,8 +12,12 @@ public:
 
 private:
     LoginUi *pLOGIN_UI;
+    QString pinCode;
 
 signals:
+
+private slots:
+    void recvPin(QString);
 
 };
 

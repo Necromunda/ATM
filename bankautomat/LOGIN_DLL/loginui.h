@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include <QDialog>
+#include <QDebug>
 
 namespace Ui {
 class LoginUi;
@@ -16,6 +17,11 @@ public:
     explicit LoginUi(QWidget *parent = nullptr);
     ~LoginUi();
 
+private:
+    Ui::LoginUi *ui;
+    QString pin;
+signals:
+    void sendPinToEngine(QString);
 private slots:
     void on_pushButton_Ok_clicked();
     void on_pushButton_Clear_clicked();
@@ -30,9 +36,6 @@ private slots:
     void on_pushButton_8_clicked();
     void on_pushButton_9_clicked();
 
-private:
-    Ui::LoginUi *ui;
-    QString pin;
 };
 
 #endif // LOGINUI_H

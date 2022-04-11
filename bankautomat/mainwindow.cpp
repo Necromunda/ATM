@@ -32,6 +32,7 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
 {
     // Contains the verified card number
     cardNumber = recvd;
+    pLOGIN = new LOGIN_DLL;
 
     // Displaying the card number for debugging purposes, not needed in final product
     ui->label_2->setText(cardNumber);

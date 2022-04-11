@@ -113,6 +113,9 @@ public:
         lineEdit = new QLineEdit(LoginUi);
         lineEdit->setObjectName(QString::fromUtf8("lineEdit"));
         lineEdit->setGeometry(QRect(100, 30, 81, 24));
+        lineEdit->setMaxLength(4);
+        lineEdit->setEchoMode(QLineEdit::Normal);
+        lineEdit->setReadOnly(true);
 
         retranslateUi(LoginUi);
 

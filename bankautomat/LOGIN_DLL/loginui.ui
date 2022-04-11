@@ -124,6 +124,15 @@
      <height>24</height>
     </rect>
    </property>
+   <property name="maxLength">
+    <number>4</number>
+   </property>
+   <property name="echoMode">
+    <enum>QLineEdit::Normal</enum>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
