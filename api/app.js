@@ -6,12 +6,12 @@ var helmet = require('helmet');
 var cors = require('cors');
 const jwt = require('jsonwebtoken');
 
+var verifyrouter = require('./routes/verifyrouter');
 var loginrouter = require('./routes/loginrouter');
 var usersrouter = require('./routes/usersrouter');
 var transfersrouter = require('./routes/transfersrouter');
 var accountsrouter = require('./routes/accountsrouter');
 var cardsrouter = require('./routes/cardsrouter');
-
 
 var app = express();
 
@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/verify', verifyrouter);
 app.use('/login', loginrouter);
 app.use(authenticateToken);
 app.use('/accounts', accountsrouter)

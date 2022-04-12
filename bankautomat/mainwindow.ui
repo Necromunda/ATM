@@ -41,7 +41,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Syötä kortti.</string>
+         <string>Insert card</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
