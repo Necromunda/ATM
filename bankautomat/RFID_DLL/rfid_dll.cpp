@@ -16,7 +16,6 @@ RFID_DLL::~RFID_DLL()
 
 void RFID_DLL::getCardNumberFromEngine(void)
 {
-    pRFID_ENGINE->portSettings();
     pRFID_ENGINE->readRFID();
 }
 

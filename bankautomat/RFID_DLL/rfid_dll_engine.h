@@ -28,6 +28,7 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     bool settingsSet = false;
+    bool read = false;
 
 signals:
     void sendCardNumber(QString, bool);
