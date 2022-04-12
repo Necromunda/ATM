@@ -20,9 +20,12 @@ public:
 private:
     Ui::LoginUi *ui;
     QString pin;
+
 signals:
     void sendPinToEngine(QString);
+
 private slots:
+    void wrongPin(QString);
     void on_pushButton_Ok_clicked();
     void on_pushButton_Clear_clicked();
     void on_pushButton_0_clicked();

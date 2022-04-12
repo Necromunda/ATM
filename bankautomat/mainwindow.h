@@ -32,17 +32,12 @@ private:
 signals:
     void getNumber(void);
     void getTransfers(int, QString);
-
-public slots:
-    void recvCardNumberFromDll(QString);
-    void recvTransfersFromDll(QString);
     void sendCardNumberToLogin(QString);
 
 public slots:
     void recvCardNumberFromDll(QString, bool);
     void recvTokenFromLogin(QByteArray);
+    void recvTransfersFromDll(QString);
 
-private slots:
-    void on_transfersButton_clicked();
 };
 #endif // MAINWINDOW_H

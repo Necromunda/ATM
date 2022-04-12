@@ -2,6 +2,7 @@
 
 LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 {
+    i = 3;
     pLOGIN_UI = new LoginUi;
 
     connect(pLOGIN_UI,SIGNAL(sendPinToEngine(QString)),
@@ -9,6 +10,9 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 
     connect(this,SIGNAL(startAuth(void)),
             this,SLOT(tokenReq(void)));
+
+    connect(this,SIGNAL(wrongPinMsg(QString)),
+            pLOGIN_UI,SLOT(wrongPin(QString)));
 }
 
 void LOGIN_ENGINE::recvPin(QString code)
@@ -27,7 +31,7 @@ void LOGIN_ENGINE::recvCardNumber(QString num)
 
 void LOGIN_ENGINE::openUi(void)
 {
-    pLOGIN_UI->open();
+    pLOGIN_UI->show();
 }
 
 void LOGIN_ENGINE::tokenReq(void)
@@ -50,14 +54,27 @@ void LOGIN_ENGINE::tokenReq(void)
 void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
 {
     myToken=reply->readAll();
-    qDebug() << myToken;
 
     if (myToken != "false") {
+        qDebug() << "Correct pin.";
         delete pLOGIN_UI;
         pLOGIN_UI = nullptr;
+        reply->deleteLater();
+        postManager->deleteLater();
         emit sendTokenToLogin(myToken);
+    } else {
+        i--;
+        qDebug() << "Incorrect pin.";
+        QString s = QString::number(i);
+        msg = "Incorrect pin, "+s+" tries left";
+        if (i > 0) {
+            emit wrongPinMsg(msg);
+        } else {
+            reply->deleteLater();
+            postManager->deleteLater();
+            delete pLOGIN_UI;
+            pLOGIN_UI = nullptr;
+            emit loginFailed();
+        }
     }
-
-    reply->deleteLater();
-    postManager->deleteLater();
 }

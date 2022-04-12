@@ -14,13 +14,9 @@ RFID_DLL::~RFID_DLL()
     pRFID_ENGINE = nullptr;
 }
 
-void RFID_DLL::openRFID()
-{
-    pRFID_ENGINE->openRFID();
-}
-
 void RFID_DLL::getCardNumberFromEngine(void)
 {
+    pRFID_ENGINE->portSettings();
     pRFID_ENGINE->readRFID();
 }
 

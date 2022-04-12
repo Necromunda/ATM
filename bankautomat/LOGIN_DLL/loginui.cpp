@@ -15,9 +15,15 @@ LoginUi::~LoginUi()
     delete ui;
 }
 
+void LoginUi::wrongPin(QString msg)
+{
+    ui->lineEdit->setPlaceholderText(msg);
+}
+
 void LoginUi::on_pushButton_Ok_clicked()
 {
     pin = ui->lineEdit->displayText();
+    ui->lineEdit->clear();
     emit sendPinToEngine(pin);
 }
 

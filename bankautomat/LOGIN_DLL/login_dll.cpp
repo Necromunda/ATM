@@ -9,12 +9,20 @@ LOGIN_DLL::LOGIN_DLL()
 
     connect(pLOGIN_ENGINE,SIGNAL(sendTokenToLogin(QByteArray)),
             this,SLOT(recvTokenFromEngine(QByteArray)));
+
+    connect(pLOGIN_ENGINE,SIGNAL(loginFailed(void)),
+            this,SLOT(loginFailed(void)));
 }
 
 LOGIN_DLL::~LOGIN_DLL()
 {
     delete pLOGIN_ENGINE;
     pLOGIN_ENGINE = nullptr;
+}
+
+void LOGIN_DLL::loginFailed(void)
+{
+    emit restartRFID();
 }
 
 void LOGIN_DLL::recvCardNumberFromExe(QString num)

@@ -12,7 +12,6 @@ class RFID_DLL_EXPORT RFID_DLL : public QObject
 public:
     RFID_DLL(QObject *parent = nullptr);
     ~RFID_DLL();
-    void openRFID(void);
 
 private:
     RFID_DLL_ENGINE *pRFID_ENGINE;

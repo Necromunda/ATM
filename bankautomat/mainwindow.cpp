@@ -15,9 +15,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pRFID,SIGNAL(sendCardNumberToExe(QString, bool)),
             this,SLOT(recvCardNumberFromDll(QString, bool)));
 
-
     connect(this, SIGNAL(getTransfers(int, QString)),
             pREST2,SLOT(getData(int, QString)));
+
     connect(pREST2,SIGNAL(sendTransfersToExe(QString)),
             this,SLOT(recvTransfersFromDll(QString)));
 
@@ -44,7 +44,6 @@ void MainWindow::recvCardNumberFromDll(QString recvd, bool valid)
 {
     // Contains the verified card number
     if (valid) {
-//        pRFID->closeRFID();
         cardNumber = recvd;
         pLOGIN = new LOGIN_DLL;
 
@@ -54,31 +53,18 @@ void MainWindow::recvCardNumberFromDll(QString recvd, bool valid)
         connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray)),
                 this,SLOT(recvTokenFromLogin(QByteArray)));
 
+        connect(pLOGIN,SIGNAL(restartRFID(void)),
+                pRFID,SLOT(getCardNumberFromEngine(void)));
+
         emit sendCardNumberToLogin(cardNumber);
     } else {
         exit(0);
     }
-
-    // Displaying the card number for debugging purposes, not needed in final product
-    ui->label_2->setText(cardNumber);
 }
 
 void MainWindow::recvTransfersFromDll(QString msg)
 {
-    ui->transfersEdit->setText(msg);
-}
 
-void MainWindow::on_transfersButton_clicked()
-{
-    QString x = ui->transferID->text();
-    QString token = ui->tokenEdit->text();
-    if(x != "" && token != ""){
-        emit getTransfers(x.toInt(), token);
-    }
-    else{
-        ui->transferID->setText("Kirjoita account id");
-        ui->tokenEdit->setText("Kirjoita token");
-    }
 }
 
 void MainWindow::recvTokenFromLogin(QByteArray token)

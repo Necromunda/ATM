@@ -18,10 +18,12 @@ private:
     QByteArray myToken;
 
 signals:
+    void restartRFID(void);
     void sendCardNumberToLoginEngine(QString);
     void sendTokenToExe(QByteArray);
 
 private slots:
+    void loginFailed(void);
     void recvCardNumberFromExe(QString);
     void recvTokenFromEngine(QByteArray);
 

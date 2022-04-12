@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>838</width>
-    <height>552</height>
+    <width>809</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,25 +18,11 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="font">
-         <font>
-          <pointsize>16</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Kortin numero, tämän saa poistaa valmiista sovelluksesta.</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
           <pointsize>24</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -48,31 +34,7 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QTextEdit" name="transfersEdit"/>
-      </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="tokenEdit">
-      <property name="text">
-       <string>Token tähän</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="transferID">
-      <property name="text">
-       <string>Account ID tähän</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="transfersButton">
-      <property name="text">
-       <string>PushButton</string>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -81,8 +43,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>838</width>
-     <height>22</height>
+     <width>809</width>
+     <height>25</height>
     </rect>
    </property>
   </widget>

@@ -19,13 +19,14 @@ private:
     QNetworkAccessManager *postManager;
     QNetworkReply *reply;
     QByteArray myToken;
-    QString pinCode;
-    QString cardNumber;
-    QString token;
+    QString pinCode, cardNumber, token, msg;
+    int i;
 
 signals:
     void startAuth(void);
     void sendTokenToLogin(QByteArray);
+    void wrongPinMsg(QString);
+    void loginFailed(void);
 
 private slots:
     void recvPin(QString);

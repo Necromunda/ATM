@@ -4,12 +4,13 @@ RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
     connect(this,SIGNAL(checkCard()),
             this,SLOT(dbConnect()));
-    portSettings();
+//    portSettings();
 }
 
 void RFID_DLL_ENGINE::readRFID()
 {
     if (settingsSet) {
+        qDebug() << "Opening connection";
         QObject::connect(&serial, &QSerialPort::readyRead, [&]
         {
             //this is called when readyRead() is emitted
@@ -32,6 +33,7 @@ void RFID_DLL_ENGINE::readRFID()
         });
     } else {
         portSettings();
+        readRFID();
     }
 }
 
@@ -54,16 +56,6 @@ void RFID_DLL_ENGINE::portSettings(void)
     if(!serial.open(QIODevice::ReadOnly))
         qDebug() << serial.errorString();
     settingsSet = true;
-}
-
-void RFID_DLL_ENGINE::closeRFID()
-{
-    serial.close();
-}
-
-void RFID_DLL_ENGINE::openRFID()
-{
-    serial.open(QIODevice::ReadOnly);
 }
 
 void RFID_DLL_ENGINE::dbConnect()
@@ -109,7 +101,7 @@ void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
     if (response_data == "true") {
         qDebug() << "Card valid";
         qDebug() << "Proceeding to pin.dll";
-        closeRFID();
+        serial.close();
         emit sendCardNumber(cardNumber,true);
     } else {
         qDebug() << "Card not valid";

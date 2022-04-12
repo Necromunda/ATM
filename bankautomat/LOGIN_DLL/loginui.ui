@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>272</width>
+    <width>278</width>
     <height>198</height>
    </rect>
   </property>
@@ -30,6 +30,9 @@
      </property>
      <property name="readOnly">
       <bool>true</bool>
+     </property>
+     <property name="placeholderText">
+      <string>Enter 4 digit pin.</string>
      </property>
     </widget>
    </item>
