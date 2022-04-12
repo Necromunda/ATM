@@ -9,3 +9,7 @@ bankautomat/*.user
 bankautomat/RFID_DLL/build/
 
 bankautomat/RFID_DLL/*.user
+
+bankautomat/LOGIN_DLL/build/
+
+bankautomat/LOGIN_DLL/*.user

@@ -9,13 +9,12 @@ MainWindow::MainWindow(QWidget *parent)
     pRFID = new RFID_DLL;
     pREST2 = new DLL_REST_2;
 
-    // Connecting signal from mainwindow to rfid_dll slot getCardNumberFromEngine()
     connect(this,SIGNAL(getNumber()),
-            pRFID,SLOT(getCardNumberFromEngine()));
+            pRFID,SLOT(getCardNumberFromEngine(void)));
 
-    // Connecting signal from rfid_dll to mainwindow slot recvCardNumberFromDll()
-    connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
-            this,SLOT(recvCardNumberFromDll(QString)));
+    connect(pRFID,SIGNAL(sendCardNumberToExe(QString, bool)),
+            this,SLOT(recvCardNumberFromDll(QString, bool)));
+
 
     connect(this, SIGNAL(getTransfers(int, QString)),
             pREST2,SLOT(getData(int, QString)));
@@ -29,15 +28,36 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    ui = nullptr;
+
     delete pRFID;
-    delete pREST2;
     pRFID = nullptr;
+
+    delete pREST2;
     pREST2 = nullptr;
+    
+    delete pLOGIN;
+    pLOGIN = nullptr;
 }
 
-void MainWindow::recvCardNumberFromDll(QString recvd)
+void MainWindow::recvCardNumberFromDll(QString recvd, bool valid)
 {
-    cardNumber = recvd; // Contains the card number
+    // Contains the verified card number
+    if (valid) {
+//        pRFID->closeRFID();
+        cardNumber = recvd;
+        pLOGIN = new LOGIN_DLL;
+
+        connect(this,SIGNAL(sendCardNumberToLogin(QString)),
+                pLOGIN,SLOT(recvCardNumberFromExe(QString)));
+
+        connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray)),
+                this,SLOT(recvTokenFromLogin(QByteArray)));
+
+        emit sendCardNumberToLogin(cardNumber);
+    } else {
+        exit(0);
+    }
 
     // Displaying the card number for debugging purposes, not needed in final product
     ui->label_2->setText(cardNumber);
@@ -61,3 +81,8 @@ void MainWindow::on_transfersButton_clicked()
     }
 }
 
+void MainWindow::recvTokenFromLogin(QByteArray token)
+{
+    myToken = token;
+    qDebug() << "Token recv" << myToken;
+}

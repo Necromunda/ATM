@@ -20,12 +20,11 @@ router.get('/:card_number?',
       if (err) {
         response.json(err);
       } else {
-        if(dbResult == ''){
-          response.send("Invalid ID")
+        if (dbResult == '') {
+          response.send("ID not found")
+        } else {
+        response.json(dbResult[0]);
         }
-          else{
-        response.json(dbResult); //jos haluaa objektin eikä arrayta, niin = response.json(dbResult[0]);
-          }
       }
     });
   } else {
@@ -35,13 +34,12 @@ router.get('/:card_number?',
       } else {
         response.json(dbResult);
       }
-    });
+    }); 
   }
 });
 
 router.put('/:card_number', 
 function(request, response) {
-  console.log(request.params.card_number)
   cards.update(request.params.card_number, request.body, function(err, dbResult) {
     if (err) {
       response.json(err);
@@ -57,7 +55,11 @@ function(request, response) {
     if (err) {
       response.json(err);
     } else {
+      if (dbResult.affectedRows == 0) {
+        response.send("ID not found");
+      } else {
       response.json(dbResult);
+      }
     }
   });
 });

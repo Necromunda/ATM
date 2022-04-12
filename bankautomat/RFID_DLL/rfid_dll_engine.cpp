@@ -2,6 +2,8 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
+    connect(this,SIGNAL(checkCard()),
+            this,SLOT(dbConnect()));
     portSettings();
 }
 
@@ -14,10 +16,10 @@ void RFID_DLL_ENGINE::readRFID()
             qDebug() << "New data available: " << serial.bytesAvailable();
             datas = serial.readAll();
             qDebug() << datas;
-            datas.remove(0,4);
+            datas.remove(0,3);
             datas.chop(3);
             cardNumber = QString(datas);
-            emit sendCardNumber(cardNumber);
+            emit checkCard();
         });
         QObject::connect(&serial,
                          static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
@@ -36,7 +38,7 @@ void RFID_DLL_ENGINE::readRFID()
 void RFID_DLL_ENGINE::portSettings(void)
 {
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
-        qDebug() << "Name : " << info.portName();
+        qDebug() << "Port : " << info.portName();
         serial.setPort(info);
     }
     if(!serial.setBaudRate(QSerialPort::Baud1200))
@@ -52,4 +54,68 @@ void RFID_DLL_ENGINE::portSettings(void)
     if(!serial.open(QIODevice::ReadOnly))
         qDebug() << serial.errorString();
     settingsSet = true;
+}
+
+void RFID_DLL_ENGINE::closeRFID()
+{
+    serial.close();
+}
+
+void RFID_DLL_ENGINE::openRFID()
+{
+    serial.open(QIODevice::ReadOnly);
+}
+
+void RFID_DLL_ENGINE::dbConnect()
+{
+    QString site_url="http://localhost:3000/verify/"+cardNumber;
+    qDebug() << "Checking card validity in " << site_url;
+    QNetworkRequest request((site_url));
+
+    getManager = new QNetworkAccessManager(this);
+
+    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkCardValidity(QNetworkReply*)));
+
+    reply = getManager->get(request);
+}
+
+void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
+{
+    // Getting json.array as a response, then converting it to a json.object
+    //    response_data=reply->readAll();
+    //    //    qDebug()<<"DATA : "+response_data;
+    //    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+    //    QJsonArray json_array = json_doc.array();
+    //    QString cards;
+    //    foreach (const QJsonValue &value, json_array) {
+    //        QJsonObject json_obj = value.toObject();
+    //        cards+=json_obj["card_number"].toString()/*+", "+json_obj["pin_code"].toString()+", "+
+    //                        QString::number(json_obj["locked"].toInt())+", "+QString::number(json_obj["accounts_account_id"].toInt())+", "+
+    //                        QString::number(json_obj["users_user_id"].toInt())*/+"\r";
+    //    }
+
+    // Getting json.object as a response
+//    response_data=reply->readAll();
+//    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
+//    QJsonObject json_obj = json_doc.object();
+//    QString card;
+//    card=json_obj["card_number"].toString()+"\r";
+
+//    qDebug() << card;
+
+//    bool compare = card.contains(cardNumber+"\r", Qt::CaseSensitive);
+//    qDebug() << cardNumber;
+    response_data=reply->readAll();
+    if (response_data == "true") {
+        qDebug() << "Card valid";
+        qDebug() << "Proceeding to pin.dll";
+        closeRFID();
+        emit sendCardNumber(cardNumber,true);
+    } else {
+        qDebug() << "Card not valid";
+        emit sendCardNumber(cardNumber,false);
+    }
+
+    reply->deleteLater();
+    getManager->deleteLater();
 }

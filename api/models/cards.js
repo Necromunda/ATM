@@ -8,8 +8,8 @@ const cards = {
     return db.query('select * from cards where card_number=?', [card_number], callback);
   },
   getAll: function(callback) {
-    return db.query('select * from cards', callback);
-  },
+    return db.query('SELECT * FROM cards', callback);
+ },
   add: function(cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {

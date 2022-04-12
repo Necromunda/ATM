@@ -1,6 +1,6 @@
 QT       += core gui
 QT       += serialport
-QT       += network
+QT       +=network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -34,3 +34,8 @@ win32: LIBS += -L$$PWD/DLL_REST_2/build/debug/ -lDLL_REST_2
 
 INCLUDEPATH += $$PWD/DLL_REST_2
 DEPENDPATH += $$PWD/DLL_REST_2
+
+win32: LIBS += -L$$PWD/LOGIN_DLL/build/debug/ -lLOGIN_DLL
+
+INCLUDEPATH += $$PWD/LOGIN_DLL
+DEPENDPATH += $$PWD/LOGIN_DLL

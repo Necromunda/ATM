@@ -1,9 +1,9 @@
 QT -= gui
-QT += serialport
+QT += widgets
 QT +=network
 
 TEMPLATE = lib
-DEFINES += RFID_DLL_LIBRARY
+DEFINES += LOGIN_DLL_LIBRARY
 
 CONFIG += c++11
 
@@ -12,13 +12,15 @@ CONFIG += c++11
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    rfid_dll.cpp \
-    rfid_dll_engine.cpp
+    login_dll.cpp \
+    login_engine.cpp \
+    loginui.cpp
 
 HEADERS += \
-    RFID_DLL_global.h \
-    rfid_dll.h \
-    rfid_dll_engine.h
+    LOGIN_DLL_global.h \
+    login_dll.h \
+    login_engine.h \
+    loginui.h
 
 # Default rules for deployment.
 unix {
@@ -26,4 +28,5 @@ unix {
 }
 !isEmpty(target.path): INSTALLS += target
 
-FORMS +=
+FORMS += \
+    loginui.ui
