@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     pRFID = new RFID_DLL;
+    pREST2 = new DLL_REST_2;
 
     // Connecting signal from mainwindow to rfid_dll slot getCardNumberFromEngine()
     connect(this,SIGNAL(getNumber()),
@@ -16,6 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
             this,SLOT(recvCardNumberFromDll(QString)));
 
+    connect(this, SIGNAL(getTransfers(int, QString)),
+            pREST2,SLOT(getData(int, QString)));
+    connect(pREST2,SIGNAL(sendTransfersToExe(QString)),
+            this,SLOT(recvTransfersFromDll(QString)));
+
     // This signal starts the process of reading the RFID-device
     emit getNumber();
 }
@@ -24,7 +30,9 @@ MainWindow::~MainWindow()
 {
     delete ui;
     delete pRFID;
+    delete pREST2;
     pRFID = nullptr;
+    pREST2 = nullptr;
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
@@ -34,3 +42,22 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
     // Displaying the card number for debugging purposes, not needed in final product
     ui->label_2->setText(cardNumber);
 }
+
+void MainWindow::recvTransfersFromDll(QString msg)
+{
+    ui->transfersEdit->setText(msg);
+}
+
+void MainWindow::on_transfersButton_clicked()
+{
+    QString x = ui->transferID->text();
+    QString token = ui->tokenEdit->text();
+    if(x != "" && token != ""){
+        emit getTransfers(x.toInt(), token);
+    }
+    else{
+        ui->transferID->setText("Kirjoita account id");
+        ui->tokenEdit->setText("Kirjoita token");
+    }
+}
+

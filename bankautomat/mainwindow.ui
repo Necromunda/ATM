@@ -37,7 +37,6 @@
         <property name="font">
          <font>
           <pointsize>24</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -49,7 +48,31 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QTextEdit" name="transfersEdit"/>
+      </item>
      </layout>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="tokenEdit">
+      <property name="text">
+       <string>Token tähän</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLineEdit" name="transferID">
+      <property name="text">
+       <string>Account ID tähän</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="transfersButton">
+      <property name="text">
+       <string>PushButton</string>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -59,7 +82,7 @@
      <x>0</x>
      <y>0</y>
      <width>838</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
