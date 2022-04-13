@@ -37,7 +37,6 @@
         <property name="font">
          <font>
           <pointsize>24</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -51,6 +50,52 @@
       </item>
      </layout>
     </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="REST_results">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_Token">
+        <property name="text">
+         <string>Token tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_metodi">
+        <property name="text">
+         <string>Metodi tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_tarkenne">
+        <property name="text">
+         <string>tarkenne, esim. transfers/1 tai /transfers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_body">
+        <property name="text">
+         <string>request body tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Button_rest">
+        <property name="text">
+         <string>REST-pyyntö</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -59,7 +104,7 @@
      <x>0</x>
      <y>0</y>
      <width>838</width>
-     <height>25</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
