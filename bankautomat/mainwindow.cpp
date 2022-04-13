@@ -61,3 +61,139 @@ void MainWindow::on_transfersButton_clicked()
     }
 }
 
+void MainWindow::runStateMachine(states s, events e)
+{
+    switch (s) {
+
+        case waitingCard:
+            waitingCardHandler(e);
+        break;
+
+        case waitingPin:
+            waitingPinHandler(e);
+        break;
+
+        case userLogged:
+            userLoggedHandler(e);
+        break;
+
+        case withdrawMoney:
+            withdrawMoneyHandler(e);
+        break;
+
+        case showTransactions:
+            showTransactionsHandler(e);
+        break;
+
+        case checkBalance:
+            checkBalanceHandler(e);
+
+        default:
+            qDebug()<<"State = "<<State<<" and event = "<< e;
+
+    }
+
+}
+
+void MainWindow::waitingCardHandler(events e)
+{
+    qDebug()<<"State = "<<State<<" and event = "<< e;
+    if(e == userInsertedCard)
+    {
+        State = waitingPin;
+        emit cardNumberRead_signal(State,Event);
+        qDebug()<<"Entered to waitingPin state";
+    }
+}
+void MainWindow::waitingPinHandler(events e)
+{
+
+    if(e == userGaveWrongPin)
+    {
+        // Just staying in this state
+        State = waitingPin;
+        Event = pinWrong;
+        qDebug()<<"Wrong PIN, staying at waitingPin state";
+    }
+    else if(e == userGaveCorrectPin)
+    {
+        qDebug()<<"Entering userLogged state, emitting pinCorrect_signal";
+        State = userLogged;
+        Event = pinCorrect;
+        emit pinCorrect_signal(State,Event);
+        //runStateMachine(State,Event);
+
+    }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
+}
+
+void MainWindow::userLoggedHandler(events e)
+{
+    if(e == attemptWithdrawal)
+    {
+        qDebug()<<"Exiting from userLogged state, emitting attemptWithdrawal_signal";
+        State = withdrawMoney;
+        Event = attemptWithdrawal;
+        emit attemptWithdrawal_signal(State,Event);
+        //runStateMachine(State,Event);
+
+    }
+    else if(e == doneWithdrawing)
+    {
+        State = userLogged;
+        qDebug()<<"Entering to userLogged State";
+    }
+    else if(e == insufficientBalance)
+    {
+        qDebug()<<"Insufficient balance, Entering to userLogged State";
+
+    }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
+
+}
+
+void MainWindow::showTransactionsHandler(events e)
+{
+    if(e == showTransactions_event)
+    {
+        qDebug()<<"Entering to showTransactions State, emitting showTransactions_signal";
+        State = showTransactions;
+        Event = showTransactions_event;
+        emit showTransactions_signal(State,Event);
+    }
+    else if(e == doneShowingTransactions)
+    {
+        qDebug()<<"Exiting showTransactions State, entering to userLogged state";
+        State = userLogged;
+        Event = doneShowingTransactions;
+        //runStateMachine(State,Event);
+    }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
+}
+
+void MainWindow::checkBalanceHandler(events e)
+{
+    if(e == checkBalance_event)
+    {
+        qDebug()<<"Entering to checkBalance state";
+    }
+    else if(e == doneCheckingBalance)
+    {
+        qDebug()<<"Exiting checkBalance state, emitting doneCheckingBalance_signal";
+        State = userLogged;
+        emit doneCheckingBalance_signal(State,Event);
+    }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
+}
