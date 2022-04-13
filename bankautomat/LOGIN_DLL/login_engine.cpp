@@ -2,7 +2,8 @@
 
 LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 {
-    i = 3;
+    qDebug() << "LOGIN_ENGINE constructor";
+    tries = 3;
     pLOGIN_UI = new LoginUi;
 
     connect(pLOGIN_UI,SIGNAL(sendPinToEngine(QString)),
@@ -25,12 +26,7 @@ void LOGIN_ENGINE::recvPin(QString code)
 void LOGIN_ENGINE::recvCardNumber(QString num)
 {
     cardNumber = num;
-    qDebug() << cardNumber << "In login";
-    openUi();
-}
-
-void LOGIN_ENGINE::openUi(void)
-{
+    qDebug() << cardNumber << "in login";
     pLOGIN_UI->show();
 }
 
@@ -62,16 +58,18 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
         postManager->deleteLater();
         emit sendTokenToLogin(myToken);
     } else {
-        i--;
+        tries--;
         qDebug() << "Incorrect pin.";
-        QString s = QString::number(i);
+        QString s = QString::number(tries);
         msg = "Incorrect pin, "+s+" tries left";
-        if (i > 0) {
+        if (tries > 0) {
             emit wrongPinMsg(msg);
         } else {
+            tries = 3;
+            pLOGIN_UI->close();
             reply->deleteLater();
             postManager->deleteLater();
-            pLOGIN_UI->close();
+            emit wrongPinMsg("Enter 4 digit pin.");
             emit loginFailedInEngine();
         }
     }

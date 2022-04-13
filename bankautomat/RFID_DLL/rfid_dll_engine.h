@@ -31,7 +31,7 @@ private:
     bool read = false;
 
 signals:
-    void sendCardNumber(QString, bool);
+    void sendCardNumber(QString);
     void checkCard();
 
 private slots:

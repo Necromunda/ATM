@@ -12,7 +12,6 @@ class LOGIN_ENGINE : public QObject
     Q_OBJECT
 public:
     explicit LOGIN_ENGINE(QObject *parent = nullptr);
-    void openUi(void);
 
 private:
     LoginUi *pLOGIN_UI;
@@ -20,7 +19,7 @@ private:
     QNetworkReply *reply;
     QByteArray myToken;
     QString pinCode, cardNumber, token, msg;
-    int i;
+    int tries;
 
 signals:
     void startAuth(void);

@@ -18,11 +18,12 @@ private:
     QString cardNumber;
 
 signals:
-    void sendCardNumberToExe(QString, bool);
+    void sendCardNumberToExe(QString);
 
 private slots:
     void getCardNumberFromEngine(void);
-    void recvCardNumberFromEngine(QString, bool);
+    void recvCardNumberFromEngine(QString);
+    void restartEngine(void);
 };
 
 #endif // RFID_DLL_H

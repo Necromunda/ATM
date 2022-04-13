@@ -2,6 +2,7 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
+    qDebug() << "RFID_ENGINE constructor";
     connect(this,SIGNAL(checkCard()),
             this,SLOT(dbConnect()));
 }
@@ -22,7 +23,6 @@ void RFID_DLL_ENGINE::readRFID()
         datas.remove(0,3);
         datas.chop(3);
         cardNumber = QString(datas);
-        serial.close();
         emit checkCard();
     });
     QObject::connect(&serial,
@@ -77,10 +77,10 @@ void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
     qDebug() << "Response: " << response_data;
     if (response_data == "true") {
         qDebug() << "Card valid";
-        emit sendCardNumber(cardNumber,true);
+        serial.close();
+        emit sendCardNumber(cardNumber);
     } else {
         qDebug() << "Card not valid";
-//        emit sendCardNumber(cardNumber,false);
     }
 
     reply->deleteLater();

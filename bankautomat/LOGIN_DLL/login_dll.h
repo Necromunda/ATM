@@ -11,11 +11,13 @@ class LOGIN_DLL_EXPORT LOGIN_DLL : public QObject
 public:
     LOGIN_DLL();
     ~LOGIN_DLL();
+    void createEngine(void);
 
 private:
     LOGIN_ENGINE *pLOGIN_ENGINE;
     QString cardNumber;
     QByteArray myToken;
+    bool engineCreated = false;
 
 signals:
     void restartRFID(void);
