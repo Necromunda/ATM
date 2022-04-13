@@ -57,8 +57,7 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
 
     if (myToken != "false") {
         qDebug() << "Correct pin.";
-        delete pLOGIN_UI;
-        pLOGIN_UI = nullptr;
+        pLOGIN_UI->close();
         reply->deleteLater();
         postManager->deleteLater();
         emit sendTokenToLogin(myToken);
@@ -72,9 +71,8 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
         } else {
             reply->deleteLater();
             postManager->deleteLater();
-            delete pLOGIN_UI;
-            pLOGIN_UI = nullptr;
-            emit loginFailed();
+            pLOGIN_UI->close();
+            emit loginFailedInEngine();
         }
     }
 }

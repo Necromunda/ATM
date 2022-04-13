@@ -4,39 +4,35 @@ RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
     connect(this,SIGNAL(checkCard()),
             this,SLOT(dbConnect()));
-    portSettings();
 }
 
 void RFID_DLL_ENGINE::readRFID()
 {
-    if (settingsSet) {
-        if(!serial.open(QIODevice::ReadOnly))
-            serial.open(QIODevice::ReadOnly);
-        qDebug() << "Opening connection";
-        QObject::connect(&serial, &QSerialPort::readyRead, [&]
-        {
-            //this is called when readyRead() is emitted
-            qDebug() << "New data available: " << serial.bytesAvailable();
-            datas = serial.readAll();
-            qDebug() << datas;
-            datas.remove(0,3);
-            datas.chop(3);
-            cardNumber = QString(datas);
-            emit checkCard();
-        });
-        QObject::connect(&serial,
-                         static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
-                         (&QSerialPort::error),
-                         [&](QSerialPort::SerialPortError error)
-        {
-            //this is called when a serial communication error occurs
-            qDebug() << "An error occured: " << error;
-            settingsSet = false;
-//            exit(0);
-        });
-    } else {
+    if (!settingsSet) {
         portSettings();
+    } else {
+        serial.open(QIODevice::ReadOnly);
     }
+    QObject::connect(&serial, &QSerialPort::readyRead, [&]
+    {
+        //this is called when readyRead() is emitted
+        qDebug() << "New data available: " << serial.bytesAvailable();
+        datas = serial.readAll();
+        qDebug() << datas;
+        datas.remove(0,3);
+        datas.chop(3);
+        cardNumber = QString(datas);
+        serial.close();
+        emit checkCard();
+    });
+    QObject::connect(&serial,
+                     static_cast<void(QSerialPort::*)(QSerialPort::SerialPortError)>
+                     (&QSerialPort::error),
+                     [&](QSerialPort::SerialPortError error)
+    {
+        //this is called when a serial communication error occurs
+        qDebug() << "An error occured: " << error;
+    });
 }
 
 void RFID_DLL_ENGINE::portSettings(void)
@@ -69,7 +65,8 @@ void RFID_DLL_ENGINE::dbConnect()
 
     getManager = new QNetworkAccessManager(this);
 
-    connect(getManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(checkCardValidity(QNetworkReply*)));
+    connect(getManager, SIGNAL(finished(QNetworkReply*)),
+            this, SLOT(checkCardValidity(QNetworkReply*)));
 
     reply = getManager->get(request);
 }
@@ -79,39 +76,13 @@ void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
     response_data=reply->readAll();
     qDebug() << "Response: " << response_data;
     if (response_data == "true") {
-        serial.close();
         qDebug() << "Card valid";
         emit sendCardNumber(cardNumber,true);
     } else {
         qDebug() << "Card not valid";
-        emit sendCardNumber(cardNumber,false);
+//        emit sendCardNumber(cardNumber,false);
     }
 
     reply->deleteLater();
     getManager->deleteLater();
-
-//     Getting json.array as a response, then converting it to a json.object
-//        response_data=reply->readAll();
-//        //    qDebug()<<"DATA : "+response_data;
-//        QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-//        QJsonArray json_array = json_doc.array();
-//        QString cards;
-//        foreach (const QJsonValue &value, json_array) {
-//            QJsonObject json_obj = value.toObject();
-//            cards+=json_obj["card_number"].toString()/*+", "+json_obj["pin_code"].toString()+", "+
-//                            QString::number(json_obj["locked"].toInt())+", "+QString::number(json_obj["accounts_account_id"].toInt())+", "+
-//                            QString::number(json_obj["users_user_id"].toInt())*/+"\r";
-//        }
-
-//     Getting json.object as a response
-//    response_data=reply->readAll();
-//    QJsonDocument json_doc = QJsonDocument::fromJson(response_data);
-//    QJsonObject json_obj = json_doc.object();
-//    QString card;
-//    card=json_obj["card_number"].toString()+"\r";
-
-//    qDebug() << card;
-
-//    bool compare = card.contains(cardNumber+"\r", Qt::CaseSensitive);
-//    qDebug() << cardNumber;
 }

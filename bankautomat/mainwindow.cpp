@@ -58,7 +58,8 @@ void MainWindow::recvCardNumberFromDll(QString recvd, bool valid)
 
         emit sendCardNumberToLogin(cardNumber);
     } else {
-        exit(0);
+        emit getNumber();
+//        exit(0);
     }
 }
 

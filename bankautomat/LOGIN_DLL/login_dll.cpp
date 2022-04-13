@@ -10,7 +10,7 @@ LOGIN_DLL::LOGIN_DLL()
     connect(pLOGIN_ENGINE,SIGNAL(sendTokenToLogin(QByteArray)),
             this,SLOT(recvTokenFromEngine(QByteArray)));
 
-    connect(pLOGIN_ENGINE,SIGNAL(loginFailed(void)),
+    connect(pLOGIN_ENGINE,SIGNAL(loginFailedInEngine(void)),
             this,SLOT(loginFailed(void)));
 }
 

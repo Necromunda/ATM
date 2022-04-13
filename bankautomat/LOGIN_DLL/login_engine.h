@@ -26,7 +26,7 @@ signals:
     void startAuth(void);
     void sendTokenToLogin(QByteArray);
     void wrongPinMsg(QString);
-    void loginFailed(void);
+    void loginFailedInEngine(void);
 
 private slots:
     void recvPin(QString);
