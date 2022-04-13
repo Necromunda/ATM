@@ -7,7 +7,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     pRFID = new RFID_DLL;
-    pREST2 = new DLL_REST_2;
 
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
@@ -15,10 +14,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
             this,SLOT(recvCardNumberFromDll(QString)));
 
-    connect(this, SIGNAL(getTransfers(int, QString)),
-            pREST2,SLOT(getData(int, QString)));
-    connect(pREST2,SIGNAL(sendTransfersToExe(QString)),
-            this,SLOT(recvTransfersFromDll(QString)));
 
     // This signal starts the process of reading the RFID-device
     emit getNumber();
@@ -29,9 +24,9 @@ MainWindow::~MainWindow()
     delete ui;
     ui = nullptr;
     delete pRFID;
-    delete pREST2;
+
     pRFID = nullptr;
-    pREST2 = nullptr;
+
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
@@ -113,7 +108,7 @@ void MainWindow::waitingPinHandler(events e)
         // Just staying in this state
         State = waitingPin;
         Event = pinWrong;
-        qDebug()<<"Wrong PIN, staying at waitingPin state";
+        qDebug()<<"Wrong Pin number, staying at waitingPin state";
     }
     else if(e == userGaveCorrectPin)
     {
@@ -131,6 +126,25 @@ void MainWindow::waitingPinHandler(events e)
 }
 
 void MainWindow::userLoggedHandler(events e)
+{
+
+}
+/*
+{
+    if(e == attemptWithdrawal)
+    {
+        qDebug()<<"Exiting from userLogged state, emitting attemptWithdrawal_signal";
+        State = withdrawMoney;
+        Event = attemptWithdrawal;
+        emit attemptWithdrawal_signal(State,Event);
+        //runStateMachine(State,Event);
+
+    }
+
+}
+*/
+
+void MainWindow::withdrawMoneyHandler(events e)
 {
     if(e == attemptWithdrawal)
     {

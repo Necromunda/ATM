@@ -6,8 +6,7 @@
 #include <QTimer>
 #include "rfid_dll.h"
 #include "rfid_dll_engine.h"
-#include "dll_rest_2.h"
-#include "engine.h" // dll_rest_2 engine
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -55,9 +54,9 @@ public:
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
-    DLL_REST_2 *pREST2;
+
     QString cardNumber;
-    DLL_REST_2 *pREST;
+
 
     states State = waitingCard;
     events Event;
