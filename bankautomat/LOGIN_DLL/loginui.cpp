@@ -6,7 +6,7 @@ LoginUi::LoginUi(QWidget *parent) :
     ui(new Ui::LoginUi)
 {
     ui->setupUi(this);
-    this->setWindowModality(Qt::WindowModal);
+//    this->setWindowModality(Qt::WindowModal);
 }
 
 LoginUi::~LoginUi()

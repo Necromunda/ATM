@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include "bankmain.h"
 #include "rfid_dll.h"
 #include "login_dll.h"
 
@@ -20,6 +21,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    bankmain *pBankMain;
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     QString cardNumber;
@@ -28,10 +30,14 @@ private:
 signals:
     void getNumber(void);
     void sendCardNumberToLogin(QString);
+    void loggedOutRestartEngine(void);
 
 public slots:
     void recvCardNumberFromDll(QString);
     void recvTokenFromLogin(QByteArray);
+    void loggedOut(void);
 
+private slots:
+    void on_exitApp_clicked();
 };
 #endif // MAINWINDOW_H

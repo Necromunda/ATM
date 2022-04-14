@@ -25,6 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pLOGIN,SIGNAL(restartRFID(void)),
             pRFID,SLOT(restartEngine(void)));
 
+    connect(this,SIGNAL(loggedOutRestartEngine(void)),
+            pRFID,SLOT(restartEngine(void)));
+
     // This signal starts the process of reading the RFID-device
     emit getNumber();
 }
@@ -39,6 +42,9 @@ MainWindow::~MainWindow()
     
     delete pLOGIN;
     pLOGIN = nullptr;
+
+    delete pBankMain;
+    pBankMain = nullptr;
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
@@ -49,6 +55,27 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
 
 void MainWindow::recvTokenFromLogin(QByteArray token)
 {
-    myToken = token;
-    qDebug() << "Token recv" << myToken;
+    myToken = "Bearer " + token;
+    qDebug() << "Token: " << myToken;
+    this->close();
+    pBankMain = new bankmain;
+
+    connect(pBankMain,SIGNAL(loggingOut(void)),
+            this,SLOT(loggedOut(void)));
+
+    pBankMain->show();
 }
+
+void MainWindow::loggedOut()
+{
+    qDebug() << "Logged out";
+    delete pBankMain;
+    this->show();
+    emit loggedOutRestartEngine();
+}
+
+void MainWindow::on_exitApp_clicked()
+{
+    exit(0);
+}
+
