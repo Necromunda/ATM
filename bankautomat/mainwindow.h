@@ -93,12 +93,12 @@ public slots:
     void recvTransfersFromDll(QString);
 
     void runStateMachine(states, events);
-    void handleTimeout();
+    //void handleTimeout();
 
 private slots:
     void on_transfersButton_clicked();
-    void on_withdrawalButton_clicked();
-    void on_checkBalanceButton_clicked();
+    //void on_withdrawalButton_clicked();
+    //void on_checkBalanceButton_clicked();
 
 
 };

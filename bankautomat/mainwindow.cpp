@@ -85,10 +85,9 @@ void MainWindow::runStateMachine(states s, events e)
 
         default:
             qDebug()<<"State = "<<State<<" and event = "<< e;
-
     }
-
 }
+
 
 void MainWindow::waitingCardHandler(events e)
 {
@@ -128,9 +127,6 @@ void MainWindow::waitingPinHandler(events e)
 void MainWindow::userLoggedHandler(events e)
 {
 
-}
-/*
-{
     if(e == attemptWithdrawal)
     {
         qDebug()<<"Exiting from userLogged state, emitting attemptWithdrawal_signal";
@@ -142,7 +138,7 @@ void MainWindow::userLoggedHandler(events e)
     }
 
 }
-*/
+
 
 void MainWindow::withdrawMoneyHandler(events e)
 {
