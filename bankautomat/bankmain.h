@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDialog>
 #include <QDebug>
+#include "drawmoney.h"
 
 namespace Ui {
 class bankmain;
@@ -30,6 +31,8 @@ signals:
 
 private:
     Ui::bankmain *ui;
+    drawmoney *pDrawMoney;
+    int myBalance;
 };
 
 #endif // BANKMAIN_H

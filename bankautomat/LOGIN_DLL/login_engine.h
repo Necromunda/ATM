@@ -5,6 +5,7 @@
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
+#include <QCloseEvent>
 #include "loginui.h"
 
 class LOGIN_ENGINE : public QObject
@@ -32,6 +33,7 @@ private slots:
     void recvCardNumber(QString);
     void tokenReq(void);
     void tokenRes(QNetworkReply *reply);
+    void rejected();
 };
 
 #endif // LOGIN_ENGINE_H

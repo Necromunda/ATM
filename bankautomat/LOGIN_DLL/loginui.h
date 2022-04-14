@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDialog>
 #include <QDebug>
+#include <QCloseEvent>
 
 namespace Ui {
 class LoginUi;
@@ -23,8 +24,10 @@ private:
 
 signals:
     void sendPinToEngine(QString);
+    void aboutToQuit();
 
 private slots:
+    void closeEvent(QCloseEvent*);
     void wrongPin(QString);
     void on_pushButton_Ok_clicked();
     void on_pushButton_Clear_clicked();

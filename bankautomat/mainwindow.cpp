@@ -76,6 +76,7 @@ void MainWindow::loggedOut()
 
 void MainWindow::on_exitApp_clicked()
 {
+    qDebug() << "Exiting bank application.";
     exit(0);
 }
 

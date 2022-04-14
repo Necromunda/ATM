@@ -14,6 +14,9 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 
     connect(this,SIGNAL(wrongPinMsg(QString)),
             pLOGIN_UI,SLOT(wrongPin(QString)));
+
+    connect(pLOGIN_UI,SIGNAL(aboutToQuit()),
+            this,SLOT(rejected()));
 }
 
 void LOGIN_ENGINE::recvPin(QString code)
@@ -74,4 +77,10 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
             emit loginFailedInEngine();
         }
     }
+}
+
+void LOGIN_ENGINE::rejected()
+{
+    qDebug() << "Window was closed";
+    emit loginFailedInEngine();
 }

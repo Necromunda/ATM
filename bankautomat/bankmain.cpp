@@ -17,7 +17,8 @@ bankmain::~bankmain()
 
 void bankmain::on_balanceButton_clicked()
 {
-
+    myBalance = 70123;
+    ui->balanceLabel->setText(QString::number(myBalance));
 }
 
 void bankmain::on_accountActionsButton_clicked()
@@ -37,7 +38,8 @@ void bankmain::on_nextActionsButton_clicked()
 
 void bankmain::on_drawMoneyButton_clicked()
 {
-
+    pDrawMoney = new drawmoney;
+    pDrawMoney->show();
 }
 
 void bankmain::on_exitButton_clicked()

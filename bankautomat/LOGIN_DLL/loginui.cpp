@@ -6,13 +6,19 @@ LoginUi::LoginUi(QWidget *parent) :
     ui(new Ui::LoginUi)
 {
     ui->setupUi(this);
-//    this->setWindowModality(Qt::WindowModal);
 }
 
 LoginUi::~LoginUi()
 {
     qDebug() << "destroying login window";
     delete ui;
+    ui = nullptr;
+}
+
+void LoginUi::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    emit aboutToQuit();
 }
 
 void LoginUi::wrongPin(QString msg)

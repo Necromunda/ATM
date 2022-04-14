@@ -12,15 +12,18 @@ CONFIG += c++11
 
 SOURCES += \
     bankmain.cpp \
+    drawmoney.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     bankmain.h \
+    drawmoney.h \
     mainwindow.h
 
 FORMS += \
     bankmain.ui \
+    drawmoney.ui \
     mainwindow.ui
 
 # Default rules for deployment.
