@@ -13,6 +13,9 @@ bankmain::~bankmain()
 {
     delete ui;
     ui = nullptr;
+
+    delete pDrawMoney;
+    pDrawMoney = nullptr;
 }
 
 void bankmain::on_balanceButton_clicked()
