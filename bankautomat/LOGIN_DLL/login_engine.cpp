@@ -69,6 +69,7 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
             pLOGIN_UI->close();
             reply->deleteLater();
             postManager->deleteLater();
+            qDebug() << "Card locked.";
             emit wrongPinMsg("Enter 4 digit pin.");
             emit loginFailedInEngine();
         }

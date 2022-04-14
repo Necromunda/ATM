@@ -22,7 +22,7 @@ void LoginUi::wrongPin(QString msg)
 
 void LoginUi::on_pushButton_Ok_clicked()
 {
-    pin = ui->lineEdit->displayText();
+    pin = ui->lineEdit->text();
     ui->lineEdit->clear();
     emit sendPinToEngine(pin);
 }
