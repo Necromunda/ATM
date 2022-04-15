@@ -6,6 +6,9 @@
 #include "bankmain.h"
 #include "rfid_dll.h"
 #include "login_dll.h"
+#include "rest_dll.h"
+
+#include "engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -24,8 +27,10 @@ private:
     bankmain *pBankMain;
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
+    REST_DLL *pREST;
     QString cardNumber;
     QByteArray myToken;
+
 
 signals:
     void getNumber(void);
@@ -36,8 +41,12 @@ public slots:
     void recvCardNumberFromDll(QString);
     void recvTokenFromLogin(QByteArray);
     void loggedOut(void);
+    void recvResultsFromREST(QString);
 
 private slots:
     void on_exitApp_clicked();
+    void getREST(QString, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
+    void on_Button_rest_clicked();
+    
 };
 #endif // MAINWINDOW_H
