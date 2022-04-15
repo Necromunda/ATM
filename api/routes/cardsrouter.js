@@ -13,16 +13,32 @@ function(request, response) {
   });
 });
 
-router.get('/name/:card_number?',
+router.get('/name/:card_number',
  function(request, response) {
   if (request.params.card_number) {
     cards.getNameByCardNumber(request.params.card_number, function(err, dbResult) {
       if (err) {
-        response.send(err);
-        //response.json(err);
+        response.json(err);
       } else {
-        if (dbResult == '{"fullname":null}') {
-          response.json("Name 404")
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
+router.get('/balance/:card_number',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getBalanceByCardNumber(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
         } else {
           response.json(dbResult[0]);
         }

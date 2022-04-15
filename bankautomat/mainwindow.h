@@ -21,6 +21,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void restOps(int);
 
 private:
     Ui::MainWindow *ui;
@@ -29,14 +30,13 @@ private:
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
     QString cardNumber;
-    QByteArray myToken;
-
+    QByteArray myToken, restAnsw;
 
 signals:
     void getNumber(void);
     void sendCardNumberToLogin(QString);
     void loggedOutRestartEngine(void);
-    void getREST(QByteArray, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
+    void getREST(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
     void sendRestResToBankmain(QByteArray);
 
 public slots:
@@ -44,6 +44,7 @@ public slots:
     void recvTokenFromLogin(QByteArray);
     void loggedOut(void);
     void recvResultsFromREST(QByteArray);
+    void getBalance(void);
 
 private slots:
     void on_exitApp_clicked();

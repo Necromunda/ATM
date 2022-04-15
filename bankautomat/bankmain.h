@@ -21,7 +21,8 @@ public:
     ~bankmain();
 
 private slots:
-    void recvRestResultsFromExe(QByteArray);
+    void setName(QByteArray);
+    void setBalance(QByteArray);
     void on_balanceButton_clicked();
     void on_accountActionsButton_clicked();
     void on_prevActionsButton_clicked();
@@ -31,6 +32,7 @@ private slots:
 
 signals:
     void loggingOut(void);
+    void updateBalance(void);
 
 private:
     Ui::bankmain *ui;

@@ -18,7 +18,7 @@ bankmain::~bankmain()
     pDrawMoney = nullptr;
 }
 
-void bankmain::recvRestResultsFromExe(QByteArray msg)
+void bankmain::setName(QByteArray msg)
 {
     qDebug() << "Setting name";
     QJsonDocument json_doc = QJsonDocument::fromJson(msg);
@@ -27,10 +27,20 @@ void bankmain::recvRestResultsFromExe(QByteArray msg)
     ui->ownerNameLabel->setText("Account owner: " + res);
 }
 
+void bankmain::setBalance(QByteArray msg)
+{
+    qDebug() << "Setting balance";
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonObject json_obj = json_doc.object();
+    QString res = json_obj["balance"].toString();
+    ui->balanceLabel->setText(res);
+}
+
 void bankmain::on_balanceButton_clicked()
 {
-    myBalance = 70123;
-    ui->balanceLabel->setText(QString::number(myBalance));
+    emit updateBalance();
+//    myBalance = 70123;
+//    ui->balanceLabel->setText(QString::number(myBalance));
 }
 
 void bankmain::on_accountActionsButton_clicked()

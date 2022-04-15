@@ -59,6 +59,30 @@ MainWindow::~MainWindow()
 
 }
 
+void MainWindow::restOps(int id)
+{
+//    qDebug() << id;
+//    switch (id) {
+//    case 1: // Get account owner name from databse
+//        emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
+//        connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
+//                pBankMain,SLOT(setName(QByteArray)));
+//        emit sendRestResToBankmain(restAnsw);
+//        disconnect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
+//                pBankMain,SLOT(setName(QByteArray)));
+//        qDebug() << "here?";
+//        break;
+//    case 2: // Get account balance
+//        emit getREST(myToken, "GET", "cards/balance/"+cardNumber, "");
+//        connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
+//                pBankMain,SLOT(setBalance(QByteArray)));
+//        emit sendRestResToBankmain(restAnsw);
+//        disconnect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
+//                pBankMain,SLOT(setName(QByteArray)));
+//        break;
+//    }
+}
+
 void MainWindow::recvCardNumberFromDll(QString recvd)
 {
     cardNumber = recvd;
@@ -77,8 +101,11 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
     connect(pBankMain,SIGNAL(loggingOut(void)),
             this,SLOT(loggedOut(void)));
 
+    connect(pBankMain,SIGNAL(updateBalance(void)),
+            this,SLOT(getBalance(void)));
+
     connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-            pBankMain,SLOT(recvRestResultsFromExe(QByteArray)));
+            pBankMain,SLOT(setName(QByteArray)));
 
     emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
     pBankMain->show();
@@ -101,8 +128,15 @@ void MainWindow::on_exitApp_clicked()
 
 void MainWindow::recvResultsFromREST(QByteArray msg)
 {
-//    ui->REST_results->setText(msg);
-    emit sendRestResToBankmain(msg);
+    restAnsw = msg;
+    qDebug() << "Rest done, result: " << restAnsw;
+    emit sendRestResToBankmain(restAnsw);
+    //    ui->REST_results->setText(msg);
+}
+
+void MainWindow::getBalance()
+{
+    restOps(2);
 }
 
 void MainWindow::on_Button_rest_clicked()

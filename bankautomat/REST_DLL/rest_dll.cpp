@@ -21,6 +21,5 @@ void REST_DLL::getResultsFromEngine(QByteArray msg)
 
 void REST_DLL::ExecuteRestOperation(QByteArray token, QString method, QString route, QString body)
 {
-    qDebug() << token;
     pENGINE->getData(token, method, route, body);
 }
