@@ -108,7 +108,7 @@ void MainWindow::on_Button_rest_clicked()
     QString tarkenne = ui->lineEdit_tarkenne->text();
     QString body = ui->lineEdit_body->text();
 
-    if(token != "" && metodi != ""&& tarkenne != ""&& body != ""){
+    if(token != "" && metodi != "" && tarkenne != "" && body != ""){
         emit getREST(token, metodi, tarkenne, body);
     }
     else{

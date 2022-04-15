@@ -36,6 +36,7 @@ signals:
     void getNumber(void);
     void sendCardNumberToLogin(QString);
     void loggedOutRestartEngine(void);
+    void getREST(QString, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
 
 public slots:
     void recvCardNumberFromDll(QString);
@@ -45,7 +46,6 @@ public slots:
 
 private slots:
     void on_exitApp_clicked();
-    void getREST(QString, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
     void on_Button_rest_clicked();
     
 };
