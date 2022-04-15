@@ -58,8 +58,10 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
     myToken = "Bearer " + token;
     qDebug() << "Token: " << myToken;
     this->close();
-    pBankMain = new bankmain;
-
+    bool loggedIn = false;
+    if (!loggedIn) {
+        pBankMain = new bankmain;
+    };
     connect(pBankMain,SIGNAL(loggingOut(void)),
             this,SLOT(loggedOut(void)));
 
@@ -69,7 +71,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
 void MainWindow::loggedOut()
 {
     qDebug() << "Logged out";
-    delete pBankMain;
+//    delete pBankMain;
+    pBankMain->close();
     this->show();
     emit loggedOutRestartEngine();
 }

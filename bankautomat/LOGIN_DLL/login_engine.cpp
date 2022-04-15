@@ -55,16 +55,18 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
     myToken=reply->readAll();
 
     if (myToken != "false") {
+        tries = 3;
         qDebug() << "Correct pin.";
         pLOGIN_UI->close();
         reply->deleteLater();
         postManager->deleteLater();
+        emit wrongPinMsg("Enter 4 digit pin.");
         emit sendTokenToLogin(myToken);
     } else {
         tries--;
         qDebug() << "Incorrect pin.";
         QString s = QString::number(tries);
-        msg = "Incorrect pin, "+s+" tries left";
+        msg = "Incorrect pin, "+ s +" tries left";
         if (tries > 0) {
             emit wrongPinMsg(msg);
         } else {
