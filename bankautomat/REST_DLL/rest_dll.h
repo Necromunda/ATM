@@ -16,11 +16,11 @@ private:
     Engine *pENGINE;
 
 signals:
-    void sendResultToExe(QString);
+    void sendResultToExe(QByteArray);
 
 public slots:
-    void getResultsFromEngine(QString);
-    void ExecuteRestOperation(QString, QString, QString, QString);
+    void getResultsFromEngine(QByteArray);
+    void ExecuteRestOperation(QByteArray, QString, QString, QString);
     // Parametrit: Token, metodi tarkenne, body
     // Esim. e1234, GET, transfers/1, ""
     // Tai e12345, POST, transfers, {"amount": -100,"date": "2012-10-20T21:00:00.000","card_number": 1234,"accounts_account_id": 1}

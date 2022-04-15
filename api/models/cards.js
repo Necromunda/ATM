@@ -9,7 +9,11 @@ const cards = {
   },
   getAll: function(callback) {
     return db.query('SELECT * FROM cards', callback);
- },
+  },
+  getNameByCardNumber: function(card_number, callback) {
+    return db.query('select group_concat(fname," ", lname) as "fullname" from users where user_id in (select cards.users_user_id from cards where card_number=?)',
+    [card_number], callback);
+  },
   add: function(cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {

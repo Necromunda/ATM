@@ -74,18 +74,20 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>230</y>
-     <width>101</width>
+     <y>240</y>
+     <width>361</width>
      <height>31</height>
     </rect>
    </property>
    <property name="font">
     <font>
      <pointsize>9</pointsize>
+     <italic>false</italic>
+     <strikeout>false</strikeout>
     </font>
    </property>
    <property name="text">
-    <string>Account owner:</string>
+    <string>Owner name placeholder</string>
    </property>
   </widget>
   <widget class="QWidget" name="verticalLayoutWidget_2">

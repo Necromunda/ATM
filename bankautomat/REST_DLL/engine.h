@@ -11,7 +11,7 @@ class Engine : public QObject
     Q_OBJECT
 public:
     Engine(QObject *parent = nullptr);
-    void getData(QString, QString, QString, QString);
+    void getData(QByteArray, QString, QString, QString);
 
 private:
     QNetworkAccessManager *manager;
@@ -20,7 +20,7 @@ private:
     QByteArray response_data;
 
 signals:
-    void sendTransfers(QString);
+    void sendTransfers(QByteArray);
 };
 
 #endif // ENGINE_H

@@ -36,13 +36,14 @@ signals:
     void getNumber(void);
     void sendCardNumberToLogin(QString);
     void loggedOutRestartEngine(void);
-    void getREST(QString, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
+    void getREST(QByteArray, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
+    void sendRestResToBankmain(QByteArray);
 
 public slots:
     void recvCardNumberFromDll(QString);
     void recvTokenFromLogin(QByteArray);
     void loggedOut(void);
-    void recvResultsFromREST(QString);
+    void recvResultsFromREST(QByteArray);
 
 private slots:
     void on_exitApp_clicked();

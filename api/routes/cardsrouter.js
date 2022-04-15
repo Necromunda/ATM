@@ -13,6 +13,24 @@ function(request, response) {
   });
 });
 
+router.get('/name/:card_number?',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getNameByCardNumber(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.send(err);
+        //response.json(err);
+      } else {
+        if (dbResult == '{"fullname":null}') {
+          response.json("Name 404")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
 router.get('/:card_number?',
  function(request, response) {
   if (request.params.card_number) {
@@ -23,7 +41,7 @@ router.get('/:card_number?',
         if (dbResult == '') {
           response.send("ID not found")
         } else {
-        response.json(dbResult[0]);
+          response.json(dbResult[0]);
         }
       }
     });

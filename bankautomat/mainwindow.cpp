@@ -30,11 +30,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     pREST = new REST_DLL;
 
-    connect(this, SIGNAL(getREST(QString, QString, QString, QString)),
-            pREST,SLOT(ExecuteRestOperation(QString, QString, QString, QString)));
+    connect(this, SIGNAL(getREST(QByteArray, QString, QString, QString)),
+            pREST,SLOT(ExecuteRestOperation(QByteArray, QString, QString, QString)));
 
-    connect(pREST,SIGNAL(sendResultToExe(QString)),
-            this,SLOT(recvResultsFromREST(QString)));
+    connect(pREST,SIGNAL(sendResultToExe(QByteArray)),
+            this,SLOT(recvResultsFromREST(QByteArray)));
 
     // This signal starts the process of reading the RFID-device
     emit getNumber();
@@ -77,6 +77,10 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
     connect(pBankMain,SIGNAL(loggingOut(void)),
             this,SLOT(loggedOut(void)));
 
+    connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
+            pBankMain,SLOT(recvRestResultsFromExe(QByteArray)));
+
+    emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
     pBankMain->show();
 }
 
@@ -95,9 +99,10 @@ void MainWindow::on_exitApp_clicked()
     exit(0);
 }
 
-void MainWindow::recvResultsFromREST(QString msg)
+void MainWindow::recvResultsFromREST(QByteArray msg)
 {
-    ui->REST_results->setText(msg);
+//    ui->REST_results->setText(msg);
+    emit sendRestResToBankmain(msg);
 }
 
 void MainWindow::on_Button_rest_clicked()
@@ -109,7 +114,7 @@ void MainWindow::on_Button_rest_clicked()
     QString body = ui->lineEdit_body->text();
 
     if(token != "" && metodi != "" && tarkenne != "" && body != ""){
-        emit getREST(token, metodi, tarkenne, body);
+        emit getREST(myToken, metodi, tarkenne, body);
     }
     else{
         ui->REST_results->setText("Täytä joka kenttä ennen lähetystä!");

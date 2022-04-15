@@ -3,21 +3,24 @@
 REST_DLL::REST_DLL(QObject *parent) : QObject(parent)
 {
     pENGINE = new Engine;
-    connect(pENGINE,SIGNAL(sendTransfers(QString)),
-            this, SLOT(getResultsFromEngine(QString)));
+
+    connect(pENGINE,SIGNAL(sendTransfers(QByteArray)),
+            this, SLOT(getResultsFromEngine(QByteArray)));
 }
 
-REST_DLL::~REST_DLL(){
+REST_DLL::~REST_DLL()
+{
     delete pENGINE;
     pENGINE = nullptr;
 }
 
-void REST_DLL::getResultsFromEngine(QString msg)
+void REST_DLL::getResultsFromEngine(QByteArray msg)
 {
     emit sendResultToExe(msg);
 }
 
-void REST_DLL::ExecuteRestOperation(QString token, QString method, QString route, QString body)
+void REST_DLL::ExecuteRestOperation(QByteArray token, QString method, QString route, QString body)
 {
+    qDebug() << token;
     pENGINE->getData(token, method, route, body);
 }

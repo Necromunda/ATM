@@ -5,20 +5,24 @@ Engine::Engine(QObject *parent) : QObject(parent)
 
 }
 
-void Engine::getData(QString token, QString method, QString route, QString body)
+void Engine::getData(QByteArray token, QString method, QString route, QString body)
 {
-    qDebug() << "GetData from engine called with " + token + method + route + body;
+    qDebug() << "GetData from engine called with: ";
+    qDebug() << "Token: " << token;
+    qDebug() << "Method: " << method;
+    qDebug() << "Route: " << route;
+    qDebug() << "Body: " << body;
     manager = new QNetworkAccessManager();
     QObject::connect(manager, &QNetworkAccessManager::finished,
         this, [=](QNetworkReply *reply) {
             if (reply->error()) {
                 QString answer = reply->errorString();
                 qDebug() << reply->errorString();
-                emit sendTransfers(answer);
+//                emit sendTransfers(answer);
                 return;
             }
 
-            QString answer = reply->readAll();
+            QByteArray answer=reply->readAll();
 
             qDebug() << answer;
             emit sendTransfers(answer);
@@ -26,8 +30,9 @@ void Engine::getData(QString token, QString method, QString route, QString body)
     );
     request.setUrl(QUrl("http://localhost:3000/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QByteArray bearerToken="Bearer ";
-    bearerToken+=token;
+//    QByteArray bearerToken="Bearer ";
+//    bearerToken+=token;
+    QByteArray bearerToken = token; // Token lähetetään QByteArrayna muodossa "Bearer <token>" exestä.
     request.setRawHeader(QByteArray("Authorization"),(bearerToken));
     if(method == "get" || method == "GET"){
         manager->get(request);
@@ -48,9 +53,5 @@ void Engine::getData(QString token, QString method, QString route, QString body)
         manager->deleteResource(request);
     }
 
-
-
 //    emit sendTransfers("kuuluuko? " +QString::number(i) + " vastaus: ");
-
-
 }

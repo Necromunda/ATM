@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QDialog>
 #include <QDebug>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include "drawmoney.h"
 
 namespace Ui {
@@ -19,6 +21,7 @@ public:
     ~bankmain();
 
 private slots:
+    void recvRestResultsFromExe(QByteArray);
     void on_balanceButton_clicked();
     void on_accountActionsButton_clicked();
     void on_prevActionsButton_clicked();
