@@ -33,7 +33,7 @@ void drawmoney::on_drawButton_clicked()
 {
     drawThis = ui->drawMoneyLineEdit->text();
     qDebug() << "Draw this amout: " << drawThis;
-//    emit drawThisAmount(drawThis);    // Uncomment when rest-api ready
+    emit drawThisAmount(drawThis);    // Uncomment when rest-api ready
 }
 
 void drawmoney::on_amountCustomButton_clicked()

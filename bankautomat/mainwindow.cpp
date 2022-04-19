@@ -42,6 +42,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    qDebug() << "MainWindow destructor";
     delete ui;
     ui = nullptr;
 
@@ -56,31 +57,17 @@ MainWindow::~MainWindow()
     
     delete pREST;
     pREST = nullptr;
-
 }
 
-void MainWindow::restOps(int id)
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-//    qDebug() << id;
-//    switch (id) {
-//    case 1: // Get account owner name from databse
-//        emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
-//        connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-//                pBankMain,SLOT(setName(QByteArray)));
-//        emit sendRestResToBankmain(restAnsw);
-//        disconnect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-//                pBankMain,SLOT(setName(QByteArray)));
-//        qDebug() << "here?";
-//        break;
-//    case 2: // Get account balance
-//        emit getREST(myToken, "GET", "cards/balance/"+cardNumber, "");
-//        connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-//                pBankMain,SLOT(setBalance(QByteArray)));
-//        emit sendRestResToBankmain(restAnsw);
-//        disconnect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-//                pBankMain,SLOT(setName(QByteArray)));
-//        break;
-//    }
+    if (loggedIn) {
+        event->ignore();
+    } else {
+        qDebug() << "Application closed";
+        event->accept();
+        exit(0);
+    }
 }
 
 void MainWindow::recvCardNumberFromDll(QString recvd)
@@ -91,11 +78,12 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
 
 void MainWindow::recvTokenFromLogin(QByteArray token)
 {
+    loggedIn = true;
     myToken = "Bearer " + token;
     qDebug() << "Token: " << myToken;
+    qDebug() << "Logged in?: " << loggedIn;
     this->close();
-    bool loggedIn = false;
-    if (!loggedIn) {
+    if (loggedIn) {
         pBankMain = new bankmain;
     };
     connect(pBankMain,SIGNAL(loggingOut(void)),
@@ -104,17 +92,17 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
     connect(pBankMain,SIGNAL(updateBalance(void)),
             this,SLOT(getBalance(void)));
 
-    connect(this,SIGNAL(sendRestResToBankmain(QByteArray)),
-            pBankMain,SLOT(setName(QByteArray)));
+    connect(pBankMain,SIGNAL(drawMoneySignal(QString)),
+            this,SLOT(drawMoney(QString)));
 
-    emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
+    getName();
     pBankMain->show();
 }
 
 void MainWindow::loggedOut()
 {
     qDebug() << "Logged out";
-//    delete pBankMain;
+    loggedIn = false;
     pBankMain->close();
     this->show();
     emit loggedOutRestartEngine();
@@ -122,7 +110,7 @@ void MainWindow::loggedOut()
 
 void MainWindow::on_exitApp_clicked()
 {
-    qDebug() << "Exiting bank application.";
+    qDebug() << "Exit pressed, closing bank application.";
     exit(0);
 }
 
@@ -130,27 +118,25 @@ void MainWindow::recvResultsFromREST(QByteArray msg)
 {
     restAnsw = msg;
     qDebug() << "Rest done, result: " << restAnsw;
-    emit sendRestResToBankmain(restAnsw);
-    //    ui->REST_results->setText(msg);
+    emit sendRestResult(restAnsw);
+    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
 }
 
 void MainWindow::getBalance()
 {
-    restOps(2);
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(setBalance(QByteArray)));
+    emit getREST(myToken, "GET", "cards/balance/"+cardNumber, "");
 }
 
-void MainWindow::on_Button_rest_clicked()
+void MainWindow::drawMoney(QString msg)
 {
-    // Parametrit: Token, metodi tarkenne, body
-    QString token = ui->lineEdit_Token->text();
-    QString metodi = ui->lineEdit_metodi->text();
-    QString tarkenne = ui->lineEdit_tarkenne->text();
-    QString body = ui->lineEdit_body->text();
+//    emit getREST(myToken, "UPDATE", "cards/updateBalance/"+cardNumber, {"balance"+":"+msg});
+}
 
-    if(token != "" && metodi != "" && tarkenne != "" && body != ""){
-        emit getREST(myToken, metodi, tarkenne, body);
-    }
-    else{
-        ui->REST_results->setText("Täytä joka kenttä ennen lähetystä!");
-    }
+void MainWindow::getName()
+{
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(setName(QByteArray)));
+    emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
 }

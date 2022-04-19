@@ -72,6 +72,17 @@ router.get('/:card_number?',
   }
 });
 
+router.put('/updateBalance/:card_number', 
+function(request, response) {
+  cards.updateBalance(request.params.card_number, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(request.body);
+    }
+  });
+});
+
 router.put('/:card_number', 
 function(request, response) {
   cards.update(request.params.card_number, request.body, function(err, dbResult) {

@@ -40,6 +40,10 @@ const cards = {
         callback
       );
     });
+  },
+  updateBalance: function(id, accounts, callback) {
+    return db.query('UPDATE accounts SET balance=balance-? WHERE account_id in (select accounts_account_id from cards where card_number=?);',
+    [accounts.balance, id], callback);
   }
 };
 module.exports = cards;

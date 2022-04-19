@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QDebug>
+#include <QCloseEvent>
 #include "bankmain.h"
 #include "rfid_dll.h"
 #include "login_dll.h"
@@ -21,7 +22,6 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void restOps(int);
 
 private:
     Ui::MainWindow *ui;
@@ -31,24 +31,25 @@ private:
     REST_DLL *pREST;
     QString cardNumber;
     QByteArray myToken, restAnsw;
+    bool loggedIn = false;
+    void getName(void);
 
 signals:
     void getNumber(void);
     void sendCardNumberToLogin(QString);
     void loggedOutRestartEngine(void);
     void getREST(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
-    void sendRestResToBankmain(QByteArray);
+    void sendRestResult(QByteArray);
 
-public slots:
+private slots:
+    void closeEvent(QCloseEvent*);
     void recvCardNumberFromDll(QString);
     void recvTokenFromLogin(QByteArray);
     void loggedOut(void);
     void recvResultsFromREST(QByteArray);
     void getBalance(void);
-
-private slots:
+    void drawMoney(QString);
     void on_exitApp_clicked();
-    void on_Button_rest_clicked();
     
 };
 #endif // MAINWINDOW_H
