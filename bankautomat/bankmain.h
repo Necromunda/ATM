@@ -16,12 +16,18 @@ public:
     ~bankMain();
 
 private slots:
-    void on_btn_closeBankMain_clicked();
-
-    void on_btn_accountBalance_clicked();
+    void on_btn_withdrawMoney_clicked();
+    void on_btn_showBalance_clicked();
+    void on_btn_showTransactions_clicked();
+    void on_btn_logOut_clicked();
 
 private:
     Ui::bankMain *ui;
+
+
+
+signals:
+
 };
 
 #endif // BANKMAIN_H

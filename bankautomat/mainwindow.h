@@ -6,6 +6,8 @@
 #include <QTimer>
 #include "rfid_dll.h"
 #include "rfid_dll_engine.h"
+#include "bankmain.h"
+
 
 
 QT_BEGIN_NAMESPACE
@@ -24,6 +26,7 @@ enum states
 
 enum events
 {
+    programStart,           // program has started
     userInsertedCard,       // user inserted a valid card
     userGaveCorrectPin,     // user gave correct PIN
     userGaveWrongPin,       // user gave wrong PIN
@@ -39,9 +42,10 @@ enum events
     checkBalance_event,     // user wants to check account balance
     doneCheckingBalance,    // user is done checking account balance
     startTimer,             // timer starts if user does nothing
-    timerExpires,           // timer expired, closing current window / going back
-    cardRemoved,            // user removed card
-    cardLocked              // user gave wrong PIN three times, card gets locked
+    timerExpires,           // timer expired, closing current window / logging out
+    cardRemoved,            // card removed (or not not inserted)
+    cardLocked,             // user gave wrong PIN three times, card gets locked
+    userLoggedOut           // user logged out
 
 };
 
@@ -56,6 +60,7 @@ public:
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
+    bankMain *pBankMain;
 
     QString cardNumber;
 
@@ -88,6 +93,7 @@ signals:
     void startTimer_signal(states,events);
     void cardLocked_signal(states, events);
     void cardRemoved_signal(states, events);
+    void logOut_signal(states, events);
 
 
 
@@ -96,13 +102,14 @@ public slots:
     void recvTransfersFromDll(QString);
 
     void runStateMachine(states, events);
-    //void handleTimeout();
+    void handleTimeout();
 
 private slots:
     void on_transfersButton_clicked();
     //void on_withdrawalButton_clicked();
     //void on_showTransactionsButton_clicked();
     //void on_checkBalanceButton_clicked();
+    //void on_logOutButton_clicked();
 
 
 };

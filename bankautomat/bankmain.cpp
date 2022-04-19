@@ -11,16 +11,28 @@ bankMain::bankMain(QWidget *parent) :
 bankMain::~bankMain()
 {
     delete ui;
+    ui = nullptr;
+
 }
 
-void bankMain::on_btn_closeBankMain_clicked()
+void bankMain::on_btn_showBalance_clicked()
+{
+
+}
+
+void bankMain::on_btn_showTransactions_clicked()
+{
+
+}
+
+void bankMain::on_btn_withdrawMoney_clicked()
+{
+
+}
+
+
+void bankMain::on_btn_logOut_clicked()
 {
     close();
-}
-
-
-void bankMain::on_btn_accountBalance_clicked()
-{
-
 }
 

@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     pRFID = new RFID_DLL;
+    pBankMain = new bankMain(this);
 
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
@@ -32,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this,SIGNAL(cardRemoved_signal(states,events)),
             this,SLOT(runStateMachine(states,events)));
 
-
-
     connect(&this->timer,SIGNAL(timeout()),
             this,SLOT(handleTimeout()));
 
@@ -41,6 +40,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     // This signal starts the process of reading the RFID-device
     emit getNumber();
+
+    State = waitingCard;
+    Event = programStart;
+
+    runStateMachine(State,Event);
+
+
+
 }
 
 MainWindow::~MainWindow()
@@ -112,16 +119,35 @@ void MainWindow::runStateMachine(states s, events e)
     }
 }
 
+void MainWindow::handleTimeout()
+{
+    State = waitingCard;
+    Event = timerExpires;
+    runStateMachine(State,Event);
+}
+
+
+
 
 void MainWindow::waitingCardHandler(events e)
 {
     qDebug()<<"State = "<<State<<" and event = "<< e;
-    if(e == userInsertedCard)
+    if(e == programStart)
+    {
+        State = waitingCard;
+        qDebug()<<"Entered to waitingCard state";
+    }
+    else if(e == userInsertedCard)
     {
         State = waitingPin;
         emit cardNumberRead_signal(State,Event);
         qDebug()<<"Entered to waitingPin state";
     }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
+
 }
 void MainWindow::waitingPinHandler(events e)
 {
