@@ -14,32 +14,34 @@ QT_END_NAMESPACE
 
 enum states
 {
-    waitingCard,
-    waitingPin,
-    userLogged,
-    withdrawMoney,
-    showTransactions,
-    checkBalance
+    waitingCard,        // program waits for user to insert a valid card
+    waitingPin,         // valid card inserted, program waits for user to give a PIN number
+    userLogged,         // valid card and correct PIN, user has logged in succesfully
+    withdrawMoney,      // Money withdrawal window
+    showTransactions,   // Show transactions window
+    checkBalance        // Check balance window
 };
 
 enum events
 {
-    userInsertedCard,
-    userGaveCorrectPin,
-    userGaveWrongPin,
-    pinCorrect,
-    pinWrong,
-    debitChosen,
-    creditChosen,
-    attemptWithdrawal,
-    doneWithdrawing,
-    insufficientBalance,
-    showTransactions_event,
-    doneShowingTransactions,
-    checkBalance_event,
-    doneCheckingBalance,
-    cardRemoved,
-    cardLocked
+    userInsertedCard,       // user inserted a valid card
+    userGaveCorrectPin,     // user gave correct PIN
+    userGaveWrongPin,       // user gave wrong PIN
+    pinCorrect,             // PIN was correct, moving on
+    pinWrong,               // PIN was wrong, staying here
+    debitChosen,            // user chose debit
+    creditChosen,           // user chose credit
+    attemptWithdrawal,      // user attempts withdrawal
+    doneWithdrawing,        // user quits withdrawing
+    insufficientBalance,    // withdrawing denied, insufficient account balance
+    showTransactions_event, // user wants to see transactions
+    doneShowingTransactions,// user is done seeing transactions
+    checkBalance_event,     // user wants to check account balance
+    doneCheckingBalance,    // user is done checking account balance
+    startTimer,             // timer starts if user does nothing
+    timerExpires,           // timer expired, closing current window / going back
+    cardRemoved,            // user removed card
+    cardLocked              // user gave wrong PIN three times, card gets locked
 
 };
 
@@ -84,6 +86,7 @@ signals:
     void attemptWithdrawal_signal(states, events);
     void doneWithdrawing_signal(states, events);
     void startTimer_signal(states,events);
+    void cardLocked_signal(states, events);
     void cardRemoved_signal(states, events);
 
 
@@ -98,6 +101,7 @@ public slots:
 private slots:
     void on_transfersButton_clicked();
     //void on_withdrawalButton_clicked();
+    //void on_showTransactionsButton_clicked();
     //void on_checkBalanceButton_clicked();
 
 

@@ -11,8 +11,32 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
 
-    connect(pRFID,SIGNAL(sendCardNumberToExe(QString)),
-            this,SLOT(recvCardNumberFromDll(QString)));
+    connect(pRFID,SIGNAL(getTransfers(QString)),
+            this,SLOT(recvTransfersFromDll(QString)));
+
+    connect(this,SIGNAL(cardNumberRead_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+    connect(this,SIGNAL(pinCorrect_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+    connect(this,SIGNAL(attemptWithdrawal_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+    connect(this,SIGNAL(showTransactions_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+    connect(this,SIGNAL(checkBalance_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+    connect(this,SIGNAL(cardRemoved_signal(states,events)),
+            this,SLOT(runStateMachine(states,events)));
+
+
+
+    connect(&this->timer,SIGNAL(timeout()),
+            this,SLOT(handleTimeout()));
+
 
 
     // This signal starts the process of reading the RFID-device
@@ -129,14 +153,30 @@ void MainWindow::userLoggedHandler(events e)
 
     if(e == attemptWithdrawal)
     {
-        qDebug()<<"Exiting from userLogged state, emitting attemptWithdrawal_signal";
+        qDebug()<<"Exiting from userLogged state, entering to withdrawMoney state, emitting attemptWithdrawal_signal";
         State = withdrawMoney;
         Event = attemptWithdrawal;
         emit attemptWithdrawal_signal(State,Event);
         //runStateMachine(State,Event);
-
     }
-
+    else if(e == showTransactions_event)
+    {
+        qDebug()<<"Exiting from userLogged state, entering to showTransactions State, emitting showTransactions_signal";
+        State = showTransactions;
+        Event = showTransactions_event;
+        emit showTransactions_signal(State,Event);
+    }
+    else if(e == checkBalance_event)
+    {
+        qDebug()<<"Exiting from userLogged state, entering to checkBalance state, emitting checkBalance_signal";
+        State = checkBalance;
+        Event = checkBalance_event;
+        emit checkBalance_signal(State,Event);
+    }
+    else
+    {
+        qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
+    }
 }
 
 
@@ -207,3 +247,65 @@ void MainWindow::checkBalanceHandler(events e)
         qDebug()<<"Wrong event in this state = "<<State<<" Event = "<<e;
     }
 }
+
+/******************************************
+   Click Handlers
+******************************************/
+
+/*
+
+void MainWindow::on_transfersButton_clicked()
+{
+    // State =
+    // Event =
+    runStateMachine(State,Event);
+}
+
+void MainWindow::on_withDrawalButton_clicked()
+{
+     State = withdrawMoney;
+     Event = attemptWithdrawal;
+    runStateMachine(State,Event);
+}
+
+
+void MainWindow::on_showTransactionsButton_clicked()
+{
+    State = showTransactions;
+    Event = showTransactions_event;
+    runStateMachine(State,Event);
+}
+
+
+void MainWindow::on_checkBalanceButton_clicked()
+{
+    State = checkBalance;
+    Event = checkBalance_event;
+    runStateMachine(State,Event);
+}
+
+
+void MainWindow::on_clickHandlerButtonPohja1_clicked()
+{
+    State =
+    Event =
+    runStateMachine(State,Event);
+}
+
+
+void MainWindow::on_clickHandlerButtonPohja2_clicked()
+{
+    State =
+    Event =
+    runStateMachine(State,Event);
+}
+
+
+void MainWindow::on_clickHandlerButtonPohja3_clicked()
+{
+    State =
+    Event =
+    runStateMachine(State,Event);
+}
+
+*/
