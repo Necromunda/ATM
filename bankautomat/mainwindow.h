@@ -40,6 +40,7 @@ signals:
     void loggedOutRestartEngine(void);
     void getREST(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
     void sendRestResult(QByteArray);
+    void beginTimer(void);
 
 private slots:
     void closeEvent(QCloseEvent*);
@@ -50,6 +51,7 @@ private slots:
     void getBalance(void);
     void drawMoney(QString);
     void on_exitApp_clicked();
-    
+
+    void on_pushButton_clicked();
 };
 #endif // MAINWINDOW_H

@@ -24,6 +24,11 @@ QString drawmoney::moneyHandler(int money)
     return QString::number(amount);
 }
 
+void drawmoney::negativeBal(QString bal)
+{
+    ui->drawMoneyLineEdit->setText(bal);
+}
+
 void drawmoney::on_closeButton_clicked()
 {
     this->close();
@@ -33,7 +38,7 @@ void drawmoney::on_drawButton_clicked()
 {
     drawThis = ui->drawMoneyLineEdit->text();
     qDebug() << "Draw this amout: " << drawThis;
-    emit drawThisAmount(drawThis);    // Uncomment when rest-api ready
+    emit drawThisAmount(drawThis);
 }
 
 void drawmoney::on_amountCustomButton_clicked()

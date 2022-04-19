@@ -86,6 +86,9 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
     if (loggedIn) {
         pBankMain = new bankmain;
     };
+    connect(this,SIGNAL(beginTimer(void)),
+            pBankMain,SLOT(startTimer(void)));
+
     connect(pBankMain,SIGNAL(loggingOut(void)),
             this,SLOT(loggedOut(void)));
 
@@ -96,6 +99,7 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
             this,SLOT(drawMoney(QString)));
 
     getName();
+    emit beginTimer();
     pBankMain->show();
 }
 
@@ -131,7 +135,7 @@ void MainWindow::getBalance()
 
 void MainWindow::drawMoney(QString msg)
 {
-//    emit getREST(myToken, "UPDATE", "cards/updateBalance/"+cardNumber, {"balance"+":"+msg});
+    emit getREST(myToken, "WITHDRAW", "cards/updateBalance/"+cardNumber, msg);
 }
 
 void MainWindow::getName()
@@ -140,3 +144,10 @@ void MainWindow::getName()
             pBankMain,SLOT(setName(QByteArray)));
     emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
 }
+
+void MainWindow::on_pushButton_clicked()
+{
+    cardNumber = "06000649B0";
+    emit sendCardNumberToLogin(cardNumber);
+}
+

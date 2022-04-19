@@ -84,5 +84,7 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
 void LOGIN_ENGINE::rejected()
 {
     qDebug() << "Window was closed";
+    tries = 3;
+    emit wrongPinMsg("Enter 4 digit pin.");
     emit loginFailedInEngine();
 }

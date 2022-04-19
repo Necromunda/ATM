@@ -2,7 +2,6 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
-    qDebug() << "RFID_ENGINE constructor";
     connect(this,SIGNAL(checkCard()),
             this,SLOT(dbConnect()));
 }
@@ -37,7 +36,6 @@ void RFID_DLL_ENGINE::readRFID()
 
 void RFID_DLL_ENGINE::portSettings(void)
 {
-    qDebug() << "In settings";
     foreach (const QSerialPortInfo &info, QSerialPortInfo::availablePorts()) {
         qDebug() << "Port : " << info.portName();
         serial.setPort(info);

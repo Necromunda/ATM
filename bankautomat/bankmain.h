@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QCloseEvent>
+#include <QTimer>
 #include "drawmoney.h"
 
 namespace Ui {
@@ -22,6 +23,9 @@ public:
     ~bankmain();
 
 private slots:
+    void startTimer(void);
+    void timeout(void);
+    void initTimer(void);
     void closeEvent(QCloseEvent*);
     void setName(QByteArray);
     void setBalance(QByteArray);
@@ -37,11 +41,15 @@ signals:
     void loggingOut(void);
     void updateBalance(void);
     void drawMoneySignal(QString);
+    void cancelWithdrawal(QString);
+    void restartTimer(void);
 
 private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
+    QTimer *timer;
     int myBalance;
+
 };
 
 #endif // BANKMAIN_H

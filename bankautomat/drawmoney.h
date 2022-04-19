@@ -20,6 +20,7 @@ public:
     QString moneyHandler(int);
 
 private slots:
+    void negativeBal(QString);
     void on_closeButton_clicked();
     void on_drawButton_clicked();
     void on_amountCustomButton_clicked();
