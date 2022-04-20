@@ -111,6 +111,7 @@ void bankmain::on_drawMoneyButton_clicked()
     connect(pDrawMoney, SIGNAL(drawThisAmount(QString)),
             this,SLOT(drawMoney(QString)));
     pDrawMoney->show();
+    emit updateBalance();
 }
 
 void bankmain::drawMoney(QString msg)
@@ -122,6 +123,7 @@ void bankmain::drawMoney(QString msg)
 
     if ((oldBal-withdrawal) >= 0) {
         emit drawMoneySignal(msg);
+        emit addTransfer();
     } else {
         emit cancelWithdrawal("Balance too low");
     }

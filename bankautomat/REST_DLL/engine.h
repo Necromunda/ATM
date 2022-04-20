@@ -12,6 +12,7 @@ class Engine : public QObject
 public:
     Engine(QObject *parent = nullptr);
     void getData(QByteArray, QString, QString, QString);
+    void postTransfer(QByteArray, QString, QString, QJsonObject);
 
 private:
     QNetworkAccessManager *manager;

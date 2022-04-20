@@ -23,3 +23,8 @@ void REST_DLL::ExecuteRestOperation(QByteArray token, QString method, QString ro
 {
     pENGINE->getData(token, method, route, body);
 }
+
+void REST_DLL::execPostTransfer(QByteArray token, QString method, QString route, QJsonObject body)
+{
+    pENGINE->postTransfer(token, method, route, body);
+}

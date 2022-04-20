@@ -43,12 +43,12 @@ signals:
     void drawMoneySignal(QString);
     void cancelWithdrawal(QString);
     void restartTimer(void);
+    void addTransfer(void);
 
 private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
     QTimer *timer;
-
 };
 
 #endif // BANKMAIN_H

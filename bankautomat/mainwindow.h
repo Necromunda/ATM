@@ -4,6 +4,9 @@
 #include <QMainWindow>
 #include <QDebug>
 #include <QCloseEvent>
+#include <QDate>
+#include <QTime>
+#include <QJsonObject>
 #include "bankmain.h"
 #include "rfid_dll.h"
 #include "login_dll.h"
@@ -29,7 +32,7 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString cardNumber;
+    QString dateTime, cardNumber, amount;
     QByteArray myToken, restAnsw;
     bool loggedIn = false;
     bool bankW = false;
@@ -40,6 +43,8 @@ signals:
     void sendCardNumberToLogin(QString);
     void loggedOutRestartEngine(void);
     void getREST(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
+    void restName(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
+    void restTransfer(QByteArray, QString, QString, QJsonObject); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
     void sendRestResult(QByteArray);
     void beginTimer(void);
 
@@ -51,6 +56,7 @@ private slots:
     void recvResultsFromREST(QByteArray);
     void getBalance(void);
     void drawMoney(QString);
+    void postTransfer(void);
     void on_exitApp_clicked();
 
     void on_pushButton_clicked();

@@ -33,6 +33,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(this, SIGNAL(getREST(QByteArray, QString, QString, QString)),
             pREST,SLOT(ExecuteRestOperation(QByteArray, QString, QString, QString)));
 
+    connect(this, SIGNAL(restTransfer(QByteArray, QString, QString, QJsonObject)),
+            pREST,SLOT(execPostTransfer(QByteArray, QString, QString, QJsonObject)));
+
     connect(pREST,SIGNAL(sendResultToExe(QByteArray)),
             this,SLOT(recvResultsFromREST(QByteArray)));
 
@@ -93,6 +96,9 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
         connect(pBankMain,SIGNAL(drawMoneySignal(QString)),
                 this,SLOT(drawMoney(QString)));
 
+        connect(pBankMain,SIGNAL(addTransfer(void)),
+                this,SLOT(postTransfer(void)));
+
         connect(this,SIGNAL(beginTimer(void)),
                 pBankMain,SLOT(startTimer(void)));
         bankW = true;
@@ -127,6 +133,13 @@ void MainWindow::recvResultsFromREST(QByteArray msg)
     disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
 }
 
+void MainWindow::getName()
+{
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(setName(QByteArray)));
+    emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
+}
+
 void MainWindow::getBalance()
 {
     connect(this,SIGNAL(sendRestResult(QByteArray)),
@@ -136,15 +149,21 @@ void MainWindow::getBalance()
 
 void MainWindow::drawMoney(QString msg)
 {
+    amount = msg;
     emit getREST(myToken, "WITHDRAW", "cards/updateBalance/"+cardNumber, msg);
 }
 
-void MainWindow::getName()
+void MainWindow::postTransfer()
 {
-    connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(setName(QByteArray)));
-    emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
+    dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+    QJsonObject jsonObj;
+    jsonObj.insert("amount", amount);
+    jsonObj.insert("date", dateTime);
+    jsonObj.insert("card_number", cardNumber);
+    jsonObj.insert("accounts_account_id", "1");
+    emit restTransfer(myToken, "POST", "transfers/", jsonObj);
 }
+
 
 void MainWindow::on_pushButton_clicked()
 {
