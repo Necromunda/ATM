@@ -21,12 +21,16 @@ private:
     QByteArray myToken;
     QString pinCode, cardNumber, token, msg;
     int tries;
+    bool loginSuccesful = false;
 
 signals:
     void startAuth(void);
     void sendTokenToLogin(QByteArray);
     void wrongPinMsg(QString);
     void loginFailedInEngine(void);
+    void beginTimer(void);
+    void killTimer(void);
+    void resetTimer(void);
 
 private slots:
     void recvPin(QString);

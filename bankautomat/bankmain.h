@@ -21,9 +21,9 @@ class bankmain : public QDialog
 public:
     explicit bankmain(QWidget *parent = nullptr);
     ~bankmain();
-    void resetTimer(void);
 
 private slots:
+    void resetTimer();
     void startTimer(void);
     void timeout(void);
     void closeEvent(QCloseEvent*);
@@ -48,7 +48,6 @@ private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
     QTimer *timer;
-    int myBalance;
 
 };
 

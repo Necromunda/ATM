@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QDebug>
 #include <QCloseEvent>
+#include <QTimer>
 
 namespace Ui {
 class LoginUi;
@@ -20,6 +21,7 @@ public:
 
 private:
     Ui::LoginUi *ui;
+    QTimer *timer;
     QString pin;
 
 signals:
@@ -28,6 +30,10 @@ signals:
 
 private slots:
     void closeEvent(QCloseEvent*);
+    void startTimer(void);
+    void stopTimer(void);
+    void timeout(void);
+    void resetTimer(void);
     void wrongPin(QString);
     void on_pushButton_Ok_clicked();
     void on_pushButton_Clear_clicked();
@@ -41,7 +47,6 @@ private slots:
     void on_pushButton_7_clicked();
     void on_pushButton_8_clicked();
     void on_pushButton_9_clicked();
-
 };
 
 #endif // LOGINUI_H

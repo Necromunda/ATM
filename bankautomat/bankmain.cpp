@@ -29,29 +29,30 @@ bankmain::~bankmain()
 
 void bankmain::resetTimer()
 {
-    qDebug() << "Timer stopped. Time: " << timer->remainingTime();
+    qDebug() << "Bankmain timer stopped. Time: " << timer->remainingTime();
     timer->stop();
     timer->start();
-    qDebug() << "Timer restarted. Time: " << timer->remainingTime();
+    qDebug() << "Bankmain timer restarted. Time: " << timer->remainingTime();
 }
 
 void bankmain::startTimer()
 {
-    qDebug() << "Timeout timer started";
+    qDebug() << "Bankmain timeout timer started";
     timer->start();
 }
 
 void bankmain::timeout()
 {
-    qDebug() << "Timeout";
+    qDebug() << "Bankmain timeout";
     QWidget::close();
 }
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
+    ui->balanceLabel->clear();
     qDebug() << "Received close-event";
     event->accept();
-    qDebug() << "Close event. Time remaining: " << timer->remainingTime();
+    qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
     if (timer->isActive()) {
         timer->stop();
     }
