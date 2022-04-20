@@ -2,7 +2,6 @@
 
 Engine::Engine(QObject *parent) : QObject(parent)
 {
-
 }
 
 void Engine::getData(QByteArray token, QString method, QString route, QString body)

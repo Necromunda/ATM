@@ -25,7 +25,6 @@ public:
 private slots:
     void startTimer(void);
     void timeout(void);
-    void initTimer(void);
     void closeEvent(QCloseEvent*);
     void setName(QByteArray);
     void setBalance(QByteArray);
@@ -36,6 +35,7 @@ private slots:
     void on_nextActionsButton_clicked();
     void on_drawMoneyButton_clicked();
     void on_exitButton_clicked();
+    void killTimer(void);
 
 signals:
     void loggingOut(void);
@@ -43,6 +43,8 @@ signals:
     void drawMoneySignal(QString);
     void cancelWithdrawal(QString);
     void restartTimer(void);
+    void stopTimer(void);
+    void restartRFIDReader(void);
 
 private:
     Ui::bankmain *ui;

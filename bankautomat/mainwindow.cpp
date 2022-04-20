@@ -36,7 +36,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pREST,SIGNAL(sendResultToExe(QByteArray)),
             this,SLOT(recvResultsFromREST(QByteArray)));
 
+    pBankMain = new bankmain;
+
     // This signal starts the process of reading the RFID-device
+    qDebug() << "Starting RFID-reader.";
     emit getNumber();
 }
 
@@ -80,12 +83,6 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
 {
     loggedIn = true;
     myToken = "Bearer " + token;
-    qDebug() << "Token: " << myToken;
-    qDebug() << "Logged in?: " << loggedIn;
-    this->close();
-    if (loggedIn) {
-        pBankMain = new bankmain;
-    };
     connect(this,SIGNAL(beginTimer(void)),
             pBankMain,SLOT(startTimer(void)));
 
@@ -99,23 +96,25 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
             this,SLOT(drawMoney(QString)));
 
     getName();
-    emit beginTimer();
+//    emit beginTimer();
+    this->close();
     pBankMain->show();
 }
 
 void MainWindow::loggedOut()
 {
-    qDebug() << "Logged out";
-    loggedIn = false;
-    pBankMain->close();
-    this->show();
-    emit loggedOutRestartEngine();
+    if (loggedIn) {
+        qDebug() << "Logged out";
+        pBankMain->close();
+        this->show();
+        loggedIn = false;
+        emit loggedOutRestartEngine();
+    }
 }
 
 void MainWindow::on_exitApp_clicked()
 {
-    qDebug() << "Exit pressed, closing bank application.";
-    exit(0);
+    QWidget::close();
 }
 
 void MainWindow::recvResultsFromREST(QByteArray msg)

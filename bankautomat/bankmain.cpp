@@ -7,6 +7,13 @@ bankmain::bankmain(QWidget *parent) :
 {
     qDebug() << "bankmain constructor";
     ui->setupUi(this);
+//    timer = new QTimer(this);
+//    timer->setSingleShot(true);
+//    timer->setInterval(5000);
+//    connect(timer,SIGNAL(timeout()),
+//            this,SLOT(timeout()));
+//    connect(this,SIGNAL(stopTimer(void)),
+//            this, SLOT(killTimer(void)));
 }
 
 bankmain::~bankmain()
@@ -23,34 +30,30 @@ bankmain::~bankmain()
 
 void bankmain::startTimer()
 {
-    timer = new QTimer(this);
-    timer->setSingleShot(true);
-    connect(timer,SIGNAL(timeout()),
-            this,SLOT(timeout()));
-    connect(this,SIGNAL(restartTimer(void)),
-            this, SLOT(initTimer(void)));
-    emit restartTimer();
+    qDebug() << "Timeout timer started";
+    timer->start(5000);
 }
 
 void bankmain::timeout()
 {
     qDebug() << "Timeout";
-    delete timer;
-    timer = nullptr;
     emit loggingOut();
 }
 
-void bankmain::initTimer()
+void bankmain::killTimer()
 {
-    qDebug() << "Timeout timer started";
-    timer->setInterval(5000);
-    timer->start();
+    timer->stop();
 }
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
     event->accept();
     emit loggingOut();
+}
+
+void bankmain::on_exitButton_clicked()
+{
+    QWidget::close();
 }
 
 void bankmain::setName(QByteArray msg)
@@ -94,7 +97,7 @@ void bankmain::on_nextActionsButton_clicked()
 
 void bankmain::on_drawMoneyButton_clicked()
 {
-    emit restartTimer();
+//    emit stopTimer();
     pDrawMoney = new drawmoney;
     connect(pDrawMoney, SIGNAL(drawThisAmount(QString)),
             this,SLOT(drawMoney(QString)));
@@ -113,9 +116,4 @@ void bankmain::drawMoney(QString msg)
     } else {
         emit cancelWithdrawal("Balance too low");
     }
-}
-
-void bankmain::on_exitButton_clicked()
-{
-    emit loggingOut();
 }
