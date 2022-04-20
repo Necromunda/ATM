@@ -7,17 +7,16 @@ bankmain::bankmain(QWidget *parent) :
 {
     qDebug() << "bankmain constructor";
     ui->setupUi(this);
-//    timer = new QTimer(this);
-//    timer->setSingleShot(true);
-//    timer->setInterval(5000);
-//    connect(timer,SIGNAL(timeout()),
-//            this,SLOT(timeout()));
-//    connect(this,SIGNAL(stopTimer(void)),
-//            this, SLOT(killTimer(void)));
+    timer = new QTimer(this);
+    timer->setSingleShot(true);
+    timer->setInterval(30000);
+    connect(timer,SIGNAL(timeout()),
+            this,SLOT(timeout()));
 }
 
 bankmain::~bankmain()
 {
+    qDebug() << "bankmain destructor";
     delete ui;
     ui = nullptr;
 
@@ -28,26 +27,34 @@ bankmain::~bankmain()
     timer = nullptr;
 }
 
+void bankmain::resetTimer()
+{
+    qDebug() << "Timer stopped. Time: " << timer->remainingTime();
+    timer->stop();
+    timer->start();
+    qDebug() << "Timer restarted. Time: " << timer->remainingTime();
+}
+
 void bankmain::startTimer()
 {
     qDebug() << "Timeout timer started";
-    timer->start(5000);
+    timer->start();
 }
 
 void bankmain::timeout()
 {
     qDebug() << "Timeout";
-    emit loggingOut();
-}
-
-void bankmain::killTimer()
-{
-    timer->stop();
+    QWidget::close();
 }
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
+    qDebug() << "Received close-event";
     event->accept();
+    qDebug() << "Close event. Time remaining: " << timer->remainingTime();
+    if (timer->isActive()) {
+        timer->stop();
+    }
     emit loggingOut();
 }
 
@@ -77,28 +84,29 @@ void bankmain::setBalance(QByteArray msg)
 
 void bankmain::on_balanceButton_clicked()
 {
+    resetTimer();
     emit updateBalance();
 }
 
 void bankmain::on_accountActionsButton_clicked()
 {
-
+    resetTimer();
 }
 
 void bankmain::on_prevActionsButton_clicked()
 {
-
+    resetTimer();
 }
 
 void bankmain::on_nextActionsButton_clicked()
 {
-
+    resetTimer();
 }
 
 void bankmain::on_drawMoneyButton_clicked()
 {
-//    emit stopTimer();
-    pDrawMoney = new drawmoney;
+    resetTimer();
+    pDrawMoney = new drawmoney(this);
     connect(pDrawMoney, SIGNAL(drawThisAmount(QString)),
             this,SLOT(drawMoney(QString)));
     pDrawMoney->show();

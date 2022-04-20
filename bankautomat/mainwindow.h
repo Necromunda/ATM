@@ -32,6 +32,7 @@ private:
     QString cardNumber;
     QByteArray myToken, restAnsw;
     bool loggedIn = false;
+    bool bankW = false;
     void getName(void);
 
 signals:
