@@ -18,6 +18,10 @@ const cards = {
     return db.query('select balance from accounts where account_id in (select accounts_account_id from cards where card_number=?)',
     [card_number], callback);
   },
+  getAccountId: function(card_number, callback) {
+    return db.query('select accounts_account_id from cards where card_number=?',
+    [card_number], callback);
+  },
   add: function(cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {

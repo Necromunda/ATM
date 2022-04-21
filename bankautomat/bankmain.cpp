@@ -71,6 +71,7 @@ void bankmain::setName(QByteArray msg)
     QJsonObject json_obj = json_doc.object();
     QString res = json_obj["fullname"].toString();
     ui->ownerNameLabel->setText("Account owner: " + res);
+    emit getAccId();
 }
 
 void bankmain::setBalance(QByteArray msg)

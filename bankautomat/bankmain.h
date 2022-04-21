@@ -44,6 +44,7 @@ signals:
     void cancelWithdrawal(QString);
     void restartTimer(void);
     void addTransfer(void);
+    void getAccId(void);
 
 private:
     Ui::bankmain *ui;

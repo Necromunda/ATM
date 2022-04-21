@@ -13,6 +13,23 @@ function(request, response) {
   });
 });
 
+router.get('/accountId/:card_number',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getAccountId(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
 router.get('/name/:card_number',
  function(request, response) {
   if (request.params.card_number) {

@@ -32,8 +32,8 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString dateTime, cardNumber, amount;
-    QByteArray myToken, restAnsw;
+    QString dateTime, cardNumber, amount, accountId;
+    QByteArray myToken;
     bool loggedIn = false;
     bool bankW = false;
     void getName(void);
@@ -57,6 +57,8 @@ private slots:
     void getBalance(void);
     void drawMoney(QString);
     void postTransfer(void);
+    void getAccountId(void);
+    void recvAccountId(QByteArray);
     void on_exitApp_clicked();
 
     void on_pushButton_clicked();
