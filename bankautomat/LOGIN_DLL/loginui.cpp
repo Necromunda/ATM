@@ -15,7 +15,7 @@ LoginUi::LoginUi(QWidget *parent) :
 
 LoginUi::~LoginUi()
 {
-    qDebug() << "destroying login window";
+    qDebug() << "LoginUi destructor";
     delete ui;
     ui = nullptr;
 
@@ -26,6 +26,7 @@ LoginUi::~LoginUi()
 void LoginUi::closeEvent(QCloseEvent *event)
 {
     event->accept();
+    ui->lineEdit->clear();
     emit aboutToQuit();
 }
 
@@ -54,7 +55,6 @@ void LoginUi::timeout()
     qDebug() << "Login timeout";
     QWidget::close();
 }
-
 
 void LoginUi::wrongPin(QString msg)
 {

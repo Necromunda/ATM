@@ -9,7 +9,7 @@ class LOGIN_DLL_EXPORT LOGIN_DLL : public QObject
 {
     Q_OBJECT
 public:
-    LOGIN_DLL();
+    LOGIN_DLL(QObject *parent = nullptr);
     ~LOGIN_DLL();
     void createEngine(void);
 

@@ -6,6 +6,7 @@ drawmoney::drawmoney(QWidget *parent) :
     ui(new Ui::drawmoney)
 {
     ui->setupUi(this);
+    qDebug() << "pDawMoney window created";
     amount = 0;
     cAmount = 0;
     ui->customAmountLineEdit->setValidator(new QIntValidator(0, 100, this));
@@ -13,6 +14,7 @@ drawmoney::drawmoney(QWidget *parent) :
 
 drawmoney::~drawmoney()
 {
+    qDebug() << "pDawMoney window destroyed";
     delete ui;
     ui = nullptr;
 }
@@ -22,6 +24,11 @@ QString drawmoney::moneyHandler(int money)
     amount = ui->drawMoneyLineEdit->text().toInt();
     amount += money;
     return QString::number(amount);
+}
+
+void drawmoney::closeEvent(QCloseEvent *)
+{
+    this->deleteLater();
 }
 
 void drawmoney::negativeBal(QString bal)

@@ -6,6 +6,10 @@ RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
             this,SLOT(dbConnect()));
 }
 
+RFID_DLL_ENGINE::~RFID_DLL_ENGINE()
+{
+}
+
 void RFID_DLL_ENGINE::readRFID()
 {
     if (!settingsSet) {

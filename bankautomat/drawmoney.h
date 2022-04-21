@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QDebug>
 #include <QIntValidator>
+#include <QCloseEvent>
 
 namespace Ui {
 class drawmoney;
@@ -20,6 +21,7 @@ public:
     QString moneyHandler(int);
 
 private slots:
+    void closeEvent(QCloseEvent*);
     void negativeBal(QString);
     void on_closeButton_clicked();
     void on_drawButton_clicked();

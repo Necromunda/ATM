@@ -17,6 +17,7 @@ class RFID_DLL_ENGINE : public QObject
 
 public:
     RFID_DLL_ENGINE(QObject *parent = nullptr);
+    ~RFID_DLL_ENGINE();
     void readRFID(void);
     void portSettings(void);
 

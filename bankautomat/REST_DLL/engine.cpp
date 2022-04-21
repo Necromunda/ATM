@@ -4,33 +4,31 @@ Engine::Engine(QObject *parent) : QObject(parent)
 {
 }
 
+Engine::~Engine()
+{
+}
+
 void Engine::getData(QByteArray token, QString method, QString route, QString body)
 {
-    //    qDebug() << "GetData from engine called with: ";
-    //    qDebug() << "Token: " << token;
-    //    qDebug() << "Method: " << method;
-    //    qDebug() << "Route: " << route;
-    //    qDebug() << "Body: " << body;
     manager = new QNetworkAccessManager();
     QObject::connect(manager, &QNetworkAccessManager::finished,
                      this, [=](QNetworkReply *reply) {
         if (reply->error()) {
             QString answer = reply->errorString();
             qDebug() << reply->errorString();
-            //                emit sendTransfers(answer);
+            //  emit sendTransfers(answer);
             return;
         }
 
         QByteArray answer=reply->readAll();
 
-        //            qDebug() << answer;
+        //  qDebug() << answer;
         emit sendTransfers(answer);
     }
     );
     request.setUrl(QUrl("http://localhost:3000/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QByteArray bearerToken = token; // Token lähetetään QByteArrayna muodossa "Bearer <token>" exestä.
-    request.setRawHeader(QByteArray("Authorization"),(bearerToken));
+    request.setRawHeader(QByteArray("Authorization"),(token));
     if(method == "get" || method == "GET"){
         manager->get(request);
     } else if(method == "post" || method == "POST"){
@@ -46,14 +44,6 @@ void Engine::getData(QByteArray token, QString method, QString route, QString bo
     } else if(method == "withdraw" || method == "WITHDRAW"){
         QJsonObject jsonObj;
         jsonObj.insert("balance",body);
-        qDebug() << "Body: " << jsonObj;
-        manager->put(request, QJsonDocument(jsonObj).toJson());
-    } else if (method == "postTransfer" || method == "postTransfer") {
-        QJsonObject jsonObj;
-        jsonObj.insert("amount",body);
-        jsonObj.insert("date",body);
-        jsonObj.insert("card_number",body);
-        jsonObj.insert("accounts_account_id",body);
         qDebug() << "Body: " << jsonObj;
         manager->put(request, QJsonDocument(jsonObj).toJson());
     } else if(method == "delete" || method == "DELETE"){
@@ -79,9 +69,10 @@ void Engine::postTransfer(QByteArray token, QString method, QString route, QJson
     );
     request.setUrl(QUrl("http://localhost:3000/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
-    QByteArray bearerToken = token; // Token lähetetään QByteArrayna muodossa "Bearer <token>" exestä.
-    request.setRawHeader(QByteArray("Authorization"),(bearerToken));
-    if (method == "post" || method == "POST") {
+    request.setRawHeader(QByteArray("Authorization"),(token));
+    if(method == "get" || method == "GET"){
+        manager->get(request);
+    } else if (method == "post" || method == "POST") {
         QJsonObject jsonObj;
         jsonObj = body;
         qDebug() << "Body: " << jsonObj;

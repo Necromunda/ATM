@@ -1,10 +1,10 @@
 #ifndef RFID_DLL_H
 #define RFID_DLL_H
 
-#include "RFID_DLL_global.h"
-#include "rfid_dll_engine.h"
 #include <QObject>
 #include <QDebug>
+#include "RFID_DLL_global.h"
+#include "rfid_dll_engine.h"
 
 class RFID_DLL_EXPORT RFID_DLL : public QObject
 {

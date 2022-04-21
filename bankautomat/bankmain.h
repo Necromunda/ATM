@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QCloseEvent>
 #include <QTimer>
 #include "drawmoney.h"
@@ -30,6 +31,7 @@ private slots:
     void setName(QByteArray);
     void setBalance(QByteArray);
     void drawMoney(QString);
+    void recvTransferLog(QByteArray);
     void on_balanceButton_clicked();
     void on_accountActionsButton_clicked();
     void on_prevActionsButton_clicked();
@@ -45,6 +47,8 @@ signals:
     void restartTimer(void);
     void addTransfer(void);
     void getAccId(void);
+    void getAllTransfers();
+    void disconnectRestSignal(void);
 
 private:
     Ui::bankmain *ui;

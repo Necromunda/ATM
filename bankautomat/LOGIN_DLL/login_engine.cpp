@@ -4,7 +4,7 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 {
     qDebug() << "LOGIN_ENGINE constructor";
     tries = 3;
-    pLOGIN_UI = new LoginUi;
+    pLOGIN_UI = new LoginUi();
 
     connect(pLOGIN_UI,SIGNAL(sendPinToEngine(QString)),
             this,SLOT(recvPin(QString)));
@@ -26,6 +26,10 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 
     connect(this,SIGNAL(resetTimer(void)),
             pLOGIN_UI,SLOT(resetTimer(void)));
+}
+
+LOGIN_ENGINE::~LOGIN_ENGINE()
+{
 }
 
 void LOGIN_ENGINE::recvPin(QString code)

@@ -59,8 +59,11 @@ private slots:
     void postTransfer(void);
     void getAccountId(void);
     void recvAccountId(QByteArray);
+    void getTransferLog(void);
     void on_exitApp_clicked();
+    void disconnectRest(void);
 
     void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H

@@ -47,8 +47,8 @@ MainWindow::~MainWindow()
     delete pLOGIN;
     pLOGIN = nullptr;
 
-    delete pBankMain;
-    pBankMain = nullptr;
+//    delete pBankMain;
+//    pBankMain = nullptr;
     
     delete pREST;
     pREST = nullptr;
@@ -61,6 +61,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         qDebug() << "Application closed";
         event->accept();
+//        this->deleteLater();
         exit(0);
     }
 }
@@ -89,6 +90,10 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 pBankMain,SLOT(startTimer(void)));
         connect(pBankMain,SIGNAL(getAccId(void)),
                 this,SLOT(getAccountId(void)));
+        connect(pBankMain,SIGNAL(getAllTransfers(void)),
+                this,SLOT(getTransferLog(void)));
+        connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
+                this,SLOT(disconnectRest(void)));
         bankW = true;
     };
     getName();
@@ -104,17 +109,23 @@ void MainWindow::loggedOut()
         cardNumber = "";
         accountId = "";
         myToken = "";
-        pBankMain->close();
+        pBankMain->deleteLater();
         this->show();
         loggedIn = false;
-        disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+        bankW = false;
+        disconnectRest();
         emit loggedOutRestartEngine();
     }
 }
 
 void MainWindow::on_exitApp_clicked()
 {
-    QWidget::close();
+    this->close();
+}
+
+void MainWindow::disconnectRest()
+{
+    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
 }
 
 void MainWindow::recvResultsFromREST(QByteArray msg)
@@ -132,7 +143,7 @@ void MainWindow::getName()
 
 void MainWindow::getBalance()
 {
-    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+    disconnectRest();
     connect(this,SIGNAL(sendRestResult(QByteArray)),
             pBankMain,SLOT(setBalance(QByteArray)));
     emit getREST(myToken, "GET", "cards/balance/"+cardNumber, "");
@@ -141,7 +152,7 @@ void MainWindow::getBalance()
 void MainWindow::drawMoney(QString msg)
 {
     amount = msg;
-    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+    disconnectRest();
     emit getREST(myToken, "WITHDRAW", "cards/updateBalance/"+cardNumber, msg);
 }
 
@@ -152,13 +163,13 @@ void MainWindow::postTransfer()
     jsonObj.insert("amount", "-"+amount);
     jsonObj.insert("date", dateTime);
     jsonObj.insert("card_number", cardNumber);
-    jsonObj.insert("accounts_account_id", "1");
+    jsonObj.insert("accounts_account_id", accountId);
     emit restTransfer(myToken, "POST", "transfers/", jsonObj);
 }
 
 void MainWindow::getAccountId()
 {
-    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+    disconnectRest();
     connect(this,SIGNAL(sendRestResult(QByteArray)),
             this,SLOT(recvAccountId(QByteArray)));
     emit getREST(myToken, "GET", "cards/accountId/"+cardNumber, "");
@@ -166,11 +177,18 @@ void MainWindow::getAccountId()
 
 void MainWindow::recvAccountId(QByteArray msg)
 {
-    disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+    disconnectRest();
     QJsonDocument json_doc = QJsonDocument::fromJson(msg);
     QJsonObject json_obj = json_doc.object();
     accountId = QString::number(json_obj["accounts_account_id"].toInt());
     qDebug() << "Card: " << cardNumber << ", AccId: " << accountId;
+}
+
+void MainWindow::getTransferLog()
+{
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvTransferLog(QByteArray)));
+    emit getREST(myToken, "GET", "transfers/"+accountId, "");
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -179,3 +197,8 @@ void MainWindow::on_pushButton_clicked()
     emit sendCardNumberToLogin(cardNumber);
 }
 
+void MainWindow::on_pushButton_2_clicked()
+{
+    cardNumber = "06000649B0";
+    emit sendCardNumberToLogin(cardNumber);
+}

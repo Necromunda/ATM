@@ -1,11 +1,12 @@
 #include "login_dll.h"
 
-LOGIN_DLL::LOGIN_DLL()
+LOGIN_DLL::LOGIN_DLL(QObject *parent) : QObject(parent)
 {
 }
 
 LOGIN_DLL::~LOGIN_DLL()
 {
+    qDebug() << "LOGIN.dll destructor";
     delete pLOGIN_ENGINE;
     pLOGIN_ENGINE = nullptr;
 }

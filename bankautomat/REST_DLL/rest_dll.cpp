@@ -10,6 +10,7 @@ REST_DLL::REST_DLL(QObject *parent) : QObject(parent)
 
 REST_DLL::~REST_DLL()
 {
+    qDebug() << "REST.dll destructor";
     delete pENGINE;
     pENGINE = nullptr;
 }

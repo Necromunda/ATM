@@ -20,8 +20,8 @@ bankmain::~bankmain()
     delete ui;
     ui = nullptr;
 
-    delete pDrawMoney;
-    pDrawMoney = nullptr;
+//    delete pDrawMoney;
+//    pDrawMoney = nullptr;
 
     delete timer;
     timer = nullptr;
@@ -49,7 +49,6 @@ void bankmain::timeout()
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
-    ui->balanceLabel->clear();
     qDebug() << "Received close-event";
     event->accept();
     qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
@@ -93,6 +92,8 @@ void bankmain::on_balanceButton_clicked()
 void bankmain::on_accountActionsButton_clicked()
 {
     resetTimer();
+    emit disconnectRestSignal();
+    emit getAllTransfers();
 }
 
 void bankmain::on_prevActionsButton_clicked()
@@ -128,4 +129,17 @@ void bankmain::drawMoney(QString msg)
     } else {
         emit cancelWithdrawal("Balance too low");
     }
+}
+
+void bankmain::recvTransferLog(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonArray json_array = json_doc.array();
+    QString log;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        log+=QString::number(json_obj["transfer_id"].toInt())+", "+QString::number(json_obj["amount"].toInt())+", "+json_obj["date"].toString()+", "+json_obj["card_number"].toString()+", "+QString::number(json_obj["accounts_account_id"].toInt())+"\r";
+    }
+    ui->transferLogList->setText(log);
+    emit disconnectRestSignal();
 }

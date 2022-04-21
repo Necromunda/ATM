@@ -11,6 +11,7 @@ class Engine : public QObject
     Q_OBJECT
 public:
     Engine(QObject *parent = nullptr);
+    ~Engine();
     void getData(QByteArray, QString, QString, QString);
     void postTransfer(QByteArray, QString, QString, QJsonObject);
 

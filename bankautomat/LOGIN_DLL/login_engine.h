@@ -12,7 +12,8 @@ class LOGIN_ENGINE : public QObject
 {
     Q_OBJECT
 public:
-    explicit LOGIN_ENGINE(QObject *parent = nullptr);
+    LOGIN_ENGINE(QObject *parent = nullptr);
+    ~LOGIN_ENGINE();
 
 private:
     LoginUi *pLOGIN_UI;
