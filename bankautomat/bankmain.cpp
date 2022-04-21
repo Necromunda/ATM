@@ -20,12 +20,26 @@ void bankMain::on_btn_showBalance_clicked()
 
 }
 
+
+void bankMain::on_btn_withdrawMoney_clicked()
+{
+
+}
+
+
 void bankMain::on_btn_showTransactions_clicked()
 {
 
 }
 
-void bankMain::on_btn_withdrawMoney_clicked()
+
+void bankMain::on_btn_showPreviousActions_clicked()
+{
+
+}
+
+
+void bankMain::on_btn_showNextActions_clicked()
 {
 
 }

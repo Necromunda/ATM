@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     pRFID = new RFID_DLL;
     pBankMain = new bankMain(this);
+    pDrawMoney = new drawMoney(this);
 
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
@@ -122,7 +123,7 @@ void MainWindow::runStateMachine(states s, events e)
 void MainWindow::handleTimeout()
 {
     State = waitingCard;
-    Event = timerExpires;
+    Event = timerExpired;
     runStateMachine(State,Event);
 }
 
@@ -224,7 +225,9 @@ void MainWindow::withdrawMoneyHandler(events e)
     }
     else if(e == insufficientBalance)
     {
-        qDebug()<<"Insufficient balance, Entering to userLogged State";
+        State = withdrawMoney;
+        Event = insufficientBalance;
+        qDebug()<<"Insufficient balance, staying in attemptWithdrawal state";
 
     }
     else

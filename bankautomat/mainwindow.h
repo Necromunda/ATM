@@ -9,7 +9,6 @@
 #include "bankmain.h"
 
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -19,9 +18,9 @@ enum states
     waitingCard,        // program waits for user to insert a valid card
     waitingPin,         // valid card inserted, program waits for user to give a PIN number
     userLogged,         // valid card and correct PIN, user has logged in succesfully
-    withdrawMoney,      // Money withdrawal window
-    showTransactions,   // Show transactions window
-    checkBalance        // Check balance window
+    withdrawMoney,      // withdraw money
+    showTransactions,   // show transactions
+    checkBalance        // check balance
 };
 
 enum events
@@ -30,22 +29,22 @@ enum events
     userInsertedCard,       // user inserted a valid card
     userGaveCorrectPin,     // user gave correct PIN
     userGaveWrongPin,       // user gave wrong PIN
-    pinCorrect,             // PIN was correct, moving on
-    pinWrong,               // PIN was wrong, staying here
+    pinCorrect,             // PIN was correct, opening bankMain window
+    pinWrong,               // PIN was wrong, staying at waitingCard state
     debitChosen,            // user chose debit
     creditChosen,           // user chose credit
-    attemptWithdrawal,      // user attempts withdrawal
-    doneWithdrawing,        // user quits withdrawing
-    insufficientBalance,    // withdrawing denied, insufficient account balance
+    attemptWithdrawal,      // user attempts withdrawal, opening drawMoney window
+    doneWithdrawing,        // user quits withdrawing, going back to bankMain window
+    insufficientBalance,    // withdrawing denied due to insufficient account balance
     showTransactions_event, // user wants to see transactions
     doneShowingTransactions,// user is done seeing transactions
     checkBalance_event,     // user wants to check account balance
     doneCheckingBalance,    // user is done checking account balance
     startTimer,             // timer starts if user does nothing
-    timerExpires,           // timer expired, closing current window / logging out
-    cardRemoved,            // card removed (or not not inserted)
+    timerExpired,           // timer expired, program closes current window / logs user out
+    cardRemoved,            // card removed
     cardLocked,             // user gave wrong PIN three times, card gets locked
-    userLoggedOut           // user logged out
+    userLoggedOut           // user logged out, going back to waitingCard state
 
 };
 
@@ -61,6 +60,8 @@ private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
     bankMain *pBankMain;
+    drawMoney *pDrawMoney;
+
 
     QString cardNumber;
 
@@ -82,7 +83,7 @@ private:
 signals:
     void getNumber(void);
     void getTransfers(int, QString);
-    void cardNumberRead_signal(states,events);
+    void cardNumberRead_signal(states, events);
     void pinCorrect_signal(states, events);
     void checkBalance_signal(states, events);
     void doneCheckingBalance_signal(states, events);
@@ -90,7 +91,8 @@ signals:
     void doneShowingTransactions_signal(states, events);
     void attemptWithdrawal_signal(states, events);
     void doneWithdrawing_signal(states, events);
-    void startTimer_signal(states,events);
+    void startTimer_signal(states, events);
+    void timerExpired_signal(states, events);
     void cardLocked_signal(states, events);
     void cardRemoved_signal(states, events);
     void logOut_signal(states, events);
@@ -106,10 +108,6 @@ public slots:
 
 private slots:
     void on_transfersButton_clicked();
-    //void on_withdrawalButton_clicked();
-    //void on_showTransactionsButton_clicked();
-    //void on_checkBalanceButton_clicked();
-    //void on_logOutButton_clicked();
 
 
 };

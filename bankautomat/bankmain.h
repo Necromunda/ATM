@@ -2,6 +2,8 @@
 #define BANKMAIN_H
 
 #include <QDialog>
+#include "drawmoney.h"
+
 
 namespace Ui {
 class bankMain;
@@ -16,9 +18,16 @@ public:
     ~bankMain();
 
 private slots:
-    void on_btn_withdrawMoney_clicked();
     void on_btn_showBalance_clicked();
+
+    void on_btn_withdrawMoney_clicked();
+
     void on_btn_showTransactions_clicked();
+
+    void on_btn_showPreviousActions_clicked();
+
+    void on_btn_showNextActions_clicked();
+
     void on_btn_logOut_clicked();
 
 private:
