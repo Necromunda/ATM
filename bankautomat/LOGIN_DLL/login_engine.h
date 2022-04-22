@@ -17,27 +17,29 @@ public:
 
 private:
     LoginUi *pLOGIN_UI;
-    QNetworkAccessManager *postManager;
+    QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QByteArray myToken;
-    QString pinCode, cardNumber, token, msg;
+    QString cardNumber, token, msg;
     int tries;
     bool loginSuccesful = false;
 
 signals:
-    void startAuth(void);
+    void startAuth(QString);
     void sendTokenToLogin(QByteArray);
     void wrongPinMsg(QString);
     void loginFailedInEngine(void);
     void beginTimer(void);
     void killTimer(void);
     void resetTimer(void);
+    void cardLocked(void);
 
 private slots:
     void recvPin(QString);
     void recvCardNumber(QString);
-    void tokenReq(void);
+    void tokenReq(QString);
     void tokenRes(QNetworkReply *reply);
+    void lockCard(void);
     void rejected();
 };
 

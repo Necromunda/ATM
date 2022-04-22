@@ -63,15 +63,23 @@ void LoginUi::wrongPin(QString msg)
 
 void LoginUi::on_pushButton_Ok_clicked()
 {
-    pin = ui->lineEdit->text();
-    ui->lineEdit->clear();
-    emit sendPinToEngine(pin);
+    QString pin = ui->lineEdit->text();
+    if (pin == "") {
+        ui->lineEdit->setPlaceholderText("Insert pin");
+    } else {
+        ui->lineEdit->clear();
+        emit sendPinToEngine(pin);
+    }
+    pin = "";
 }
 
 void LoginUi::on_pushButton_Clear_clicked()
 {
     resetTimer();
-    ui->lineEdit->clear();
+    QString temp = ui->lineEdit->text();
+    temp.chop(1);
+    ui->lineEdit->setText(temp);
+    temp = "";
 }
 
 void LoginUi::on_pushButton_0_clicked()

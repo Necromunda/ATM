@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(pREST,SIGNAL(sendResultToExe(QByteArray)),
             this,SLOT(recvResultsFromREST(QByteArray)));
 
-    // This signal starts the process of reading the RFID-device
     qDebug() << "Starting RFID-reader.";
     emit getNumber();
 }
@@ -160,7 +159,7 @@ void MainWindow::postTransfer()
 {
     dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
     QJsonObject jsonObj;
-    jsonObj.insert("amount", "-"+amount);
+    jsonObj.insert("amount", amount);
     jsonObj.insert("date", dateTime);
     jsonObj.insert("card_number", cardNumber);
     jsonObj.insert("accounts_account_id", accountId);

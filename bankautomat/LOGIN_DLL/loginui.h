@@ -22,7 +22,6 @@ public:
 private:
     Ui::LoginUi *ui;
     QTimer *timer;
-    QString pin;
 
 signals:
     void sendPinToEngine(QString);
