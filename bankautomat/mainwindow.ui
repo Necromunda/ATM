@@ -54,6 +54,7 @@
      </layout>
     </item>
     <item>
+<<<<<<< HEAD
      <widget class="QLineEdit" name="tokenEdit">
       <property name="text">
        <string>Token tähän</string>
@@ -73,6 +74,52 @@
        <string>PushButton</string>
       </property>
      </widget>
+=======
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QLabel" name="REST_results">
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_Token">
+        <property name="text">
+         <string>Token tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_metodi">
+        <property name="text">
+         <string>Metodi tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_tarkenne">
+        <property name="text">
+         <string>tarkenne, esim. transfers/1 tai /transfers</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="lineEdit_body">
+        <property name="text">
+         <string>request body tähän</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="Button_rest">
+        <property name="text">
+         <string>REST-pyyntö</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+>>>>>>> REST_DLL
     </item>
    </layout>
   </widget>

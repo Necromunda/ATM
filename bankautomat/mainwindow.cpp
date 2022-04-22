@@ -7,8 +7,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     pRFID = new RFID_DLL;
+<<<<<<< HEAD
     pBankMain = new bankMain(this);
     pDrawMoney = new drawMoney(this);
+=======
+    pREST = new REST_DLL;
+>>>>>>> REST_DLL
 
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine()));
@@ -39,6 +43,12 @@ MainWindow::MainWindow(QWidget *parent)
 
 
 
+
+    connect(this, SIGNAL(getREST(QString, QString, QString, QString)),
+            pREST,SLOT(ExecuteRestOperation(QString, QString, QString, QString)));
+    connect(pREST,SIGNAL(sendResultToExe(QString)),
+            this,SLOT(recvResultsFromREST(QString)));
+
     // This signal starts the process of reading the RFID-device
     emit getNumber();
 
@@ -58,6 +68,11 @@ MainWindow::~MainWindow()
     delete pRFID;
 
     pRFID = nullptr;
+<<<<<<< HEAD
+=======
+    delete pREST;
+    pREST = nullptr;
+>>>>>>> REST_DLL
 
 }
 
@@ -70,6 +85,7 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
     ui->label_2->setText(cardNumber);
 }
 
+<<<<<<< HEAD
 void MainWindow::recvTransfersFromDll(QString msg)
 {
     ui->transfersEdit->setText(msg);
@@ -338,3 +354,26 @@ void MainWindow::on_clickHandlerButtonPohja3_clicked()
 }
 
 */
+=======
+void MainWindow::recvResultsFromREST(QString msg)
+{
+    ui->REST_results->setText(msg);
+}
+
+void MainWindow::on_Button_rest_clicked()
+{
+    // Parametrit: Token, metodi tarkenne, body
+    QString token = ui->lineEdit_Token->text();
+    QString metodi = ui->lineEdit_metodi->text();
+    QString tarkenne = ui->lineEdit_tarkenne->text();
+    QString body = ui->lineEdit_body->text();
+
+    if(token != "" && metodi != ""&& tarkenne != ""&& body != ""){
+        emit getREST(token, metodi, tarkenne, body);
+    }
+    else{
+        ui->REST_results->setText("Täytä joka kenttä ennen lähetystä!");
+    }
+}
+
+>>>>>>> REST_DLL

@@ -6,6 +6,8 @@
 #include <QTimer>
 #include "rfid_dll.h"
 #include "rfid_dll_engine.h"
+#include "rest_dll.h"
+#include "engine.h"
 #include "bankmain.h"
 
 
@@ -59,6 +61,7 @@ public:
 private:
     Ui::MainWindow *ui;
     RFID_DLL *pRFID;
+<<<<<<< HEAD
     bankMain *pBankMain;
     drawMoney *pDrawMoney;
 
@@ -109,6 +112,21 @@ public slots:
 private slots:
     void on_transfersButton_clicked();
 
+=======
+    REST_DLL *pREST;
+    QString cardNumber;
 
+
+signals:
+    void getNumber(void);
+    void getREST(QString, QString, QString, QString); // Parametrit: Token, metodi tarkenne, body
+
+public slots:
+    void recvCardNumberFromDll(QString);
+    void recvResultsFromREST(QString);
+>>>>>>> REST_DLL
+
+private slots:
+    void on_Button_rest_clicked();
 };
 #endif // MAINWINDOW_H
