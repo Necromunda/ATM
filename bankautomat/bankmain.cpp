@@ -12,6 +12,7 @@ bankmain::bankmain(QWidget *parent) :
     timer->setInterval(30000);
     connect(timer,SIGNAL(timeout()),
             this,SLOT(timeout()));
+    numOfTransf = 5;
 }
 
 bankmain::~bankmain()
@@ -19,9 +20,6 @@ bankmain::~bankmain()
     qDebug() << "bankmain destructor";
     delete ui;
     ui = nullptr;
-
-//    delete pDrawMoney;
-//    pDrawMoney = nullptr;
 
     delete timer;
     timer = nullptr;
@@ -99,11 +97,14 @@ void bankmain::on_accountActionsButton_clicked()
 void bankmain::on_prevActionsButton_clicked()
 {
     resetTimer();
+    emit disconnectRestSignal();
+    emit getPrev();
 }
 
 void bankmain::on_nextActionsButton_clicked()
 {
     resetTimer();
+    emit disconnectRestSignal();
 }
 
 void bankmain::on_drawMoneyButton_clicked()
@@ -132,6 +133,34 @@ void bankmain::drawMoney(QString msg)
 }
 
 void bankmain::recvTransferLog(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonArray json_array = json_doc.array();
+    QString log;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+//        log+=QString::number(json_obj["transfer_id"].toInt())+", "+QString::number(json_obj["amount"].toInt())+", "+json_obj["date"].toString()+", "+json_obj["card_number"].toString()+", "+QString::number(json_obj["accounts_account_id"].toInt())+"\r";
+        log+="Withdrawal. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+    }
+    ui->transferLogList->setText(log);
+    emit disconnectRestSignal();
+}
+
+void bankmain::recvPrevTransfers(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonArray json_array = json_doc.array();
+    QString log;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+//        log+=QString::number(json_obj["transfer_id"].toInt())+", "+QString::number(json_obj["amount"].toInt())+", "+json_obj["date"].toString()+", "+json_obj["card_number"].toString()+", "+QString::number(json_obj["accounts_account_id"].toInt())+"\r";
+        log+="Withdrawal. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+    }
+    ui->transferLogList->setText(log);
+    emit disconnectRestSignal();
+}
+
+void bankmain::recvNextTransfers(QByteArray msg)
 {
     QJsonDocument json_doc = QJsonDocument::fromJson(msg);
     QJsonArray json_array = json_doc.array();

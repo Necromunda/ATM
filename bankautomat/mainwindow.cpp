@@ -91,6 +91,10 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 this,SLOT(getAccountId(void)));
         connect(pBankMain,SIGNAL(getAllTransfers(void)),
                 this,SLOT(getTransferLog(void)));
+        connect(pBankMain,SIGNAL(getPrev(void)),
+                this,SLOT(getPrevTransfers(void)));
+        connect(pBankMain,SIGNAL(getNext(void)),
+                this,SLOT(getNextTransfers(void)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
         bankW = true;
@@ -189,6 +193,20 @@ void MainWindow::getTransferLog()
     connect(this,SIGNAL(sendRestResult(QByteArray)),
             pBankMain,SLOT(recvTransferLog(QByteArray)));
     emit getREST(myToken, "GET", "transfers/"+accountId, "");
+}
+
+void MainWindow::getPrevTransfers()
+{
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvPrevTransfers(QByteArray)));
+    emit getREST(myToken, "GET", "transfers/prev/"+accountId+"/"+"5", "");
+}
+
+void MainWindow::getNextTransfers()
+{
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvTransferLog(QByteArray)));
+//    emit getREST(myToken, "GET", "transfers/"+accountId, "");
 }
 
 void MainWindow::on_pushButton_clicked()

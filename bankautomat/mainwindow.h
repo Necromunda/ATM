@@ -60,6 +60,8 @@ private slots:
     void getAccountId(void);
     void recvAccountId(QByteArray);
     void getTransferLog(void);
+    void getPrevTransfers(void);
+    void getNextTransfers(void);
     void on_exitApp_clicked();
     void disconnectRest(void);
 
