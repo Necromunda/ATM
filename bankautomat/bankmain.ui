@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>bankMain</class>
+ <widget class="QDialog" name="bankMain">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>587</width>
+    <height>311</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QLabel" name="label_accountBalanceAmount">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>90</y>
+     <width>45</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>[balance]</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>185</x>
+     <y>10</y>
+     <width>391</width>
+     <height>291</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>116</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>59</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_accountBalance">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>87</y>
+     <width>50</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Tilin saldo:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_accountOwner">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>30</y>
+     <width>65</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Kirjautunut:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_accountOwnerName">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>30</y>
+     <width>38</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>[owner]</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="">
+   <property name="geometry">
+    <rect>
+     <x>9</x>
+     <y>144</y>
+     <width>161</width>
+     <height>158</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QPushButton" name="btn_showBalance">
+      <property name="text">
+       <string>Näytä saldo</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_withdrawMoney">
+      <property name="text">
+       <string>Nosta rahaa</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_showTransactions">
+      <property name="text">
+       <string>Tilitapahtumat</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_showPreviousActions">
+      <property name="text">
+       <string>&lt;&lt;Selaa tapahtumia</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_showNextActions">
+      <property name="text">
+       <string>Selaa tapahtumia&gt;&gt;</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="btn_logOut">
+      <property name="text">
+       <string>Kirjaudu ulos</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
