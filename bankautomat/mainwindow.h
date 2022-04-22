@@ -32,7 +32,7 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString dateTime, cardNumber, amount, accountId;
+    QString cardNumber, amount, accountId;
     QByteArray myToken;
     bool loggedIn = false;
     bool bankW = false;

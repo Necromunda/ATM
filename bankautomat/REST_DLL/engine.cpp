@@ -73,9 +73,7 @@ void Engine::postTransfer(QByteArray token, QString method, QString route, QJson
     if(method == "get" || method == "GET"){
         manager->get(request);
     } else if (method == "post" || method == "POST") {
-        QJsonObject jsonObj;
-        jsonObj = body;
-        qDebug() << "Body: " << jsonObj;
-        manager->post(request, QJsonDocument(jsonObj).toJson());
+        qDebug() << "Body: " << body;
+        manager->post(request, QJsonDocument(body).toJson());
     }
 }

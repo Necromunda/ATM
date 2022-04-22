@@ -27,8 +27,8 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
     connect(this,SIGNAL(resetTimer(void)),
             pLOGIN_UI,SLOT(resetTimer(void)));
 
-    connect(this,SIGNAL(cardLocked(void)),
-            this,SLOT(lockCard(void)));
+    connect(this,SIGNAL(cardLock(QString)),
+            this,SLOT(cardLockHandler(QString)));
 }
 
 LOGIN_ENGINE::~LOGIN_ENGINE()
@@ -46,8 +46,7 @@ void LOGIN_ENGINE::recvCardNumber(QString num)
 {
     cardNumber = num;
     qDebug() << cardNumber << "in login";
-    pLOGIN_UI->show();
-    emit beginTimer();
+    cardLockHandler("status");
 }
 
 void LOGIN_ENGINE::tokenReq(QString pin)
@@ -89,36 +88,56 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
             emit resetTimer();
             emit wrongPinMsg(msg);
         } else {
+            qDebug() << "Locking card.";
             pLOGIN_UI->close();
             reply->deleteLater();
             manager->deleteLater();
-//            emit cardLocked();
+            cardLockHandler("lock");
         }
     }
 }
 
-void LOGIN_ENGINE::lockCard()
+void LOGIN_ENGINE::cardLockHandler(QString method)
 {
-    qDebug() << "Locking card.";
     manager = new QNetworkAccessManager();
     QObject::connect(manager, &QNetworkAccessManager::finished,
                      this, [=](QNetworkReply *reply) {
         if (reply->error()) {
             QString answer = reply->errorString();
-            qDebug() << reply->errorString();
-            //  emit sendTransfers(answer);
+            qDebug() << "error" << reply->errorString();
             return;
         }
         QByteArray answer=reply->readAll();
         qDebug() << answer;
-        //  qDebug() << answer;
+        if (method == "status") {
+            QJsonDocument json_doc = QJsonDocument::fromJson(answer);
+            QJsonObject json_obj = json_doc.object();
+            res = QString::number(json_obj["locked"].toInt());
+            qDebug() << res;
+            if (res == "0") {
+                pLOGIN_UI->show();
+                emit beginTimer();
+            } else if (res == "1"){
+                qDebug() << "Card is locked.";
+            } else {
+                qDebug() << "Can't determine locked status.";
+            }
+        }
+        //    manager->deleteLater();
+        //    reply->deleteLater();
     }
     );
-    QNetworkRequest request;
-    request.setUrl(QUrl("http://localhost:3000/lock/"+cardNumber));
-    manager->put(request, "");
-    manager->deleteLater();
-    reply->deleteLater();
+    if (method == "lock") {
+        QNetworkRequest request(("http://localhost:3000/lock/"+cardNumber));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        QJsonObject jsonObj;
+        jsonObj.insert("locked", 1);
+        qDebug() << jsonObj;
+        manager->put(request, QJsonDocument(jsonObj).toJson());
+    } else if (method == "status") {
+        QNetworkRequest request(("http://localhost:3000/lock/status/"+cardNumber));
+        manager->get(request);
+    }
 }
 
 void LOGIN_ENGINE::rejected()

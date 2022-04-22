@@ -157,7 +157,8 @@ void MainWindow::drawMoney(QString msg)
 
 void MainWindow::postTransfer()
 {
-    dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+    QString dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+    qDebug() << dateTime;
     QJsonObject jsonObj;
     jsonObj.insert("amount", amount);
     jsonObj.insert("date", dateTime);

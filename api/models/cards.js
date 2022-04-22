@@ -45,9 +45,13 @@ const cards = {
       );
     });
   },
-  lockCard: function(card_number, callback) {
+  lockCard: function(id, cards, callback) {
     return db.query('update cards set locked=? where card_number=?;',
-    [locked, card_number], callback);
+    [cards.locked, [id]], callback);
+  },
+  cardLockStatus: function(id, callback) {
+    return db.query('select locked from cards where card_number=?;',
+    [id], callback);
   },
   updateBalance: function(id, accounts, callback) {
     return db.query('UPDATE accounts SET balance=balance-? WHERE account_id in (select accounts_account_id from cards where card_number=?);',
