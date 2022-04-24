@@ -3,11 +3,16 @@
 
 #include <QMainWindow>
 #include <QDebug>
-#include <QTimer>
-#include "rfid_dll.h"
-#include "rfid_dll_engine.h"
+#include <QCloseEvent>
+#include <QDate>
+#include <QTime>
+#include <QJsonObject>
 #include "bankmain.h"
+#include "rfid_dll.h"
+#include "login_dll.h"
+#include "rest_dll.h"
 
+#include "engine.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -58,13 +63,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    bankmain *pBankMain;
     RFID_DLL *pRFID;
-    bankMain *pBankMain;
-    drawMoney *pDrawMoney;
-
-
-    QString cardNumber;
-
+    LOGIN_DLL *pLOGIN;
+    REST_DLL *pREST;
+    QString dateTime, cardNumber, amount, accountId;
 
     states State = waitingCard;
     events Event;
@@ -79,10 +82,13 @@ private:
 
 
 
+    QByteArray myToken;
+    bool loggedIn = false;
+    bool bankW = false;
+    void getName(void);
 
 signals:
     void getNumber(void);
-    void getTransfers(int, QString);
     void cardNumberRead_signal(states, events);
     void pinCorrect_signal(states, events);
     void checkBalance_signal(states, events);
@@ -97,18 +103,33 @@ signals:
     void cardRemoved_signal(states, events);
     void logOut_signal(states, events);
 
-
+    void sendCardNumberToLogin(QString);
+    void loggedOutRestartEngine(void);
+    void getREST(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
+    void restName(QByteArray, QString, QString, QString); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
+    void restTransfer(QByteArray, QString, QString, QJsonObject); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
+    void sendRestResult(QByteArray);
+    void beginTimer(void);
 
 public slots:
-    void recvCardNumberFromDll(QString);
-    void recvTransfersFromDll(QString);
-
     void runStateMachine(states, events);
-    void handleTimeout();
 
 private slots:
-    void on_transfersButton_clicked();
+    void closeEvent(QCloseEvent*);
+    void recvCardNumberFromDll(QString);
+    void recvTokenFromLogin(QByteArray);
+    void loggedOut(void);
+    void recvResultsFromREST(QByteArray);
+    void getBalance(void);
+    void drawMoney(QString);
+    void postTransfer(void);
+    void getAccountId(void);
+    void recvAccountId(QByteArray);
+    void getTransferLog(void);
+    void on_exitApp_clicked();
+    void disconnectRest(void);
 
-
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H
