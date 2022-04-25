@@ -21,10 +21,10 @@ router.get('/:id?',
   }
 });
 
-router.get('/prev/:id/:amount',
+router.get('/custom/:id/:bot/:top',
  function(request, response) {
   if (request.params.id) {
-    transfers.getCustom(request.params.id, request.params.amount, function(err, dbResult) {
+    transfers.getCustom(request.params.id, request.params.bot, request.params.top, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
