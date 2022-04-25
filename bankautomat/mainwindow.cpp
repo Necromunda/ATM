@@ -262,12 +262,6 @@ void MainWindow::checkBalanceHandler(events e)
     }
 }
 
-
-
-
-
-
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (loggedIn) {
@@ -426,7 +420,7 @@ void MainWindow::on_pushButton_clicked()
 {
     Event = userInsertedCard;
     runStateMachine(State, Event);
-    cardNumber = "05009BA52";
+    cardNumber = "05009BA52D";
     emit sendCardNumberToLogin(cardNumber);
 
 }
