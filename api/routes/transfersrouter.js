@@ -38,23 +38,6 @@ router.get('/custom/:id/:bot/:top',
   }
 });
 
-router.get('/next/:id?',
- function(request, response) {
-  if (request.params.id) {
-    transfers.getById(request.params.id, function(err, dbResult) {
-      if (err) {
-        response.json(err);
-      } else {
-        response.json(dbResult);
-      }
-    });
-  }
-  else {
-      response.status(403);
-      response.json("missing id");
-  }
-});
-
 // Lisää siirron req bodyn antamilla tiedoilla
 router.post('/', 
 function(req, res) {

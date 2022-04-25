@@ -440,6 +440,7 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    qDebug() << "test: " + QSslSocket::sslLibraryBuildVersionString();
     Event = userInsertedCard;
     runStateMachine(State, Event);
     cardNumber = "06000649B0";
