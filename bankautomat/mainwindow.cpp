@@ -302,6 +302,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 this,SLOT(getAccountId(void)));
         connect(pBankMain,SIGNAL(getAllTransfers(void)),
                 this,SLOT(getTransferLog(void)));
+        connect(pBankMain,SIGNAL(getCustom(int, int)),
+                this,SLOT(getCustomTransfers(int, int)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
         bankW = true;
@@ -412,6 +414,17 @@ void MainWindow::getTransferLog()
     connect(this,SIGNAL(sendRestResult(QByteArray)),
             pBankMain,SLOT(recvTransferLog(QByteArray)));
     emit getREST(myToken, "GET", "transfers/"+accountId, "");
+    Event = doneShowingTransactions;
+    runStateMachine(State, Event);
+}
+
+void MainWindow::getCustomTransfers(int bot, int top)
+{
+    Event = showTransactions_event;
+    runStateMachine(State,Event);
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvCustomTransfers(QByteArray)));
+    emit getREST(myToken, "GET", "transfers/custom/"+accountId+"/"+QString::number(bot)+"/"+QString::number(top), "");
     Event = doneShowingTransactions;
     runStateMachine(State, Event);
 }
