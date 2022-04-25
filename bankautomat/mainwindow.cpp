@@ -106,6 +106,7 @@ void MainWindow::runStateMachine(states s, events e)
 
         case checkBalance:
             checkBalanceHandler(e);
+        break;
 
         default:
             qDebug()<<"State = "<<State<<" and event = "<< e;
