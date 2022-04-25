@@ -9,7 +9,19 @@ const cards = {
   },
   getAll: function(callback) {
     return db.query('SELECT * FROM cards', callback);
- },
+  },
+  getNameByCardNumber: function(card_number, callback) {
+    return db.query('select group_concat(fname," ", lname) as "fullname" from users where user_id in (select cards.users_user_id from cards where card_number=?)',
+    [card_number], callback);
+  },
+  getBalanceByCardNumber: function(card_number, callback) {
+    return db.query('select balance from accounts where account_id in (select accounts_account_id from cards where card_number=?)',
+    [card_number], callback);
+  },
+  getAccountId: function(card_number, callback) {
+    return db.query('select accounts_account_id from cards where card_number=?',
+    [card_number], callback);
+  },
   add: function(cards, callback) {
     bcrypt.hash(cards.pin_code, saltRounds, function(err, hashed_pin_code)
     {
@@ -32,6 +44,18 @@ const cards = {
         callback
       );
     });
+  },
+  lockCard: function(id, cards, callback) {
+    return db.query('update cards set locked=? where card_number=?;',
+    [cards.locked, [id]], callback);
+  },
+  cardLockStatus: function(id, callback) {
+    return db.query('select locked from cards where card_number=?;',
+    [id], callback);
+  },
+  updateBalance: function(id, accounts, callback) {
+    return db.query('UPDATE accounts SET balance=balance-? WHERE account_id in (select accounts_account_id from cards where card_number=?);',
+    [accounts.balance, id], callback);
   }
 };
 module.exports = cards;
