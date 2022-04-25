@@ -122,21 +122,21 @@
     <item>
      <widget class="QPushButton" name="accountActionsButton">
       <property name="text">
-       <string>Account actions</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="prevActionsButton">
-      <property name="text">
-       <string>Prev. 10 actions</string>
+       <string>All account actions</string>
       </property>
      </widget>
     </item>
     <item>
      <widget class="QPushButton" name="nextActionsButton">
       <property name="text">
-       <string>Next 10 actions</string>
+       <string>Next 5 actions</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="prevActionsButton">
+      <property name="text">
+       <string>Previous 5 actions</string>
       </property>
      </widget>
     </item>

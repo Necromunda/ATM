@@ -4,15 +4,10 @@ const transfers = {
   getById: function(id, callback) {
     return db.query('select transfer_id, amount, date_format(date, "%d.%m.%y, %h:%m:%s") as date, card_number, accounts_account_id from transfers where accounts_account_id=?', [id], callback);
   },
-
-  getCustom: function(id, amount, callback) {
-    return db.query('call getPrevTransf(?,?)', 
-    [id, amount], callback);
+  getCustom: function(id, bot, top, callback) {
+    return db.query('call prac(?,?,?)', 
+    [id, bot, top], callback);
   },
-  getNext: function(id, callback) {
-    return db.query('', [id], callback);
-  },
-
   add: function(transfers, callback) {
     return db.query(
       'insert into transfers (amount,date,card_number,accounts_account_id) values(?,?,?,?)',

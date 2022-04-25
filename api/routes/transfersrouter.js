@@ -21,31 +21,14 @@ router.get('/:id?',
   }
 });
 
-router.get('/prev/:id/:amount',
+router.get('/custom/:id/:bot/:top',
  function(request, response) {
   if (request.params.id) {
-    transfers.getCustom(request.params.id, request.params.amount, function(err, dbResult) {
+    transfers.getCustom(request.params.id, request.params.bot, request.params.top, function(err, dbResult) {
       if (err) {
         response.json(err);
       } else {
         response.json(dbResult[0]);
-      }
-    });
-  }
-  else {
-      response.status(403);
-      response.json("missing id");
-  }
-});
-
-router.get('/next/:id?',
- function(request, response) {
-  if (request.params.id) {
-    transfers.getById(request.params.id, function(err, dbResult) {
-      if (err) {
-        response.json(err);
-      } else {
-        response.json(dbResult);
       }
     });
   }

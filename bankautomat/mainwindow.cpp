@@ -91,10 +91,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 this,SLOT(getAccountId(void)));
         connect(pBankMain,SIGNAL(getAllTransfers(void)),
                 this,SLOT(getTransferLog(void)));
-        connect(pBankMain,SIGNAL(getPrev(void)),
-                this,SLOT(getPrevTransfers(void)));
-        connect(pBankMain,SIGNAL(getNext(void)),
-                this,SLOT(getNextTransfers(void)));
+        connect(pBankMain,SIGNAL(getCustom(int, int)),
+                this,SLOT(getCustomTransfers(int, int)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
         bankW = true;
@@ -195,18 +193,12 @@ void MainWindow::getTransferLog()
     emit getREST(myToken, "GET", "transfers/"+accountId, "");
 }
 
-void MainWindow::getPrevTransfers()
+void MainWindow::getCustomTransfers(int bot, int top)
 {
     connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(recvPrevTransfers(QByteArray)));
-    emit getREST(myToken, "GET", "transfers/prev/"+accountId+"/"+"5", "");
-}
-
-void MainWindow::getNextTransfers()
-{
-    connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(recvTransferLog(QByteArray)));
-//    emit getREST(myToken, "GET", "transfers/"+accountId, "");
+            pBankMain,SLOT(recvCustomTransfers(QByteArray)));
+//    qDebug() << "transfers/custom/"+accountId+"/"+QString::number(bot)+"/"+QString::number(top);
+    emit getREST(myToken, "GET", "transfers/custom/"+accountId+"/"+QString::number(bot)+"/"+QString::number(top), "");
 }
 
 void MainWindow::on_pushButton_clicked()
