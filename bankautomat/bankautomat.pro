@@ -6,9 +6,6 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
 
-RC_ICONS = app-icon-EUR.ico
-
-
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
@@ -39,3 +36,12 @@ win32: LIBS += -L$$PWD/RFID_DLL/build/debug/ -lRFID_DLL
 INCLUDEPATH += $$PWD/RFID_DLL
 DEPENDPATH += $$PWD/RFID_DLL
 
+win32: LIBS += -L$$PWD/LOGIN_DLL/build/debug/ -lLOGIN_DLL
+
+INCLUDEPATH += $$PWD/LOGIN_DLL
+DEPENDPATH += $$PWD/LOGIN_DLL
+
+win32: LIBS += -L$$PWD/REST_DLL/build/debug/ -lREST_DLL
+
+INCLUDEPATH += $$PWD/REST_DLL
+DEPENDPATH += $$PWD/REST_DLL
