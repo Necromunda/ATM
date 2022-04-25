@@ -15,7 +15,41 @@ router.get('/:id?',
       }
     });
   }
-  else{
+  else {
+      response.status(403);
+      response.json("missing id");
+  }
+});
+
+router.get('/prev/:id/:amount',
+ function(request, response) {
+  if (request.params.id) {
+    transfers.getCustom(request.params.id, request.params.amount, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult[0]);
+      }
+    });
+  }
+  else {
+      response.status(403);
+      response.json("missing id");
+  }
+});
+
+router.get('/next/:id?',
+ function(request, response) {
+  if (request.params.id) {
+    transfers.getById(request.params.id, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult);
+      }
+    });
+  }
+  else {
       response.status(403);
       response.json("missing id");
   }
@@ -56,7 +90,5 @@ function(req, res) {
     }
   });
 });
-
-
 
 module.exports = router;
