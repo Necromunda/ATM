@@ -13,12 +13,12 @@ const accounts = {
         [accounts.iban, accounts.balance], callback);
     },
     update: function(id, accounts, callback) {
-       return db.query(
-    'UPDATE accounts SET iban=?, balance=? WHERE account_id=?',
-    [accounts.iban, accounts.balance, id], callback);
+       return db.query('UPDATE accounts SET iban=?, balance=? WHERE account_id=?',
+       [accounts.iban, accounts.balance, id], callback);
     },
     delete: function(id, callback) {
-     return db.query('DELETE FROM accounts WHERE account_id=?', [id], callback);
+        return db.query('DELETE FROM accounts WHERE account_id=?', 
+        [id], callback);
     }
 };
 

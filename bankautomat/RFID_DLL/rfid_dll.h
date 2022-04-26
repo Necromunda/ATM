@@ -1,10 +1,10 @@
 #ifndef RFID_DLL_H
 #define RFID_DLL_H
 
-#include "RFID_DLL_global.h"
-#include "rfid_dll_engine.h"
 #include <QObject>
 #include <QDebug>
+#include "RFID_DLL_global.h"
+#include "rfid_dll_engine.h"
 
 class RFID_DLL_EXPORT RFID_DLL : public QObject
 {
@@ -20,9 +20,10 @@ private:
 signals:
     void sendCardNumberToExe(QString);
 
-public slots:
+private slots:
     void getCardNumberFromEngine(void);
-    void recvCardNumberFromEngine(QString, bool);
+    void recvCardNumberFromEngine(QString);
+    void restartEngine(void);
 };
 
 #endif // RFID_DLL_H

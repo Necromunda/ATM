@@ -17,6 +17,7 @@ class RFID_DLL_ENGINE : public QObject
 
 public:
     RFID_DLL_ENGINE(QObject *parent = nullptr);
+    ~RFID_DLL_ENGINE();
     void readRFID(void);
     void portSettings(void);
 
@@ -28,9 +29,10 @@ private:
     QNetworkReply *reply;
     QByteArray response_data;
     bool settingsSet = false;
+    bool read = false;
 
 signals:
-    void sendCardNumber(QString, bool);
+    void sendCardNumber(QString);
     void checkCard();
 
 private slots:

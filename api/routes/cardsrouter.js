@@ -13,6 +13,57 @@ function(request, response) {
   });
 });
 
+router.get('/accountId/:card_number',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getAccountId(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
+router.get('/name/:card_number',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getNameByCardNumber(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
+router.get('/balance/:card_number',
+ function(request, response) {
+  if (request.params.card_number) {
+    cards.getBalanceByCardNumber(request.params.card_number, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
 router.get('/:card_number?',
  function(request, response) {
   if (request.params.card_number) {
@@ -23,7 +74,7 @@ router.get('/:card_number?',
         if (dbResult == '') {
           response.send("ID not found")
         } else {
-        response.json(dbResult[0]);
+          response.json(dbResult[0]);
         }
       }
     });
@@ -36,6 +87,17 @@ router.get('/:card_number?',
       }
     }); 
   }
+});
+
+router.put('/updateBalance/:card_number', 
+function(request, response) {
+  cards.updateBalance(request.params.card_number, request.body, function(err, dbResult) {
+    if (err) {
+      response.json(err);
+    } else {
+      response.json(request.body);
+    }
+  });
 });
 
 router.put('/:card_number', 
