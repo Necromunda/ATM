@@ -1,10 +1,12 @@
 
 # QT-sovellus
+***
 Pääkäyttöliittymässä näytetään tilin omistajan nimi. Siellä voi myös katsoa tilin saldon, napeilla navigoimalla voi hakea tietokannasta kaikki tilisiirrot tai viisi siirtoa kerrallaan.
 
 Tililtä voi nostaa rahaa. Joko ennalta määritetyn summan tai summan voi myös kirjoittaa itse. Saldon saa negatiiviseksi, jos valitsi kirjautumisessa creditin.
 
 Alla selitetään kunkin .dll:än toiminta hieman yksityiskohtaisemmin.
+***
 
 ## RFID.dll
 ***
@@ -13,6 +15,7 @@ Sovellus aloittaa toimintansa lähettämällä signaalin RFID.dll:ään, jossa f
 Kun kortti saadaan luettua, jatketaan seuraavaan vaiheeseen, jossa vahvistetaan, että kortti löytyy tietokannasta. Mikäli korttia ei löydy, RFID-lukijassa voi käyttää toista korttia.
 
 Kortin vahvistuksen jälkeen, kortin numero lähetetään pääsovellukseen, jossa se jatkaa matkaansa LOGIN.dll:ään.
+***
 
 ## LOGIN.dll
 ***
@@ -25,6 +28,7 @@ Jos PIN-koodi syötetään kolme kertaa väärin, kortti lukitaan ja kirjautumin
 Oikean PIN-koodin syöttäessä, käyttäjältä kysytään, valitaanko debit vai credit jos tilillä on sellainen ominaisuus.
 
 Valinnan jälkeen avautuu pääkäyttöliittymä.
+***
 
 ## REST.dll
 ***
@@ -50,7 +54,6 @@ Esimerkkikutsu REST-DLL:lle voisi olla vaikkapa seuraavanlainen:
     emit getREST(token, metodi, tarkenne, body);
 
 ***
-
 REST_DLL Sisältää yhden signaalin, sendResultToExe(QString), joka lähettää serverin vastauksen yhtenä stringinä. Se voidaan tulostella esimerkiksi seuraavalla tavalla exessä:
 
     void MainWindow::recvResultsFromREST(QString msg)
@@ -59,3 +62,4 @@ REST_DLL Sisältää yhden signaalin, sendResultToExe(QString), joka lähettää
     }
 
 Tarvittavat Signalit ja slotit, sekä niitä käyttävät connectit täytyy toki exen puolella tehdä ennenkuin kommunikointi onnistuu.
+***
