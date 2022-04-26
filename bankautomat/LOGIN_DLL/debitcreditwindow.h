@@ -2,6 +2,7 @@
 #define DEBITCREDITWINDOW_H
 
 #include <QDialog>
+#include <QCloseEvent>
 
 namespace Ui {
 class debitCreditWindow;
@@ -16,11 +17,13 @@ public:
     ~debitCreditWindow();
 
 private slots:
+    void closeEvent(QCloseEvent*);
     void on_debitButton_clicked();
     void on_creditButton_clicked();
 
 signals:
     void sendCardType(QString);
+    void aboutToClose(void);
 
 private:
     Ui::debitCreditWindow *ui;

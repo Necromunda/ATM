@@ -13,6 +13,12 @@ debitCreditWindow::~debitCreditWindow()
     delete ui;
 }
 
+void debitCreditWindow::closeEvent(QCloseEvent *event)
+{
+    event->accept();
+    emit aboutToClose();
+}
+
 void debitCreditWindow::on_debitButton_clicked()
 {
     emit sendCardType("debit");
