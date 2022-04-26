@@ -8,13 +8,13 @@ REST_DLL-kirjastoon saa yhteyden pirauttamalla slotille void ExecuteRestOperatio
 
 Slotti haluaa seuraavat parametrit toimiakseen:
 
-token: token siinä muodossa, kuin sen saa login-reitiltä, eli esimerkiksi eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IjEyMzQ1NiIsImlhdCI6MTY0OTgzNjM5NCwiZXhwIjoxNjQ5ODM5OTk0fQ.DPrOVLtkV2P-LvqIhplF0nLC8dDOttEA5e1jzNbxwIE
+Token: Token lähetetään REST.dll:ään muodossa "Bearer _token_"
 
-metodi: tähän haluttu rest-operaatio pienin tai isoin kirjaimin, esim get taikka UPDATE
+Metodi: tähän haluttu rest-operaatio pienin tai isoin kirjaimin, esim get taikka UPDATE
 
-tarkenne: rajapinnan alkuosa on kovakoodailtu kirjaston engineen, mutta loppuosaan voi vaikuttaa tarkenteella. Esimerkiksi siirtohistoriaa hakiessa voidaan tarkenteeseen laittaa transfers/1, jolloin get-metodilla saadaan siirtohistoria tililtä jonka id on 1.
+Tarkenne: rajapinnan alkuosa on kovakoodailtu kirjaston engineen, mutta loppuosaan voi vaikuttaa tarkenteella. Esimerkiksi siirtohistoriaa hakiessa voidaan tarkenteeseen laittaa transfers/1, jolloin get-metodilla saadaan siirtohistoria tililtä jonka id on 1.
 
-body: Metodit UPDATE sekä POST vaativat request bodyn sisältäen oleellisen datan, GET ja DELETE kelpuuttavat tyhjän stringin tähän, esimerkiksi pelkkä {} riittää.
+Body: Metodit UPDATE sekä POST vaativat request bodyn sisältäen oleellisen datan, GET ja DELETE kelpuuttavat tyhjän stringin tähän, esimerkiksi pelkkä {} riittää.
 ***
 
 Esimerkkikutsu REST-DLL:lle voisi olla vaikkapa seuraavanlainen:
