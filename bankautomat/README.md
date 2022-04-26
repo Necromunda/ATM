@@ -1,8 +1,32 @@
 
 # QT-sovellus
-Tähän vois laittaa jotain :D
+Pääkäyttöliittymässä näytetään tilin omistajan nimi. Siellä voi myös katsoa tilin saldon, napeilla navigoimalla voi hakea tietokannasta kaikki tilisiirrot tai viisi siirtoa kerrallaan.
 
-## REST_DLL
+Tililtä voi nostaa rahaa. Joko ennalta määritetyn summan tai summan voi myös kirjoittaa itse. Saldon saa negatiiviseksi, jos valitsi kirjautumisessa creditin.
+
+Alla selitetään kunkin .dll:än toiminta hieman yksityiskohtaisemmin.
+
+## RFID.dll
+***
+Sovellus aloittaa toimintansa lähettämällä signaalin RFID.dll:ään, jossa funktio aloittaa asettamalla asetukset ja sen jälkeen avaamalla sarjayhteyden RFID-lukijaan.
+
+Kun kortti saadaan luettua, jatketaan seuraavaan vaiheeseen, jossa vahvistetaan, että kortti löytyy tietokannasta. Mikäli korttia ei löydy, RFID-lukijassa voi käyttää toista korttia.
+
+Kortin vahvistuksen jälkeen, kortin numero lähetetään pääsovellukseen, jossa se jatkaa matkaansa LOGIN.dll:ään.
+
+## LOGIN.dll
+***
+LOGIN.dll ottaa luetun kortin numeron ja hakee sen avulla tietokannasta korttiin liitetyn tilin ID:n.
+
+Tilin ID:llä taas tarkistetaan onko kortti lukittu. Jos kortti on lukittu, palataan kortinlukuvaiheeseen. Mikäli kortti ei ole lukossa, näytölle ilmestyy ikkuna johon voi syöttää kortin PIN-koodin.
+
+Jos PIN-koodi syötetään kolme kertaa väärin, kortti lukitaan ja kirjautuminen keskeytetään. Lukituksen saa pois tietokannan kautta.
+
+Oikean PIN-koodin syöttäessä, käyttäjältä kysytään, valitaanko debit vai credit jos tilillä on sellainen ominaisuus.
+
+Valinnan jälkeen avautuu pääkäyttöliittymä.
+
+## REST.dll
 ***
 REST_DLL-kirjastoon saa yhteyden pirauttamalla slotille void ExecuteRestOperation(QString, QString, QString, QString);
 
