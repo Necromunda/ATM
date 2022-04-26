@@ -106,6 +106,7 @@ void MainWindow::runStateMachine(states s, events e)
 
         case checkBalance:
             checkBalanceHandler(e);
+        break;
 
         default:
             qDebug()<<"State = "<<State<<" and event = "<< e;
@@ -261,12 +262,6 @@ void MainWindow::checkBalanceHandler(events e)
     }
 }
 
-
-
-
-
-
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (loggedIn) {
@@ -307,6 +302,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 this,SLOT(getAccountId(void)));
         connect(pBankMain,SIGNAL(getAllTransfers(void)),
                 this,SLOT(getTransferLog(void)));
+        connect(pBankMain,SIGNAL(getCustom(int, int)),
+                this,SLOT(getCustomTransfers(int, int)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
         bankW = true;
@@ -421,17 +418,29 @@ void MainWindow::getTransferLog()
     runStateMachine(State, Event);
 }
 
+void MainWindow::getCustomTransfers(int bot, int top)
+{
+    Event = showTransactions_event;
+    runStateMachine(State,Event);
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvCustomTransfers(QByteArray)));
+    emit getREST(myToken, "GET", "transfers/custom/"+accountId+"/"+QString::number(bot)+"/"+QString::number(top), "");
+    Event = doneShowingTransactions;
+    runStateMachine(State, Event);
+}
+
 void MainWindow::on_pushButton_clicked()
 {
     Event = userInsertedCard;
     runStateMachine(State, Event);
-    cardNumber = "05009BA52";
+    cardNumber = "05009BA52D";
     emit sendCardNumberToLogin(cardNumber);
 
 }
 
 void MainWindow::on_pushButton_2_clicked()
 {
+    qDebug() << "test: " + QSslSocket::sslLibraryBuildVersionString();
     Event = userInsertedCard;
     runStateMachine(State, Event);
     cardNumber = "06000649B0";

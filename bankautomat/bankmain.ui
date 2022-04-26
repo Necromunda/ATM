@@ -127,16 +127,16 @@
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="prevActionsButton">
+     <widget class="QPushButton" name="nextActionsButton">
       <property name="text">
-       <string>Prev. 10 actions</string>
+       <string>Next 5 actions</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="nextActionsButton">
+     <widget class="QPushButton" name="prevActionsButton">
       <property name="text">
-       <string>Next 10 actions</string>
+       <string>Previous 5 actions</string>
       </property>
      </widget>
     </item>

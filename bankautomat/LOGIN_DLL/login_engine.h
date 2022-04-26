@@ -20,7 +20,7 @@ private:
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QByteArray myToken;
-    QString cardNumber, token, msg;
+    QString cardNumber, token, msg, res;
     int tries;
     bool loginSuccesful = false;
 
@@ -32,14 +32,14 @@ signals:
     void beginTimer(void);
     void killTimer(void);
     void resetTimer(void);
-    void cardLocked(void);
+    void cardLock(QString);
 
 private slots:
     void recvPin(QString);
     void recvCardNumber(QString);
     void tokenReq(QString);
     void tokenRes(QNetworkReply *reply);
-    void lockCard(void);
+    void cardLockHandler(QString);
     void rejected();
 };
 

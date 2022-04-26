@@ -44,6 +44,10 @@ void drawmoney::on_closeButton_clicked()
 void drawmoney::on_drawButton_clicked()
 {
     drawThis = ui->drawMoneyLineEdit->text();
+    ui->drawMoneyLineEdit->clear();
+    if (ui->customAmountLineEdit->hasAcceptableInput()) {
+        ui->customAmountLineEdit->clear();
+    }
     qDebug() << "Draw this amout: " << drawThis;
     emit drawThisAmount(drawThis);
 }

@@ -80,8 +80,6 @@ private:
     void showTransactionsHandler (events e);
     void checkBalanceHandler (events e);
 
-
-
     QByteArray myToken;
     bool loggedIn = false;
     bool bankW = false;
@@ -126,6 +124,7 @@ private slots:
     void getAccountId(void);
     void recvAccountId(QByteArray);
     void getTransferLog(void);
+    void getCustomTransfers(int, int);
     void on_exitApp_clicked();
     void disconnectRest(void);
 
