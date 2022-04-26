@@ -23,7 +23,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LOGIN_ENGINE_t {
     QByteArrayData data[18];
-    char stringdata0[196];
+    char stringdata0[201];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -41,23 +41,23 @@ QT_MOC_LITERAL(5, 53, 19), // "loginFailedInEngine"
 QT_MOC_LITERAL(6, 73, 10), // "beginTimer"
 QT_MOC_LITERAL(7, 84, 9), // "killTimer"
 QT_MOC_LITERAL(8, 94, 10), // "resetTimer"
-QT_MOC_LITERAL(9, 105, 10), // "cardLocked"
-QT_MOC_LITERAL(10, 116, 7), // "recvPin"
-QT_MOC_LITERAL(11, 124, 14), // "recvCardNumber"
-QT_MOC_LITERAL(12, 139, 8), // "tokenReq"
-QT_MOC_LITERAL(13, 148, 8), // "tokenRes"
-QT_MOC_LITERAL(14, 157, 14), // "QNetworkReply*"
-QT_MOC_LITERAL(15, 172, 5), // "reply"
-QT_MOC_LITERAL(16, 178, 8), // "lockCard"
-QT_MOC_LITERAL(17, 187, 8) // "rejected"
+QT_MOC_LITERAL(9, 105, 8), // "cardLock"
+QT_MOC_LITERAL(10, 114, 7), // "recvPin"
+QT_MOC_LITERAL(11, 122, 14), // "recvCardNumber"
+QT_MOC_LITERAL(12, 137, 8), // "tokenReq"
+QT_MOC_LITERAL(13, 146, 8), // "tokenRes"
+QT_MOC_LITERAL(14, 155, 14), // "QNetworkReply*"
+QT_MOC_LITERAL(15, 170, 5), // "reply"
+QT_MOC_LITERAL(16, 176, 15), // "cardLockHandler"
+QT_MOC_LITERAL(17, 192, 8) // "rejected"
 
     },
     "LOGIN_ENGINE\0startAuth\0\0sendTokenToLogin\0"
     "wrongPinMsg\0loginFailedInEngine\0"
     "beginTimer\0killTimer\0resetTimer\0"
-    "cardLocked\0recvPin\0recvCardNumber\0"
+    "cardLock\0recvPin\0recvCardNumber\0"
     "tokenReq\0tokenRes\0QNetworkReply*\0reply\0"
-    "lockCard\0rejected"
+    "cardLockHandler\0rejected"
 };
 #undef QT_MOC_LITERAL
 
@@ -82,15 +82,15 @@ static const uint qt_meta_data_LOGIN_ENGINE[] = {
        6,    0,   94,    2, 0x06 /* Public */,
        7,    0,   95,    2, 0x06 /* Public */,
        8,    0,   96,    2, 0x06 /* Public */,
-       9,    0,   97,    2, 0x06 /* Public */,
+       9,    1,   97,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      10,    1,   98,    2, 0x08 /* Private */,
-      11,    1,  101,    2, 0x08 /* Private */,
-      12,    1,  104,    2, 0x08 /* Private */,
-      13,    1,  107,    2, 0x08 /* Private */,
-      16,    0,  110,    2, 0x08 /* Private */,
-      17,    0,  111,    2, 0x08 /* Private */,
+      10,    1,  100,    2, 0x08 /* Private */,
+      11,    1,  103,    2, 0x08 /* Private */,
+      12,    1,  106,    2, 0x08 /* Private */,
+      13,    1,  109,    2, 0x08 /* Private */,
+      16,    1,  112,    2, 0x08 /* Private */,
+      17,    0,  115,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
@@ -100,14 +100,14 @@ static const uint qt_meta_data_LOGIN_ENGINE[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    2,
 
  // slots: parameters
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, 0x80000000 | 14,   15,
-    QMetaType::Void,
+    QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void,
 
        0        // eod
@@ -126,12 +126,12 @@ void LOGIN_ENGINE::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         case 4: _t->beginTimer(); break;
         case 5: _t->killTimer(); break;
         case 6: _t->resetTimer(); break;
-        case 7: _t->cardLocked(); break;
+        case 7: _t->cardLock((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 8: _t->recvPin((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 9: _t->recvCardNumber((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 10: _t->tokenReq((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 11: _t->tokenRes((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
-        case 12: _t->lockCard(); break;
+        case 12: _t->cardLockHandler((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 13: _t->rejected(); break;
         default: ;
         }
@@ -198,8 +198,8 @@ void LOGIN_ENGINE::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
             }
         }
         {
-            using _t = void (LOGIN_ENGINE::*)();
-            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LOGIN_ENGINE::cardLocked)) {
+            using _t = void (LOGIN_ENGINE::*)(QString );
+            if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LOGIN_ENGINE::cardLock)) {
                 *result = 7;
                 return;
             }
@@ -293,9 +293,10 @@ void LOGIN_ENGINE::resetTimer()
 }
 
 // SIGNAL 7
-void LOGIN_ENGINE::cardLocked()
+void LOGIN_ENGINE::cardLock(QString _t1)
 {
-    QMetaObject::activate(this, &staticMetaObject, 7, nullptr);
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    QMetaObject::activate(this, &staticMetaObject, 7, _a);
 }
 QT_WARNING_POP
 QT_END_MOC_NAMESPACE
