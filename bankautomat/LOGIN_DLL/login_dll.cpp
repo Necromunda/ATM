@@ -25,10 +25,10 @@ void LOGIN_DLL::recvCardNumberFromExe(QString num)
     emit sendCardNumberToLoginEngine(cardNumber);
 }
 
-void LOGIN_DLL::recvTokenFromEngine(QByteArray token)
+void LOGIN_DLL::recvTokenFromEngine(QByteArray token, QString type)
 {
     myToken = token;
-    emit sendTokenToExe(myToken);
+    emit sendTokenToExe(myToken, type);
 }
 
 void LOGIN_DLL::createEngine()
@@ -38,8 +38,8 @@ void LOGIN_DLL::createEngine()
     connect(this,SIGNAL(sendCardNumberToLoginEngine(QString)),
             pLOGIN_ENGINE,SLOT(recvCardNumber(QString)));
 
-    connect(pLOGIN_ENGINE,SIGNAL(sendTokenToLogin(QByteArray)),
-            this,SLOT(recvTokenFromEngine(QByteArray)));
+    connect(pLOGIN_ENGINE,SIGNAL(sendTokenToLogin(QByteArray, QString)),
+            this,SLOT(recvTokenFromEngine(QByteArray, QString)));
 
     connect(pLOGIN_ENGINE,SIGNAL(loginFailedInEngine(void)),
             this,SLOT(loginFailed(void)));

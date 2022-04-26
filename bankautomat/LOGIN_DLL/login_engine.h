@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QCloseEvent>
 #include "loginui.h"
+#include "debitcreditwindow.h"
 
 class LOGIN_ENGINE : public QObject
 {
@@ -14,19 +15,21 @@ class LOGIN_ENGINE : public QObject
 public:
     LOGIN_ENGINE(QObject *parent = nullptr);
     ~LOGIN_ENGINE();
+    void checkForCredit(QString);
 
 private:
     LoginUi *pLOGIN_UI;
+    debitCreditWindow *pDebitCredit;
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QByteArray myToken;
-    QString cardNumber, token, msg, res;
+    QString cardNumber, token, msg, res, credit, accountId, cardType;
     int tries;
     bool loginSuccesful = false;
 
 signals:
     void startAuth(QString);
-    void sendTokenToLogin(QByteArray);
+    void sendTokenToLogin(QByteArray, QString);
     void wrongPinMsg(QString);
     void loginFailedInEngine(void);
     void beginTimer(void);
@@ -35,6 +38,7 @@ signals:
     void cardLock(QString);
 
 private slots:
+    void recvCardType(QString);
     void recvPin(QString);
     void recvCardNumber(QString);
     void tokenReq(QString);

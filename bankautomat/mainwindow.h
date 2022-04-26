@@ -67,7 +67,7 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString dateTime, cardNumber, amount, accountId;
+    QString dateTime, cardNumber, amount, accountId, cardType;
 
     states State = waitingCard;
     events Event;
@@ -115,7 +115,7 @@ public slots:
 private slots:
     void closeEvent(QCloseEvent*);
     void recvCardNumberFromDll(QString);
-    void recvTokenFromLogin(QByteArray);
+    void recvTokenFromLogin(QByteArray, QString);
     void loggedOut(void);
     void recvResultsFromREST(QByteArray);
     void getBalance(void);

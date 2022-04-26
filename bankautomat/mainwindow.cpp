@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     pLOGIN = new LOGIN_DLL;
     connect(this,SIGNAL(sendCardNumberToLogin(QString)),
             pLOGIN,SLOT(recvCardNumberFromExe(QString)));
-    connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray)),
-            this,SLOT(recvTokenFromLogin(QByteArray)));
+    connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray, QString)),
+            this,SLOT(recvTokenFromLogin(QByteArray, QString)));
     connect(pLOGIN,SIGNAL(restartRFID(void)),
             pRFID,SLOT(restartEngine(void)));
     connect(this,SIGNAL(loggedOutRestartEngine(void)),
@@ -280,12 +280,13 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
     emit sendCardNumberToLogin(cardNumber);
 }
 
-void MainWindow::recvTokenFromLogin(QByteArray token)
+void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
 {
     Event = userGaveCorrectPin;
     runStateMachine(State, Event);
     loggedIn = true;
     myToken = "Bearer " + token;
+    cardType = type;
     if (!bankW) {
         pBankMain = new bankmain;
         connect(pBankMain,SIGNAL(loggingOut(void)),

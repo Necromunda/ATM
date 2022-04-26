@@ -65,22 +65,22 @@ static const uint qt_meta_data_LOGIN_DLL[] = {
  // signals: name, argc, parameters, tag, flags
        1,    0,   44,    2, 0x06 /* Public */,
        3,    1,   45,    2, 0x06 /* Public */,
-       4,    1,   48,    2, 0x06 /* Public */,
+       4,    2,   48,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   51,    2, 0x08 /* Private */,
-       6,    1,   52,    2, 0x08 /* Private */,
-       7,    1,   55,    2, 0x08 /* Private */,
+       5,    0,   53,    2, 0x08 /* Private */,
+       6,    1,   54,    2, 0x08 /* Private */,
+       7,    2,   57,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, QMetaType::QByteArray,    2,
+    QMetaType::Void, QMetaType::QByteArray, QMetaType::QString,    2,    2,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, QMetaType::QByteArray,    2,
+    QMetaType::Void, QMetaType::QByteArray, QMetaType::QString,    2,    2,
 
        0        // eod
 };
@@ -93,10 +93,10 @@ void LOGIN_DLL::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
         switch (_id) {
         case 0: _t->restartRFID(); break;
         case 1: _t->sendCardNumberToLoginEngine((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 2: _t->sendTokenToExe((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 2: _t->sendTokenToExe((*reinterpret_cast< QByteArray(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 3: _t->loginFailed(); break;
         case 4: _t->recvCardNumberFromExe((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 5: _t->recvTokenFromEngine((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 5: _t->recvTokenFromEngine((*reinterpret_cast< QByteArray(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -116,7 +116,7 @@ void LOGIN_DLL::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, v
             }
         }
         {
-            using _t = void (LOGIN_DLL::*)(QByteArray );
+            using _t = void (LOGIN_DLL::*)(QByteArray , QString );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LOGIN_DLL::sendTokenToExe)) {
                 *result = 2;
                 return;
@@ -179,9 +179,9 @@ void LOGIN_DLL::sendCardNumberToLoginEngine(QString _t1)
 }
 
 // SIGNAL 2
-void LOGIN_DLL::sendTokenToExe(QByteArray _t1)
+void LOGIN_DLL::sendTokenToExe(QByteArray _t1, QString _t2)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 2, _a);
 }
 QT_WARNING_POP

@@ -22,8 +22,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_LOGIN_ENGINE_t {
-    QByteArrayData data[18];
-    char stringdata0[201];
+    QByteArrayData data[19];
+    char stringdata0[214];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -42,22 +42,24 @@ QT_MOC_LITERAL(6, 73, 10), // "beginTimer"
 QT_MOC_LITERAL(7, 84, 9), // "killTimer"
 QT_MOC_LITERAL(8, 94, 10), // "resetTimer"
 QT_MOC_LITERAL(9, 105, 8), // "cardLock"
-QT_MOC_LITERAL(10, 114, 7), // "recvPin"
-QT_MOC_LITERAL(11, 122, 14), // "recvCardNumber"
-QT_MOC_LITERAL(12, 137, 8), // "tokenReq"
-QT_MOC_LITERAL(13, 146, 8), // "tokenRes"
-QT_MOC_LITERAL(14, 155, 14), // "QNetworkReply*"
-QT_MOC_LITERAL(15, 170, 5), // "reply"
-QT_MOC_LITERAL(16, 176, 15), // "cardLockHandler"
-QT_MOC_LITERAL(17, 192, 8) // "rejected"
+QT_MOC_LITERAL(10, 114, 12), // "recvCardType"
+QT_MOC_LITERAL(11, 127, 7), // "recvPin"
+QT_MOC_LITERAL(12, 135, 14), // "recvCardNumber"
+QT_MOC_LITERAL(13, 150, 8), // "tokenReq"
+QT_MOC_LITERAL(14, 159, 8), // "tokenRes"
+QT_MOC_LITERAL(15, 168, 14), // "QNetworkReply*"
+QT_MOC_LITERAL(16, 183, 5), // "reply"
+QT_MOC_LITERAL(17, 189, 15), // "cardLockHandler"
+QT_MOC_LITERAL(18, 205, 8) // "rejected"
 
     },
     "LOGIN_ENGINE\0startAuth\0\0sendTokenToLogin\0"
     "wrongPinMsg\0loginFailedInEngine\0"
     "beginTimer\0killTimer\0resetTimer\0"
-    "cardLock\0recvPin\0recvCardNumber\0"
-    "tokenReq\0tokenRes\0QNetworkReply*\0reply\0"
-    "cardLockHandler\0rejected"
+    "cardLock\0recvCardType\0recvPin\0"
+    "recvCardNumber\0tokenReq\0tokenRes\0"
+    "QNetworkReply*\0reply\0cardLockHandler\0"
+    "rejected"
 };
 #undef QT_MOC_LITERAL
 
@@ -67,7 +69,7 @@ static const uint qt_meta_data_LOGIN_ENGINE[] = {
        8,       // revision
        0,       // classname
        0,    0, // classinfo
-      14,   14, // methods
+      15,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -75,26 +77,27 @@ static const uint qt_meta_data_LOGIN_ENGINE[] = {
        8,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    1,   84,    2, 0x06 /* Public */,
-       3,    1,   87,    2, 0x06 /* Public */,
-       4,    1,   90,    2, 0x06 /* Public */,
-       5,    0,   93,    2, 0x06 /* Public */,
-       6,    0,   94,    2, 0x06 /* Public */,
-       7,    0,   95,    2, 0x06 /* Public */,
-       8,    0,   96,    2, 0x06 /* Public */,
-       9,    1,   97,    2, 0x06 /* Public */,
+       1,    1,   89,    2, 0x06 /* Public */,
+       3,    2,   92,    2, 0x06 /* Public */,
+       4,    1,   97,    2, 0x06 /* Public */,
+       5,    0,  100,    2, 0x06 /* Public */,
+       6,    0,  101,    2, 0x06 /* Public */,
+       7,    0,  102,    2, 0x06 /* Public */,
+       8,    0,  103,    2, 0x06 /* Public */,
+       9,    1,  104,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      10,    1,  100,    2, 0x08 /* Private */,
-      11,    1,  103,    2, 0x08 /* Private */,
-      12,    1,  106,    2, 0x08 /* Private */,
-      13,    1,  109,    2, 0x08 /* Private */,
-      16,    1,  112,    2, 0x08 /* Private */,
-      17,    0,  115,    2, 0x08 /* Private */,
+      10,    1,  107,    2, 0x08 /* Private */,
+      11,    1,  110,    2, 0x08 /* Private */,
+      12,    1,  113,    2, 0x08 /* Private */,
+      13,    1,  116,    2, 0x08 /* Private */,
+      14,    1,  119,    2, 0x08 /* Private */,
+      17,    1,  122,    2, 0x08 /* Private */,
+      18,    0,  125,    2, 0x08 /* Private */,
 
  // signals: parameters
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, QMetaType::QByteArray,    2,
+    QMetaType::Void, QMetaType::QByteArray, QMetaType::QString,    2,    2,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void,
     QMetaType::Void,
@@ -106,7 +109,8 @@ static const uint qt_meta_data_LOGIN_ENGINE[] = {
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void, QMetaType::QString,    2,
-    QMetaType::Void, 0x80000000 | 14,   15,
+    QMetaType::Void, QMetaType::QString,    2,
+    QMetaType::Void, 0x80000000 | 15,   16,
     QMetaType::Void, QMetaType::QString,    2,
     QMetaType::Void,
 
@@ -120,25 +124,26 @@ void LOGIN_ENGINE::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
         Q_UNUSED(_t)
         switch (_id) {
         case 0: _t->startAuth((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 1: _t->sendTokenToLogin((*reinterpret_cast< QByteArray(*)>(_a[1]))); break;
+        case 1: _t->sendTokenToLogin((*reinterpret_cast< QByteArray(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
         case 2: _t->wrongPinMsg((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 3: _t->loginFailedInEngine(); break;
         case 4: _t->beginTimer(); break;
         case 5: _t->killTimer(); break;
         case 6: _t->resetTimer(); break;
         case 7: _t->cardLock((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 8: _t->recvPin((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 9: _t->recvCardNumber((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 10: _t->tokenReq((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 11: _t->tokenRes((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
-        case 12: _t->cardLockHandler((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 13: _t->rejected(); break;
+        case 8: _t->recvCardType((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 9: _t->recvPin((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 10: _t->recvCardNumber((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 11: _t->tokenReq((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 12: _t->tokenRes((*reinterpret_cast< QNetworkReply*(*)>(_a[1]))); break;
+        case 13: _t->cardLockHandler((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 14: _t->rejected(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
-        case 11:
+        case 12:
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<int*>(_a[0]) = -1; break;
             case 0:
@@ -156,7 +161,7 @@ void LOGIN_ENGINE::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id
             }
         }
         {
-            using _t = void (LOGIN_ENGINE::*)(QByteArray );
+            using _t = void (LOGIN_ENGINE::*)(QByteArray , QString );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&LOGIN_ENGINE::sendTokenToLogin)) {
                 *result = 1;
                 return;
@@ -236,13 +241,13 @@ int LOGIN_ENGINE::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 14)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 15;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 14)
+        if (_id < 15)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 14;
+        _id -= 15;
     }
     return _id;
 }
@@ -255,9 +260,9 @@ void LOGIN_ENGINE::startAuth(QString _t1)
 }
 
 // SIGNAL 1
-void LOGIN_ENGINE::sendTokenToLogin(QByteArray _t1)
+void LOGIN_ENGINE::sendTokenToLogin(QByteArray _t1, QString _t2)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t1))), const_cast<void*>(reinterpret_cast<const void*>(std::addressof(_t2))) };
     QMetaObject::activate(this, &staticMetaObject, 1, _a);
 }
 
