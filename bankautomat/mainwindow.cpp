@@ -71,9 +71,6 @@ MainWindow::~MainWindow()
     
     delete pLOGIN;
     pLOGIN = nullptr;
-
-//    delete pBankMain;
-//    pBankMain = nullptr;
     
     delete pREST;
     pREST = nullptr;
@@ -269,7 +266,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         qDebug() << "Application closed";
         event->accept();
-//        this->deleteLater();
         exit(0);
     }
 }
@@ -286,7 +282,6 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
     runStateMachine(State, Event);
     loggedIn = true;
     myToken = "Bearer " + token;
-    cardType = type;
     if (!bankW) {
         pBankMain = new bankmain;
         connect(pBankMain,SIGNAL(loggingOut(void)),
@@ -307,12 +302,15 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
                 this,SLOT(getCustomTransfers(int, int)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
+        connect(this,SIGNAL(sendCardType(QString)),
+                pBankMain,SLOT(recvCardType(QString)));
         bankW = true;
     };
     getName();
     this->hide();
     pBankMain->show();
     emit beginTimer();
+    emit sendCardType(type);
 }
 
 void MainWindow::loggedOut()
@@ -441,7 +439,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    qDebug() << "test: " + QSslSocket::sslLibraryBuildVersionString();
     Event = userInsertedCard;
     runStateMachine(State, Event);
     cardNumber = "06000649B0";

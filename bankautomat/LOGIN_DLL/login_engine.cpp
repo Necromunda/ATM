@@ -105,6 +105,7 @@ void LOGIN_ENGINE::recvCardType(QString type)
     pDebitCredit->close();
     pDebitCredit->deleteLater();
     loginSuccesful = true;
+    pLOGIN_UI->close();
     emit sendTokenToLogin(myToken, type);
 }
 
@@ -146,17 +147,16 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
     if (myToken != "false") {
         tries = 3;
         qDebug() << "Correct pin.";
-        pLOGIN_UI->close();
+        pLOGIN_UI->hide();
         reply->deleteLater();
         manager->deleteLater();
         emit wrongPinMsg("Enter 4 digit pin.");
-//        emit sendTokenToLogin(myToken, "debit");
         checkForCredit("accID");
     } else {
         tries--;
         qDebug() << "Incorrect pin.";
         QString s = QString::number(tries);
-        msg = "Incorrect pin, "+ s +" tries left";
+        QString msg = "Incorrect pin, "+ s +" tries left";
         if (tries > 0) {
             emit resetTimer();
             emit wrongPinMsg(msg);
@@ -187,6 +187,8 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
             QJsonObject json_obj = json_doc.object();
             QString res = QString::number(json_obj["locked"].toInt());
             qDebug() << res;
+            manager->deleteLater();
+            reply->deleteLater();
             if (res == "0") {
                 pLOGIN_UI->show();
                 emit beginTimer();
@@ -198,10 +200,7 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
                 qDebug() << "Can't determine locked status.";
             }
         }
-        //    manager->deleteLater();
-        //    reply->deleteLater();
-    }
-    );
+    });
     if (method == "lock") {
         QNetworkRequest request(("http://banksimul-api.herokuapp.com/lock/"+cardNumber));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");

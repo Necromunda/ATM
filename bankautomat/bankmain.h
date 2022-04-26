@@ -33,6 +33,7 @@ private slots:
     void drawMoney(QString);
     void recvTransferLog(QByteArray);
     void recvCustomTransfers(QByteArray);
+    void recvCardType(QString);
     void on_balanceButton_clicked();
     void on_accountActionsButton_clicked();
     void on_prevActionsButton_clicked();
@@ -56,6 +57,7 @@ private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
     QTimer *timer;
+    QString cardType;
     int bot, top;
 };
 

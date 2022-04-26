@@ -67,7 +67,7 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString dateTime, cardNumber, amount, accountId, cardType;
+    QString dateTime, cardNumber, amount, accountId;
 
     states State = waitingCard;
     events Event;
@@ -108,6 +108,7 @@ signals:
     void restTransfer(QByteArray, QString, QString, QJsonObject); // Parametrit: Tunniste, Token, Metodi Tarkenne, Body
     void sendRestResult(QByteArray);
     void beginTimer(void);
+    void sendCardType(QString);
 
 public slots:
     void runStateMachine(states, events);

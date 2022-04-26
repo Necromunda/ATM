@@ -22,7 +22,7 @@ private:
     QNetworkAccessManager *manager;
     QNetworkReply *reply;
     QByteArray myToken;
-    QString cardNumber, token, msg, accountId;
+    QString cardNumber, token, accountId;
     int tries;
     bool loginSuccesful = false;
 

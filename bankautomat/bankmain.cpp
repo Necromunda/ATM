@@ -42,7 +42,7 @@ void bankmain::startTimer()
 
 void bankmain::timeout()
 {
- //   qDebug() << "Bankmain timeout";
+    qDebug() << "Bankmain timeout";
     QWidget::close();
 }
 
@@ -136,11 +136,17 @@ void bankmain::drawMoney(QString msg)
     int oldBal = QString(ui->balanceLabel->text()).toInt();
     int withdrawal = QString(msg).toInt();
 
-    if ((oldBal-withdrawal) >= 0) {
+    qDebug() << "Card type is: " << cardType;
+    if ((oldBal-withdrawal) < 0) {
+        if (cardType == "credit") {
+            emit drawMoneySignal(msg);
+            emit addTransfer();
+        } else {
+            emit cancelWithdrawal("Balance too low");
+        }
+    } else {
         emit drawMoneySignal(msg);
         emit addTransfer();
-    } else {
-        emit cancelWithdrawal("Balance too low");
     }
 }
 
@@ -151,8 +157,7 @@ void bankmain::recvTransferLog(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-//        log+=QString::number(json_obj["transfer_id"].toInt())+", "+QString::number(json_obj["amount"].toInt())+", "+json_obj["date"].toString()+", "+json_obj["card_number"].toString()+", "+QString::number(json_obj["accounts_account_id"].toInt())+"\r";
-        log+="Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -165,9 +170,13 @@ void bankmain::recvCustomTransfers(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-//        log+=QString::number(json_obj["transfer_id"].toInt())+", "+QString::number(json_obj["amount"].toInt())+", "+json_obj["date"].toString()+", "+json_obj["card_number"].toString()+", "+QString::number(json_obj["accounts_account_id"].toInt())+"\r";
         log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
+}
+
+void bankmain::recvCardType(QString msg)
+{
+    cardType = msg;
 }

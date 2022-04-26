@@ -9,7 +9,7 @@ drawmoney::drawmoney(QWidget *parent) :
     qDebug() << "pDawMoney window created";
     amount = 0;
     cAmount = 0;
-    ui->customAmountLineEdit->setValidator(new QIntValidator(0, 100, this));
+    ui->customAmountLineEdit->setValidator(new QIntValidator(0, 10000, this));
 }
 
 drawmoney::~drawmoney()
