@@ -32,6 +32,7 @@ private slots:
     void setBalance(QByteArray);
     void drawMoney(QString);
     void recvTransferLog(QByteArray);
+    void recvCustomTransfers(QByteArray);
     void on_balanceButton_clicked();
     void on_accountActionsButton_clicked();
     void on_prevActionsButton_clicked();
@@ -47,13 +48,15 @@ signals:
     void restartTimer(void);
     void addTransfer(void);
     void getAccId(void);
-    void getAllTransfers();
+    void getAllTransfers(void);
+    void getCustom(int, int);
     void disconnectRestSignal(void);
 
 private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
     QTimer *timer;
+    int bot, top;
 };
 
 #endif // BANKMAIN_H

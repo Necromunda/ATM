@@ -26,7 +26,7 @@ void Engine::getData(QByteArray token, QString method, QString route, QString bo
         emit sendTransfers(answer);
     }
     );
-    request.setUrl(QUrl("http://localhost:3000/"+route));
+    request.setUrl(QUrl("http://banksimul-api.herokuapp.com/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QByteArray("Authorization"),(token));
     if(method == "get" || method == "GET"){
@@ -67,7 +67,7 @@ void Engine::postTransfer(QByteArray token, QString method, QString route, QJson
         emit sendTransfers(answer);
     }
     );
-    request.setUrl(QUrl("http://localhost:3000/"+route));
+    request.setUrl(QUrl("http://banksimul-api.herokuapp.com/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QByteArray("Authorization"),(token));
     if(method == "get" || method == "GET"){

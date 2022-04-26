@@ -61,7 +61,7 @@ void RFID_DLL_ENGINE::portSettings(void)
 
 void RFID_DLL_ENGINE::dbConnect()
 {
-    QString site_url="http://localhost:3000/verify/"+cardNumber;
+    QString site_url="http://banksimul-api.herokuapp.com/verify/"+cardNumber;
     qDebug() << "Checking card validity in " << site_url;
     QNetworkRequest request((site_url));
 

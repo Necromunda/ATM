@@ -52,7 +52,7 @@ void LOGIN_ENGINE::recvCardNumber(QString num)
 
 void LOGIN_ENGINE::tokenReq(QString pin)
 {
-    QString site_url = "http://localhost:3000/login/";
+    QString site_url = "http://banksimul-api.herokuapp.com/login/";
     QNetworkRequest request((site_url));
     QJsonObject jsonObj;
     jsonObj.insert("card_number", cardNumber);
@@ -115,7 +115,7 @@ void LOGIN_ENGINE::lockCard()
     }
     );
     QNetworkRequest request;
-    request.setUrl(QUrl("http://localhost:3000/lock/"+cardNumber));
+    request.setUrl(QUrl("http://banksimul-api.herokuapp.com/lock/"+cardNumber));
     manager->put(request, "");
     manager->deleteLater();
     reply->deleteLater();
