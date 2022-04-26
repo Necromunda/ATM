@@ -21,11 +21,9 @@ void Engine::getData(QByteArray token, QString method, QString route, QString bo
         }
 
         QByteArray answer=reply->readAll();
-
         //  qDebug() << answer;
         emit sendTransfers(answer);
-    }
-    );
+    });
     request.setUrl(QUrl("http://banksimul-api.herokuapp.com/"+route));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader(QByteArray("Authorization"),(token));

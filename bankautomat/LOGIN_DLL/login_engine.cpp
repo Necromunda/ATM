@@ -52,28 +52,30 @@ void LOGIN_ENGINE::checkForCredit(QString method)
             QJsonObject json_obj = json_doc.object();
             accountId = QString::number(json_obj["accounts_account_id"].toInt());
             qDebug() << "Account ID: " << accountId;
+//            manager->deleteLater();
+//            reply->deleteLater();
             checkForCredit("credit");
         } else if (method == "credit") {
             QJsonDocument json_doc = QJsonDocument::fromJson(answer);
             QJsonObject json_obj = json_doc.object();
             credit = QString::number(json_obj["credit"].toInt());
             qDebug() << "Card type: " << credit;
-            manager->deleteLater();
-            reply->deleteLater();
+//            manager->deleteLater();
+//            reply->deleteLater();
         }
     });
     QByteArray tempToken = "Bearer " + myToken;
     if (method == "accID") {
         qDebug() << "Getting account ID";
-        //        QNetworkRequest request(("http://banksimul-api.herokuapp.com/cards/accountId/"+cardNumber));
-        QNetworkRequest request(("http://localhost:3000/cards/accountId/"+cardNumber));
+//        QNetworkRequest request(("http://banksimul-api.herokuapp.com/cards/accountId/"+cardNumber));
+        QNetworkRequest request(("http://banksimul-api.herokuapp.com/cards/accountId/"+cardNumber));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         request.setRawHeader(QByteArray("Authorization"),(tempToken));
         manager->get(request);
     } else if (method == "credit") {
         qDebug() << "Getting card type";
-        //        QNetworkRequest request(("http://banksimul-api.herokuapp.com/accounts/credit/"+credit));
-        QNetworkRequest request(("http://localhost:3000/accounts/credit/"+credit));
+//        QNetworkRequest request(("http://banksimul-api.herokuapp.com/accounts/credit/"+credit));
+        QNetworkRequest request(("http://banksimul-api.herokuapp.com/accounts/credit/"+credit));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
         request.setRawHeader(QByteArray("Authorization"),(tempToken));
         manager->get(request);
@@ -130,6 +132,7 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
         reply->deleteLater();
         manager->deleteLater();
         emit wrongPinMsg("Enter 4 digit pin.");
+//        emit sendTokenToLogin(myToken, "debit");
         checkForCredit("accID");
         if (credit == "1") {
             pDebitCredit = new debitCreditWindow;

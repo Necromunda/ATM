@@ -15,7 +15,6 @@ class LOGIN_ENGINE : public QObject
 public:
     LOGIN_ENGINE(QObject *parent = nullptr);
     ~LOGIN_ENGINE();
-    void checkForCredit(QString);
 
 private:
     LoginUi *pLOGIN_UI;
@@ -38,6 +37,7 @@ signals:
     void cardLock(QString);
 
 private slots:
+    void checkForCredit(QString);
     void recvCardType(QString);
     void recvPin(QString);
     void recvCardNumber(QString);
