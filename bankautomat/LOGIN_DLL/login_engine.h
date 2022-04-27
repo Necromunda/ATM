@@ -47,6 +47,7 @@ private slots:
     void tokenRes(QNetworkReply *reply);
     void cardLockHandler(QString);
     void rejected(void);
+    void creditWinClosed(void);
 };
 
 #endif // LOGIN_ENGINE_H

@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     pRFID = new RFID_DLL;
     connect(this,SIGNAL(getNumber()),
             pRFID,SLOT(getCardNumberFromEngine(void)));
@@ -266,7 +267,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         qDebug() << "Application closed";
         event->accept();
-        exit(0);
+        delete this;
     }
 }
 

@@ -86,6 +86,7 @@ private:
     void getName(void);
 
 signals:
+    void finishProgram(void);
     void getNumber(void);
     void cardNumberRead_signal(states, events);
     void pinCorrect_signal(states, events);
