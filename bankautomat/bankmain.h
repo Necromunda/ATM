@@ -41,6 +41,8 @@ private slots:
     void on_nextActionsButton_clicked();
     void on_drawMoneyButton_clicked();
     void on_exitButton_clicked();
+    void recvSelectedDateTransfers(QByteArray);
+    void on_calendarWidget_clicked(const QDate &date);
 
 signals:
     void loggingOut(void);
@@ -53,12 +55,13 @@ signals:
     void getAllTransfers(void);
     void getCustom(int, int);
     void disconnectRestSignal(void);
+    void sendSelectedDate(QString);
 
 private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
     QTimer *timer;
-    QString cardType;
+    QString cardType, selectedDate;
     int bot, top;
 };
 

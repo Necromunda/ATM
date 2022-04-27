@@ -69,12 +69,17 @@ void drawmoney::on_drawButton_clicked()
 {
     resetTimer();
     drawThis = ui->drawMoneyLineEdit->text();
-    ui->drawMoneyLineEdit->clear();
-    if (ui->customAmountLineEdit->hasAcceptableInput()) {
-        ui->customAmountLineEdit->clear();
+    if (drawThis == "") {
+        ui->drawMoneyLineEdit->setPlaceholderText("Can't draw 0");
+    } else {
+        ui->drawMoneyLineEdit->clear();
+        ui->drawMoneyLineEdit->setPlaceholderText("Insert amount");
+        if (ui->customAmountLineEdit->hasAcceptableInput()) {
+            ui->customAmountLineEdit->clear();
+        }
+        qDebug() << "Draw this amout: " << drawThis;
+        emit drawThisAmount(drawThis);
     }
-    qDebug() << "Draw this amout: " << drawThis;
-    emit drawThisAmount(drawThis);
 }
 
 void drawmoney::on_amountCustomButton_clicked()

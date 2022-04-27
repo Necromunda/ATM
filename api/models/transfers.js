@@ -4,6 +4,9 @@ const transfers = {
   getById: function(id, callback) {
     return db.query('select transfer_id, amount, date_format(date, "%d-%m-%Y %H:%i:%s") as date, card_number, accounts_account_id from transfers where accounts_account_id=?', [id], callback);
   },
+  getByDate: function(id, date, callback) {
+    return db.query('select transfer_id, amount, date_format(date, "%d-%m-%Y %H:%i:%s") as date, card_number, accounts_account_id from transfers WHERE date_format(date, "%d-%m-%Y %H:%i:%s") LIKE concat(?,"%") and accounts_account_id=?;', [date, id], callback);
+  },
   getCustom: function(id, bot, top, callback) {
     return db.query('call getNextAndPrevTransfers(?,?,?)', 
     [id, bot, top], callback);

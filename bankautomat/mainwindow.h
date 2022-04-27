@@ -127,6 +127,7 @@ private slots:
     void recvAccountId(QByteArray);
     void getTransferLog(void);
     void getCustomTransfers(int, int);
+    void getSelectedDateTransfers(QString);
     void on_exitApp_clicked();
     void disconnectRest(void);
 

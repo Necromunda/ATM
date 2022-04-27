@@ -305,6 +305,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
                 this,SLOT(disconnectRest(void)));
         connect(this,SIGNAL(sendCardType(QString)),
                 pBankMain,SLOT(recvCardType(QString)));
+        connect(pBankMain,SIGNAL(sendSelectedDate(QString)),
+                this,SLOT(getSelectedDateTransfers(QString)));
         bankW = true;
     };
     getName();
@@ -425,6 +427,18 @@ void MainWindow::getCustomTransfers(int bot, int top)
     connect(this,SIGNAL(sendRestResult(QByteArray)),
             pBankMain,SLOT(recvCustomTransfers(QByteArray)));
     emit getREST(myToken, "GET", "transfers/custom/"+accountId+"/"+QString::number(bot)+"/"+QString::number(top), "");
+    Event = doneShowingTransactions;
+    runStateMachine(State, Event);
+}
+
+void MainWindow::getSelectedDateTransfers(QString msg)
+{
+    Event = showTransactions_event;
+    runStateMachine(State,Event);
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvSelectedDateTransfers(QByteArray)));
+    qDebug() << "transfers/selectedDate/"+accountId+"/"+msg;
+    emit getREST(myToken, "GET", "transfers/selectedDate/"+accountId+"/"+msg, "");
     Event = doneShowingTransactions;
     runStateMachine(State, Event);
 }

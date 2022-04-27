@@ -17,7 +17,24 @@ router.get('/:id?',
   }
   else {
       response.status(403);
-      response.json("missing id");
+      response.json("Missing id.");
+  }
+});
+
+router.get('/selectedDate/:id/:date',
+ function(request, response) {
+  if (request.params.id) {
+    transfers.getByDate(request.params.id, request.params.date, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult);
+      }
+    });
+  }
+  else {
+      response.status(403);
+      response.json("Something went wrong.");
   }
 });
 
@@ -34,7 +51,7 @@ router.get('/custom/:id/:bot/:top',
   }
   else {
       response.status(403);
-      response.json("missing id");
+      response.json("Something went wrong.");
   }
 });
 

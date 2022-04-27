@@ -165,6 +165,15 @@
      <height>201</height>
     </rect>
    </property>
+   <property name="gridVisible">
+    <bool>true</bool>
+   </property>
+   <property name="verticalHeaderFormat">
+    <enum>QCalendarWidget::ISOWeekNumbers</enum>
+   </property>
+   <property name="navigationBarVisible">
+    <bool>true</bool>
+   </property>
   </widget>
  </widget>
  <resources/>
