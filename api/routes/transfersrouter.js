@@ -15,7 +15,24 @@ router.get('/:id?',
       }
     });
   }
-  else{
+  else {
+      response.status(403);
+      response.json("missing id");
+  }
+});
+
+router.get('/custom/:id/:bot/:top',
+ function(request, response) {
+  if (request.params.id) {
+    transfers.getCustom(request.params.id, request.params.bot, request.params.top, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult[0]);
+      }
+    });
+  }
+  else {
       response.status(403);
       response.json("missing id");
   }
@@ -56,7 +73,5 @@ function(req, res) {
     }
   });
 });
-
-
 
 module.exports = router;

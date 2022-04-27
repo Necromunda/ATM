@@ -9,3 +9,13 @@ bankautomat/*.user
 bankautomat/RFID_DLL/build/
 
 bankautomat/RFID_DLL/*.user
+
+bankautomat/LOGIN_DLL/build/
+
+bankautomat/LOGIN_DLL/*.user
+
+bankautomat/REST_DLL/build/
+
+bankautomat/REST_DLL/*.user
+
+group1/banksimul.sql

@@ -24,6 +24,23 @@ router.get('/:id?',
   }
 });
 
+router.get('/credit/:id',
+ function(request, response) {
+  if (request.params.id) {
+    accounts.getCredit(request.params.id, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        if (dbResult == '') {
+          response.json("Not found")
+        } else {
+          response.json(dbResult[0]);
+        }
+      }
+    });
+  }
+});
+
 router.post('/', 
 function(req, res) {
   accounts.add(req.body, function(err, dbResult) {
