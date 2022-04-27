@@ -84,7 +84,6 @@ void RFID_DLL_ENGINE::checkCardValidity(QNetworkReply *reply)
     } else {
         qDebug() << "Card not valid";
     }
-
     reply->deleteLater();
     getManager->deleteLater();
 }

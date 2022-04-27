@@ -22,12 +22,12 @@ private:
 signals:
     void restartRFID(void);
     void sendCardNumberToLoginEngine(QString);
-    void sendTokenToExe(QByteArray);
+    void sendTokenToExe(QByteArray, QString);
 
 private slots:
     void loginFailed(void);
     void recvCardNumberFromExe(QString);
-    void recvTokenFromEngine(QByteArray);
+    void recvTokenFromEngine(QByteArray, QString);
 
 };
 

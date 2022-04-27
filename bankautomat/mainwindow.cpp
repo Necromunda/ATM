@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
     pLOGIN = new LOGIN_DLL;
     connect(this,SIGNAL(sendCardNumberToLogin(QString)),
             pLOGIN,SLOT(recvCardNumberFromExe(QString)));
-    connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray)),
-            this,SLOT(recvTokenFromLogin(QByteArray)));
+    connect(pLOGIN,SIGNAL(sendTokenToExe(QByteArray, QString)),
+            this,SLOT(recvTokenFromLogin(QByteArray, QString)));
     connect(pLOGIN,SIGNAL(restartRFID(void)),
             pRFID,SLOT(restartEngine(void)));
     connect(this,SIGNAL(loggedOutRestartEngine(void)),
@@ -71,9 +71,6 @@ MainWindow::~MainWindow()
     
     delete pLOGIN;
     pLOGIN = nullptr;
-
-//    delete pBankMain;
-//    pBankMain = nullptr;
     
     delete pREST;
     pREST = nullptr;
@@ -269,7 +266,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
     } else {
         qDebug() << "Application closed";
         event->accept();
-//        this->deleteLater();
         exit(0);
     }
 }
@@ -280,7 +276,7 @@ void MainWindow::recvCardNumberFromDll(QString recvd)
     emit sendCardNumberToLogin(cardNumber);
 }
 
-void MainWindow::recvTokenFromLogin(QByteArray token)
+void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
 {
     Event = userGaveCorrectPin;
     runStateMachine(State, Event);
@@ -306,12 +302,15 @@ void MainWindow::recvTokenFromLogin(QByteArray token)
                 this,SLOT(getCustomTransfers(int, int)));
         connect(pBankMain,SIGNAL(disconnectRestSignal(void)),
                 this,SLOT(disconnectRest(void)));
+        connect(this,SIGNAL(sendCardType(QString)),
+                pBankMain,SLOT(recvCardType(QString)));
         bankW = true;
     };
     getName();
     this->hide();
     pBankMain->show();
     emit beginTimer();
+    emit sendCardType(type);
 }
 
 void MainWindow::loggedOut()
@@ -440,7 +439,6 @@ void MainWindow::on_pushButton_clicked()
 
 void MainWindow::on_pushButton_2_clicked()
 {
-    qDebug() << "test: " + QSslSocket::sslLibraryBuildVersionString();
     Event = userInsertedCard;
     runStateMachine(State, Event);
     cardNumber = "06000649B0";

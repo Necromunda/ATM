@@ -15,8 +15,8 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
     connect(this,SIGNAL(wrongPinMsg(QString)),
             pLOGIN_UI,SLOT(wrongPin(QString)));
 
-    connect(pLOGIN_UI,SIGNAL(aboutToQuit()),
-            this,SLOT(rejected()));
+    connect(pLOGIN_UI,SIGNAL(aboutToQuit(void)),
+            this,SLOT(rejected(void)));
 
     connect(this,SIGNAL(beginTimer(void)),
             pLOGIN_UI,SLOT(startTimer(void)));
@@ -29,10 +29,84 @@ LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 
     connect(this,SIGNAL(cardLock(QString)),
             this,SLOT(cardLockHandler(QString)));
+
+    connect(this,SIGNAL(askForDebitOrCredit(QString)),
+            this,SLOT(askDebitOrCredit(QString)));
 }
 
 LOGIN_ENGINE::~LOGIN_ENGINE()
 {
+}
+
+void LOGIN_ENGINE::askDebitOrCredit(QString credit)
+{
+    if (credit == "1") {
+        pDebitCredit = new debitCreditWindow;
+        connect(pDebitCredit,SIGNAL(sendCardType(QString)),
+                this,SLOT(recvCardType(QString)));
+        connect(pDebitCredit,SIGNAL(aboutToClose(void)),
+                this,SLOT(rejected(void)));
+        pDebitCredit->show();
+    } else if (credit == "0") {
+        loginSuccesful = true;
+        emit sendTokenToLogin(myToken, "debit");
+    } else {
+        qDebug() << "Something went wrong.";
+    }
+}
+
+void LOGIN_ENGINE::checkForCredit(QString method)
+{
+    manager = new QNetworkAccessManager();
+    QObject::connect(manager, &QNetworkAccessManager::finished,
+                     this, [=](QNetworkReply *reply) {
+        if (reply->error()) {
+            QString answer = reply->errorString();
+            qDebug() << "error" << reply->errorString();
+            return;
+        }
+        QByteArray answer=reply->readAll();
+        qDebug() << "Answer: " << answer;
+        if (method == "accID") {
+            QJsonDocument json_doc = QJsonDocument::fromJson(answer);
+            QJsonObject json_obj = json_doc.object();
+            accountId = QString::number(json_obj["accounts_account_id"].toInt());
+            qDebug() << "Account ID: " << accountId;
+            manager->deleteLater();
+            reply->deleteLater();
+            checkForCredit("credit");
+        } else if (method == "credit") {
+            QJsonDocument json_doc = QJsonDocument::fromJson(answer);
+            QJsonObject json_obj = json_doc.object();
+            QString credit = QString::number(json_obj["credit"].toInt());
+            qDebug() << "Card type: " << credit;
+            manager->deleteLater();
+            reply->deleteLater();
+            emit askForDebitOrCredit(credit);
+        }
+    });
+    if (method == "accID") {
+        qDebug() << "Getting account ID";
+        QNetworkRequest request(("http://banksimul-api.herokuapp.com/cards/accountId/"+cardNumber));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setRawHeader(QByteArray("Authorization"),("Bearer " + myToken));
+        manager->get(request);
+    } else if (method == "credit") {
+        qDebug() << "Getting card type";
+        QNetworkRequest request(("http://banksimul-api.herokuapp.com/accounts/credit/"+accountId));
+        request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
+        request.setRawHeader(QByteArray("Authorization"),("Bearer " + myToken));
+        manager->get(request);
+    }
+}
+
+void LOGIN_ENGINE::recvCardType(QString type)
+{
+    pDebitCredit->close();
+    pDebitCredit->deleteLater();
+    loginSuccesful = true;
+    pLOGIN_UI->close();
+    emit sendTokenToLogin(myToken, type);
 }
 
 void LOGIN_ENGINE::recvPin(QString code)
@@ -71,19 +145,18 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
     myToken=reply->readAll();
 
     if (myToken != "false") {
-        loginSuccesful = true;
         tries = 3;
         qDebug() << "Correct pin.";
-        pLOGIN_UI->close();
+        pLOGIN_UI->hide();
         reply->deleteLater();
         manager->deleteLater();
         emit wrongPinMsg("Enter 4 digit pin.");
-        emit sendTokenToLogin(myToken);
+        checkForCredit("accID");
     } else {
         tries--;
         qDebug() << "Incorrect pin.";
         QString s = QString::number(tries);
-        msg = "Incorrect pin, "+ s +" tries left";
+        QString msg = "Incorrect pin, "+ s +" tries left";
         if (tries > 0) {
             emit resetTimer();
             emit wrongPinMsg(msg);
@@ -112,21 +185,22 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
         if (method == "status") {
             QJsonDocument json_doc = QJsonDocument::fromJson(answer);
             QJsonObject json_obj = json_doc.object();
-            res = QString::number(json_obj["locked"].toInt());
+            QString res = QString::number(json_obj["locked"].toInt());
             qDebug() << res;
+            manager->deleteLater();
+            reply->deleteLater();
             if (res == "0") {
                 pLOGIN_UI->show();
                 emit beginTimer();
             } else if (res == "1"){
                 qDebug() << "Card is locked.";
+                emit wrongPinMsg("Enter 4 digit pin.");
+                emit loginFailedInEngine();
             } else {
                 qDebug() << "Can't determine locked status.";
             }
         }
-        //    manager->deleteLater();
-        //    reply->deleteLater();
-    }
-    );
+    });
     if (method == "lock") {
         QNetworkRequest request(("http://banksimul-api.herokuapp.com/lock/"+cardNumber));
         request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
@@ -142,7 +216,7 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
 
 void LOGIN_ENGINE::rejected()
 {
-    qDebug() << "Window was closed";
+    qDebug() << "Login closed.";
     emit killTimer();
     if (!loginSuccesful) {
         tries = 3;

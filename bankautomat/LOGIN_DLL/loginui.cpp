@@ -25,9 +25,13 @@ LoginUi::~LoginUi()
 
 void LoginUi::closeEvent(QCloseEvent *event)
 {
-    event->accept();
-    ui->lineEdit->clear();
-    emit aboutToQuit();
+    if (this->isHidden()) {
+        event->ignore();
+    } else {
+        event->accept();
+        ui->lineEdit->clear();
+        emit aboutToQuit();
+    }
 }
 
 void LoginUi::resetTimer()
