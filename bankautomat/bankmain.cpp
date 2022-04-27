@@ -36,8 +36,14 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
- //   qDebug() << "Bankmain timeout timer started";
+    qDebug() << "Bankmain timeout timer started";
     timer->start();
+}
+
+void bankmain::stopTimer()
+{
+    qDebug() << "Bankmain timeout timer stopped";
+    timer->stop();
 }
 
 void bankmain::timeout()
@@ -121,10 +127,12 @@ void bankmain::on_nextActionsButton_clicked()
 
 void bankmain::on_drawMoneyButton_clicked()
 {
-    resetTimer();
+    stopTimer();
     pDrawMoney = new drawmoney(this);
-    connect(pDrawMoney, SIGNAL(drawThisAmount(QString)),
+    connect(pDrawMoney,SIGNAL(drawThisAmount(QString)),
             this,SLOT(drawMoney(QString)));
+    connect(pDrawMoney,SIGNAL(startBankmainTimer(void)),
+            this,SLOT(startTimer(void)));
     pDrawMoney->show();
     emit updateBalance();
 }

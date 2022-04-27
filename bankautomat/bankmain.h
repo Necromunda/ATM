@@ -26,6 +26,7 @@ public:
 private slots:
     void resetTimer();
     void startTimer(void);
+    void stopTimer(void);
     void timeout(void);
     void closeEvent(QCloseEvent*);
     void setName(QByteArray);
