@@ -13,4 +13,4 @@ Tietokantaa hostaa freemysqlhosting.net.
 REST-apia hostaa heroku.com
 
 ## ER-kaavio
-Tietokannan ER-kaavio näyttää tältä <img src="Documents/tietokanta-er-kaavio.png">
+Tietokannan ER-kaavio näyttää tältä <img src="Documents/banksimul-db-27-4.png">
