@@ -27,11 +27,19 @@ Tietokannan ER-kaavio näyttää tältä.
 ## Ohjelman käyttöliittymät
 Syötä kortti. 
 <img src="Documents/insert-card-window.png">
+
+
 Syötä pin. 
 <img src="Documents/insert-pin-window.png">
+
+
 Valitse credit tai debit. 
 <img src="Documents/debit-or-credit-window.png">
+
+
 Pääkäyttöliittymä. 
 <img src="Documents/main-bank-interface-window.png">
+
+
 Nosta rahaa. 
 <img src="Documents/draw-money-window.png">
