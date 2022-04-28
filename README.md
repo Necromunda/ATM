@@ -21,21 +21,15 @@ Tietokantaa isännöi freemysqlhosting.net.
 REST-apia isännöi heroku.com
 
 ## ER-kaavio
-Tietokannan ER-kaavio näyttää tältä. 
-<img src="Documents/banksimul-db-27-4.png">
+Tietokannan ER-kaavio näyttää tältä. <img src="Documents/banksimul-db-27-4.png">
 
 ## Ohjelman käyttöliittymät
-Syötä kortti. 
-<img src="Documents/insert-card-window.png">
-***
-Syötä pin. 
-<img src="Documents/insert-pin-window.png">
-***
-Valitse credit tai debit. 
-<img src="Documents/debit-or-credit-window.png">
-***
-Pääkäyttöliittymä. 
-<img src="Documents/main-bank-interface-window.png">
-***
-Nosta rahaa. 
-<img src="Documents/draw-money-window.png">
+Syötä kortti. <img src="Documents/insert-card-window.png">
+
+Syötä pin. <img src="Documents/insert-pin-window.png">
+
+Valitse credit tai debit. <img src="Documents/debit-or-credit-window.png">
+
+Pääkäyttöliittymä. <img src="Documents/main-bank-interface-window.png">
+
+Nosta rahaa. <img src="Documents/draw-money-window.png">
