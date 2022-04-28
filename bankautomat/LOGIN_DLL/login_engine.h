@@ -44,7 +44,7 @@ private slots:
     void recvPin(QString);
     void recvCardNumber(QString);
     void tokenReq(QString);
-    void tokenRes(QNetworkReply *reply);
+    void tokenRes(QNetworkReply*);
     void cardLockHandler(QString);
     void rejected(void);
     void creditWinClosed(void);

@@ -15,7 +15,6 @@ public:
 
 private:
     RFID_DLL_ENGINE *pRFID_ENGINE;
-    QString cardNumber;
 
 signals:
     void sendCardNumberToExe(QString);

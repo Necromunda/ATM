@@ -2,7 +2,6 @@
 
 LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 {
-    qDebug() << "LOGIN_ENGINE constructor";
     tries = 3;
     pLOGIN_UI = new LoginUi();
     connect(pLOGIN_UI,SIGNAL(sendPinToEngine(QString)),
@@ -116,7 +115,7 @@ void LOGIN_ENGINE::recvCardNumber(QString num)
 {
     cardNumber = num;
     loginSuccesful = false;
-    qDebug() << cardNumber << "in login";
+//    qDebug() << cardNumber << "in login";
     cardLockHandler("status");
 }
 
@@ -182,7 +181,7 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
             QJsonDocument json_doc = QJsonDocument::fromJson(answer);
             QJsonObject json_obj = json_doc.object();
             QString res = QString::number(json_obj["locked"].toInt());
-            qDebug() << res;
+//            qDebug() << res;
             manager->deleteLater();
             reply->deleteLater();
             if (res == "0") {

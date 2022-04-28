@@ -15,17 +15,14 @@ LoginUi::LoginUi(QWidget *parent) :
 
 LoginUi::~LoginUi()
 {
-    qDebug() << "LoginUi destructor";
     delete ui;
     ui = nullptr;
-
     delete timer;
     timer = nullptr;
 }
 
 void LoginUi::closeEvent(QCloseEvent *event)
 {
-
     event->accept();
     ui->lineEdit->clear();
     emit aboutToQuit();
@@ -33,10 +30,10 @@ void LoginUi::closeEvent(QCloseEvent *event)
 
 void LoginUi::resetTimer()
 {
-    qDebug() << "Login timer stopped. Time: " << timer->remainingTime();
+//    qDebug() << "Login timer stopped. Time: " << timer->remainingTime();
     timer->stop();
     timer->start();
-    qDebug() << "Login timer restarted. Time: " << timer->remainingTime();
+//    qDebug() << "Login timer restarted. Time: " << timer->remainingTime();
 }
 
 void LoginUi::startTimer()

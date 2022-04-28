@@ -5,7 +5,7 @@ bankmain::bankmain(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankmain)
 {
-    qDebug() << "bankmain constructor";
+    qDebug() << "New session created";
     ui->setupUi(this);
     timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -18,10 +18,8 @@ bankmain::bankmain(QWidget *parent) :
 
 bankmain::~bankmain()
 {
-    qDebug() << "bankmain destructor";
     delete ui;
     ui = nullptr;
-
     delete timer;
     timer = nullptr;
 }
@@ -54,9 +52,9 @@ void bankmain::timeout()
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "Received close-event";
+//    qDebug() << "Received close-event";
+//    qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
     event->accept();
-    qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
     if (timer->isActive()) {
         timer->stop();
     }
