@@ -6,6 +6,7 @@
 #include <QDebug>
 #include <QIntValidator>
 #include <QCloseEvent>
+#include <QTimer>
 
 namespace Ui {
 class drawmoney;
@@ -21,6 +22,8 @@ public:
     QString moneyHandler(int);
 
 private slots:
+    void timeout(void);
+    void resetTimer(void);
     void closeEvent(QCloseEvent*);
     void negativeBal(QString);
     void on_closeButton_clicked();
@@ -35,12 +38,14 @@ private slots:
     void on_amount500Button_clicked();
 
 signals:
+    void startBankmainTimer(void);
     void drawThisAmount(QString);
 
 private:
     Ui::drawmoney *ui;
-    int amount, cAmount;
+    QTimer *timer;
     QString drawThis;
+    int amount, cAmount;
 };
 
 #endif // DRAWMONEY_H

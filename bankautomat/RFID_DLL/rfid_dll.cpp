@@ -10,7 +10,6 @@ RFID_DLL::RFID_DLL(QObject *parent) : QObject(parent)
 
 RFID_DLL::~RFID_DLL()
 {
-    qDebug() << "RFID.dll destructor";
     delete pRFID_ENGINE;
     pRFID_ENGINE = nullptr;
 }
@@ -22,8 +21,7 @@ void RFID_DLL::getCardNumberFromEngine(void)
 
 void RFID_DLL::recvCardNumberFromEngine(QString cardNum)
 {
-    cardNumber = cardNum;
-    emit sendCardNumberToExe(cardNumber);
+    emit sendCardNumberToExe(cardNum);
 }
 
 void RFID_DLL::restartEngine()

@@ -2,8 +2,8 @@
 
 RFID_DLL_ENGINE::RFID_DLL_ENGINE(QObject *parent) : QObject(parent)
 {
-    connect(this,SIGNAL(checkCard()),
-            this,SLOT(dbConnect()));
+    connect(this,SIGNAL(checkCard(void)),
+            this,SLOT(dbConnect(void)));
 }
 
 RFID_DLL_ENGINE::~RFID_DLL_ENGINE()
@@ -20,7 +20,7 @@ void RFID_DLL_ENGINE::readRFID()
     QObject::connect(&serial, &QSerialPort::readyRead, [&]
     {
         //this is called when readyRead() is emitted
-        qDebug() << "New data available: " << serial.bytesAvailable();
+//        qDebug() << "New data available: " << serial.bytesAvailable();
         datas = serial.readAll();
         qDebug() << datas;
         datas.remove(0,3);

@@ -2,53 +2,50 @@
 
 LOGIN_ENGINE::LOGIN_ENGINE(QObject *parent) : QObject(parent)
 {
-    qDebug() << "LOGIN_ENGINE constructor";
     tries = 3;
     pLOGIN_UI = new LoginUi();
-
     connect(pLOGIN_UI,SIGNAL(sendPinToEngine(QString)),
             this,SLOT(recvPin(QString)));
-
     connect(this,SIGNAL(startAuth(QString)),
             this,SLOT(tokenReq(QString)));
-
     connect(this,SIGNAL(wrongPinMsg(QString)),
             pLOGIN_UI,SLOT(wrongPin(QString)));
-
     connect(pLOGIN_UI,SIGNAL(aboutToQuit(void)),
             this,SLOT(rejected(void)));
-
     connect(this,SIGNAL(beginTimer(void)),
             pLOGIN_UI,SLOT(startTimer(void)));
-
     connect(this,SIGNAL(killTimer(void)),
             pLOGIN_UI,SLOT(stopTimer(void)));
-
     connect(this,SIGNAL(resetTimer(void)),
             pLOGIN_UI,SLOT(resetTimer(void)));
-
     connect(this,SIGNAL(cardLock(QString)),
             this,SLOT(cardLockHandler(QString)));
-
     connect(this,SIGNAL(askForDebitOrCredit(QString)),
             this,SLOT(askDebitOrCredit(QString)));
+
+    pDebitCredit = new debitCreditWindow();
+    connect(pDebitCredit,SIGNAL(sendCardType(QString)),
+            this,SLOT(recvCardType(QString)));
+    connect(pDebitCredit,SIGNAL(aboutToClose(void)),
+            this,SLOT(creditWinClosed(void)));
 }
 
 LOGIN_ENGINE::~LOGIN_ENGINE()
 {
+    delete pLOGIN_UI;
+    pLOGIN_UI = nullptr;
+
+    delete pDebitCredit;
+    pDebitCredit = nullptr;
 }
 
 void LOGIN_ENGINE::askDebitOrCredit(QString credit)
 {
     if (credit == "1") {
-        pDebitCredit = new debitCreditWindow;
-        connect(pDebitCredit,SIGNAL(sendCardType(QString)),
-                this,SLOT(recvCardType(QString)));
-        connect(pDebitCredit,SIGNAL(aboutToClose(void)),
-                this,SLOT(rejected(void)));
         pDebitCredit->show();
     } else if (credit == "0") {
         loginSuccesful = true;
+        pLOGIN_UI->close();
         emit sendTokenToLogin(myToken, "debit");
     } else {
         qDebug() << "Something went wrong.";
@@ -103,7 +100,6 @@ void LOGIN_ENGINE::checkForCredit(QString method)
 void LOGIN_ENGINE::recvCardType(QString type)
 {
     pDebitCredit->close();
-    pDebitCredit->deleteLater();
     loginSuccesful = true;
     pLOGIN_UI->close();
     emit sendTokenToLogin(myToken, type);
@@ -112,14 +108,14 @@ void LOGIN_ENGINE::recvCardType(QString type)
 void LOGIN_ENGINE::recvPin(QString code)
 {
     qDebug() << code << "In login";
-    loginSuccesful = false;
     emit startAuth(code);
 }
 
 void LOGIN_ENGINE::recvCardNumber(QString num)
 {
     cardNumber = num;
-    qDebug() << cardNumber << "in login";
+    loginSuccesful = false;
+//    qDebug() << cardNumber << "in login";
     cardLockHandler("status");
 }
 
@@ -147,7 +143,6 @@ void LOGIN_ENGINE::tokenRes(QNetworkReply *reply)
     if (myToken != "false") {
         tries = 3;
         qDebug() << "Correct pin.";
-        pLOGIN_UI->hide();
         reply->deleteLater();
         manager->deleteLater();
         emit wrongPinMsg("Enter 4 digit pin.");
@@ -186,7 +181,7 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
             QJsonDocument json_doc = QJsonDocument::fromJson(answer);
             QJsonObject json_obj = json_doc.object();
             QString res = QString::number(json_obj["locked"].toInt());
-            qDebug() << res;
+//            qDebug() << res;
             manager->deleteLater();
             reply->deleteLater();
             if (res == "0") {
@@ -217,10 +212,21 @@ void LOGIN_ENGINE::cardLockHandler(QString method)
 void LOGIN_ENGINE::rejected()
 {
     qDebug() << "Login closed.";
+    tries = 3;
     emit killTimer();
+    emit wrongPinMsg("Enter 4 digit pin.");
+    if (pDebitCredit->isActiveWindow()) {
+        pDebitCredit->close();
+    }
     if (!loginSuccesful) {
-        tries = 3;
-        emit wrongPinMsg("Enter 4 digit pin.");
         emit loginFailedInEngine();
+    }
+}
+
+void LOGIN_ENGINE::creditWinClosed()
+{
+    qDebug() << "Credit/Debit closed.";
+    if (pLOGIN_UI->isActiveWindow()) {
+        pLOGIN_UI->close();
     }
 }
