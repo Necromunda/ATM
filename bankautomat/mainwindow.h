@@ -86,6 +86,7 @@ private:
     void getName(void);
 
 signals:
+    void finishProgram(void);
     void getNumber(void);
     void cardNumberRead_signal(states, events);
     void pinCorrect_signal(states, events);
@@ -126,10 +127,8 @@ private slots:
     void recvAccountId(QByteArray);
     void getTransferLog(void);
     void getCustomTransfers(int, int);
+    void getSelectedDateTransfers(QString);
     void on_exitApp_clicked();
     void disconnectRest(void);
-
-    void on_pushButton_clicked();
-    void on_pushButton_2_clicked();
 };
 #endif // MAINWINDOW_H

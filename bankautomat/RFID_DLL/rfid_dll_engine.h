@@ -5,8 +5,6 @@
 #include <QDebug>
 #include <QSerialPort>
 #include <QSerialPortInfo>
-#include <QString>
-#include <QByteArray>
 #include <QtNetwork>
 #include <QNetworkAccessManager>
 #include <QJsonDocument>
@@ -23,20 +21,19 @@ public:
 
 private:
     QSerialPort serial;
-    QByteArray datas;
+    QByteArray datas, response_data;
     QString cardNumber;
     QNetworkAccessManager *getManager;
     QNetworkReply *reply;
-    QByteArray response_data;
     bool settingsSet = false;
     bool read = false;
 
 signals:
     void sendCardNumber(QString);
-    void checkCard();
+    void checkCard(void);
 
 private slots:
-    void dbConnect();
+    void dbConnect(void);
     void checkCardValidity(QNetworkReply*);
 };
 

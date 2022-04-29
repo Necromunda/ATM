@@ -5,7 +5,7 @@ bankmain::bankmain(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::bankmain)
 {
-    qDebug() << "bankmain constructor";
+    qDebug() << "New session created";
     ui->setupUi(this);
     timer = new QTimer(this);
     timer->setSingleShot(true);
@@ -18,10 +18,8 @@ bankmain::bankmain(QWidget *parent) :
 
 bankmain::~bankmain()
 {
-    qDebug() << "bankmain destructor";
     delete ui;
     ui = nullptr;
-
     delete timer;
     timer = nullptr;
 }
@@ -36,8 +34,14 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
- //   qDebug() << "Bankmain timeout timer started";
+//    qDebug() << "Bankmain timeout timer started";
     timer->start();
+}
+
+void bankmain::stopTimer()
+{
+//    qDebug() << "Bankmain timeout timer stopped";
+    timer->stop();
 }
 
 void bankmain::timeout()
@@ -48,9 +52,9 @@ void bankmain::timeout()
 
 void bankmain::closeEvent(QCloseEvent *event)
 {
-    qDebug() << "Received close-event";
+//    qDebug() << "Received close-event";
+//    qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
     event->accept();
-    qDebug() << "Bankmain close event. Time remaining: " << timer->remainingTime();
     if (timer->isActive()) {
         timer->stop();
     }
@@ -121,10 +125,12 @@ void bankmain::on_nextActionsButton_clicked()
 
 void bankmain::on_drawMoneyButton_clicked()
 {
-    resetTimer();
+    stopTimer();
     pDrawMoney = new drawmoney(this);
-    connect(pDrawMoney, SIGNAL(drawThisAmount(QString)),
+    connect(pDrawMoney,SIGNAL(drawThisAmount(QString)),
             this,SLOT(drawMoney(QString)));
+    connect(pDrawMoney,SIGNAL(startBankmainTimer(void)),
+            this,SLOT(startTimer(void)));
     pDrawMoney->show();
     emit updateBalance();
 }
@@ -180,3 +186,24 @@ void bankmain::recvCardType(QString msg)
 {
     cardType = msg;
 }
+
+void bankmain::recvSelectedDateTransfers(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonArray json_array = json_doc.array();
+    QString log;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+    }
+    ui->transferLogList->setText(log);
+    emit disconnectRestSignal();
+}
+
+void bankmain::on_calendarWidget_clicked(const QDate &date)
+{
+    emit disconnectRestSignal();
+    selectedDate = QDate::fromString(date.toString(Qt::ISODate),"yyyy-MM-dd").toString("dd-MM-yyyy");
+    emit sendSelectedDate(selectedDate);
+}
+
