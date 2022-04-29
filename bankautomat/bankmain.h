@@ -9,7 +9,6 @@
 #include <QJsonArray>
 #include <QCloseEvent>
 #include <QTimer>
-#include <QDesktopServices>
 #include "drawmoney.h"
 
 namespace Ui {
@@ -41,8 +40,6 @@ private slots:
     void on_nextActionsButton_clicked();
     void on_drawMoneyButton_clicked();
     void on_exitButton_clicked();
-
-    void on_transferMoneyButton_clicked();
 
 signals:
     void loggingOut(void);

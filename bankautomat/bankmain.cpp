@@ -180,9 +180,3 @@ void bankmain::recvCardType(QString msg)
 {
     cardType = msg;
 }
-
-void bankmain::on_transferMoneyButton_clicked()
-{
-    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
-}
-
