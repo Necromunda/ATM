@@ -274,6 +274,7 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
     runStateMachine(State, Event);
     loggedIn = true;
     myToken = "Bearer " + token;
+    cardType = type;
     if (!bankW) {
         pBankMain = new bankmain;
         connect(pBankMain,SIGNAL(loggingOut(void)),
@@ -298,6 +299,10 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
                 pBankMain,SLOT(recvCardType(QString)));
         connect(pBankMain,SIGNAL(sendSelectedDate(QString)),
                 this,SLOT(getSelectedDateTransfers(QString)));
+        connect(pBankMain,SIGNAL(getIban(void)),
+                this,SLOT(getIban(void)));
+        connect(pBankMain,SIGNAL(postTransaction(QString, QString, QString)),
+                this,SLOT(execTransaction(QString, QString, QString)));
         bankW = true;
     };
     getName();
@@ -317,6 +322,7 @@ void MainWindow::loggedOut()
         cardNumber = "";
         accountId = "";
         myToken = "";
+        cardType = "";
         pBankMain->deleteLater();
         this->show();
         loggedIn = false;
@@ -334,6 +340,33 @@ void MainWindow::on_exitApp_clicked()
 void MainWindow::disconnectRest()
 {
     disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
+}
+
+void MainWindow::getIban()
+{
+    disconnectRest();
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvIban(QByteArray)));
+    emit getREST(myToken, "GET", "accounts/iban/"+accountId, "");
+}
+
+void MainWindow::execTransaction(QString pSenderIban, QString pRecvIban, QString pAmount)
+{
+    dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+    QJsonObject jsonObj;
+    jsonObj.insert("senderIban", pSenderIban);
+    jsonObj.insert("receiverIban", pRecvIban);
+    jsonObj.insert("amount", pAmount);
+    jsonObj.insert("date", dateTime);
+    if (cardType == "debit") {
+        emit restTransfer(myToken, "POST", "accounts/transaction/debit/", jsonObj);
+    } else if (cardType == "credit") {
+        emit restTransfer(myToken, "POST", "accounts/transaction/credit/", jsonObj);
+    } else {
+        qDebug() << "Transaction failed.";
+    }
+    Event = doneWithdrawing;
+    runStateMachine(State, Event);
 }
 
 void MainWindow::recvResultsFromREST(QByteArray msg)
@@ -374,6 +407,7 @@ void MainWindow::postTransfer()
 {
     dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
     QJsonObject jsonObj;
+    jsonObj.insert("action", "Withdraw");
     jsonObj.insert("amount", amount);
     jsonObj.insert("date", dateTime);
     jsonObj.insert("card_number", cardNumber);
