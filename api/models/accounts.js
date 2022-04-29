@@ -10,6 +10,9 @@ const accounts = {
     getCredit: function(id, callback) {
         return db.query('SELECT credit FROM accounts where account_id=?', [id], callback);
     },
+    getIban: function(id, callback) {
+        return db.query('SELECT iban FROM accounts where account_id=?', [id], callback);
+    },
     add: function(accounts, callback) {
       return db.query(
        'INSERT INTO accounts (iban,balance) VALUES(?,?)',
