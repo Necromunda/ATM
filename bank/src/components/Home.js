@@ -14,10 +14,8 @@ const Home = () => {
         <header className="App-header">
             <h1>Welcome to the Bank</h1>
         </header>
-            <p>Your token is: {token}</p>
-            <p>
-            Tähän vois laittaa vaikka tilisiirtojuttui tai jotain muuta.
-            </p>
+        <h2>Pankin etusivu</h2>
+        <p>Jotain tekstiä</p>
             <button onClick={() => navigate("/banktransfer")}>
                 Uusi tilisiirto
             </button>

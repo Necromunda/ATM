@@ -9,17 +9,18 @@ import Transfers from './components/Transfers';
 
 function App() {
     const [token, setToken] = useState(null);
-    const [user, setUser] = useState(null);
+    const [card, setCard] = useState(null);
     const [password, setPassword] = useState(null);
   
     const login = async () => {
+      localStorage.clear(); // Poistetaan vanhat tokenit ja kortit
       const response = await fetch('https://banksimul-api.herokuapp.com/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          card_number: user,
+          card_number: card,
           pin_code: password
         })
       });
@@ -28,6 +29,8 @@ function App() {
         console.log("server response: " + data);
         if(data != "false") {
           setToken(data);
+          localStorage.setItem("token", data);
+          localStorage.setItem("card", card);
         }
         else {
           alert("Wrong card number or pin code");
@@ -46,7 +49,7 @@ function App() {
             <h1>Welcome to the Bank</h1>
           </header>
           <p>Please log in to continue</p>
-          <input type="text" placeholder="card_number" onInput={e => setUser(e.target.value)}/>
+          <input type="text" placeholder="card_number" onInput={e => setCard(e.target.value)}/>
           <input type="password" placeholder="pin_code" onInput={e => setPassword(e.target.value)} />
           <button onClick={login}>Login</button>
         </div>
