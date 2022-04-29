@@ -148,6 +148,13 @@
      </widget>
     </item>
     <item>
+     <widget class="QPushButton" name="transferMoneyButton">
+      <property name="text">
+       <string>Transfer money</string>
+      </property>
+     </widget>
+    </item>
+    <item>
      <widget class="QPushButton" name="exitButton">
       <property name="text">
        <string>Log out</string>

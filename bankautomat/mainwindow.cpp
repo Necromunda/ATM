@@ -374,6 +374,7 @@ void MainWindow::postTransfer()
 {
     dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
     QJsonObject jsonObj;
+    jsonObj.insert("action", "Withdraw");
     jsonObj.insert("amount", amount);
     jsonObj.insert("date", dateTime);
     jsonObj.insert("card_number", cardNumber);

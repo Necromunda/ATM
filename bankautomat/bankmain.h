@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QCloseEvent>
 #include <QTimer>
+#include <QDesktopServices>
 #include "drawmoney.h"
 
 namespace Ui {
@@ -43,6 +44,7 @@ private slots:
     void on_exitButton_clicked();
     void recvSelectedDateTransfers(QByteArray);
     void on_calendarWidget_clicked(const QDate &date);
+    void on_transferMoneyButton_clicked();
 
 signals:
     void loggingOut(void);

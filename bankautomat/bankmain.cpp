@@ -163,7 +163,7 @@ void bankmain::recvTransferLog(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -176,7 +176,7 @@ void bankmain::recvCustomTransfers(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -194,7 +194,7 @@ void bankmain::recvSelectedDateTransfers(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -205,5 +205,11 @@ void bankmain::on_calendarWidget_clicked(const QDate &date)
     emit disconnectRestSignal();
     selectedDate = QDate::fromString(date.toString(Qt::ISODate),"yyyy-MM-dd").toString("dd-MM-yyyy");
     emit sendSelectedDate(selectedDate);
+}
+
+
+void bankmain::on_transferMoneyButton_clicked()
+{
+    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
 }
 
