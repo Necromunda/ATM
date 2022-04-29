@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './App.css';
 import Home from './components/Home';
 import BankTransfer from './components/Banktransfer';
+import Transfers from './components/Transfers';
 
 
 function App() {
@@ -59,6 +60,8 @@ function App() {
           <Route path="/" element={<Home/>}>
           </Route>
           <Route path= "/banktransfer" element={<BankTransfer/>}>
+          </Route>
+          <Route path= "/transfers" element={<Transfers/>}>
           </Route>
       </Routes>
     </BrowserRouter>

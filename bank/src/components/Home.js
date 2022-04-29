@@ -19,7 +19,10 @@ const Home = () => {
             Tähän vois laittaa vaikka tilisiirtojuttui tai jotain muuta.
             </p>
             <button onClick={() => navigate("/banktransfer")}>
-                Tilisiirtoihin
+                Uusi tilisiirto
+            </button>
+            <button onClick={() => navigate("/transfers")}>
+                Siirtohistoria
             </button>
         </div>
     );
