@@ -130,5 +130,6 @@ private slots:
     void getSelectedDateTransfers(QString);
     void on_exitApp_clicked();
     void disconnectRest(void);
+    void getIban(void);
 };
 #endif // MAINWINDOW_H

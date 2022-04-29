@@ -210,6 +210,22 @@ void bankmain::on_calendarWidget_clicked(const QDate &date)
 
 void bankmain::on_transferMoneyButton_clicked()
 {
-    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
+//    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
+    stopTimer();
+    pTransferMoney = new transfermoney;
+    connect(pTransferMoney,SIGNAL(startBankmainTimer(void)),
+            this,SLOT(startTimer(void)));
+    connect(this,SIGNAL(sendIban(QString)),
+            pTransferMoney,SLOT(setIban(QString)));
+    emit getIban();
+    pTransferMoney->show();
+}
+
+void bankmain::recvIban(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonObject json_obj = json_doc.object();
+    QString res = json_obj["iban"].toString();
+    emit sendIban(msg);
 }
 

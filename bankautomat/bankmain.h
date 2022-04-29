@@ -11,6 +11,7 @@
 #include <QTimer>
 #include <QDesktopServices>
 #include "drawmoney.h"
+#include "transfermoney.h"
 
 namespace Ui {
 class bankmain;
@@ -45,6 +46,7 @@ private slots:
     void recvSelectedDateTransfers(QByteArray);
     void on_calendarWidget_clicked(const QDate &date);
     void on_transferMoneyButton_clicked();
+    void recvIban(QByteArray);
 
 signals:
     void loggingOut(void);
@@ -58,10 +60,13 @@ signals:
     void getCustom(int, int);
     void disconnectRestSignal(void);
     void sendSelectedDate(QString);
+    void getIban(void);
+    void sendIban(QString);
 
 private:
     Ui::bankmain *ui;
     drawmoney *pDrawMoney;
+    transfermoney *pTransferMoney;
     QTimer *timer;
     QString cardType, selectedDate;
     int bot, top;

@@ -298,6 +298,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
                 pBankMain,SLOT(recvCardType(QString)));
         connect(pBankMain,SIGNAL(sendSelectedDate(QString)),
                 this,SLOT(getSelectedDateTransfers(QString)));
+        connect(pBankMain,SIGNAL(getIban(void)),
+                this,SLOT(getIban(void)));
         bankW = true;
     };
     getName();
@@ -336,6 +338,14 @@ void MainWindow::disconnectRest()
     disconnect(this, SIGNAL(sendRestResult(QByteArray)), nullptr, nullptr);
 }
 
+void MainWindow::getIban()
+{
+    disconnectRest();
+    connect(this,SIGNAL(sendRestResult(QByteArray)),
+            pBankMain,SLOT(recvAccountId(QByteArray)));
+    emit getREST(myToken, "GET", "accounts/iban/"+accountId, "");
+}
+
 void MainWindow::recvResultsFromREST(QByteArray msg)
 {
 //    qDebug() << "Rest done, result: " << msg;
@@ -345,7 +355,7 @@ void MainWindow::recvResultsFromREST(QByteArray msg)
 void MainWindow::getName()
 {
     connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(setName(QByteArray)));
+            pBankMain,SLOT(recvIban(QByteArray)));
     emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
 }
 
