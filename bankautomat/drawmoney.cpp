@@ -72,9 +72,7 @@ void drawmoney::on_drawButton_clicked()
     } else {
         ui->drawMoneyLineEdit->clear();
         ui->drawMoneyLineEdit->setPlaceholderText("Insert amount");
-        if (ui->customAmountLineEdit->hasAcceptableInput()) {
-            ui->customAmountLineEdit->clear();
-        }
+        ui->customAmountLineEdit->clear();
         qDebug() << "Draw this amout: " << drawThis;
         emit drawThisAmount(drawThis);
     }

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include <QObject>
 #include <QDebug>
-#include <QIntValidator>
+#include <QRegExpValidator>
 #include <QCloseEvent>
 #include <QTimer>
 
@@ -30,10 +30,12 @@ private slots:
 
 signals:
     void startBankmainTimer(void);
+    void execTransaction(QString, QString, QString);
 
 private:
     Ui::transfermoney *ui;
     QTimer *timer;
+    QRegExp rx;
 };
 
 #endif // TRANSFERMONEY_H

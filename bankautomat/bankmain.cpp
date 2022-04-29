@@ -34,13 +34,13 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
-//    qDebug() << "Bankmain timeout timer started";
+    qDebug() << "Bankmain timeout timer started";
     timer->start();
 }
 
 void bankmain::stopTimer()
 {
-//    qDebug() << "Bankmain timeout timer stopped";
+    qDebug() << "Bankmain timeout timer stopped";
     timer->stop();
 }
 
@@ -207,7 +207,6 @@ void bankmain::on_calendarWidget_clicked(const QDate &date)
     emit sendSelectedDate(selectedDate);
 }
 
-
 void bankmain::on_transferMoneyButton_clicked()
 {
 //    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
@@ -217,6 +216,8 @@ void bankmain::on_transferMoneyButton_clicked()
             this,SLOT(startTimer(void)));
     connect(this,SIGNAL(sendIban(QString)),
             pTransferMoney,SLOT(setIban(QString)));
+    connect(pTransferMoney,SIGNAL(execTransaction(QString, QString, QString)),
+            this,SLOT(execTransaction(QString, QString, QString)));
     emit getIban();
     pTransferMoney->show();
 }
@@ -226,6 +227,12 @@ void bankmain::recvIban(QByteArray msg)
     QJsonDocument json_doc = QJsonDocument::fromJson(msg);
     QJsonObject json_obj = json_doc.object();
     QString res = json_obj["iban"].toString();
-    emit sendIban(msg);
+    emit sendIban(res);
+}
+
+void bankmain::execTransaction(QString sender, QString recv, QString amount)
+{
+    emit disconnectRestSignal();
+    emit postTransaction(sender, recv, amount);
 }
 

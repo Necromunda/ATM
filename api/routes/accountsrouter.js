@@ -58,6 +58,28 @@ router.get('/iban/:id',
   }
 });
 
+router.post('/transaction/debit/', 
+function(req, res) {
+  accounts.execDebitTransaction(req.body, function(err, dbResult) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(dbResult);
+    }
+  });
+});
+
+router.post('/transaction/credit/', 
+function(req, res) {
+  accounts.execCreditTransaction(req.body, function(err, dbResult) {
+    if (err) {
+      res.json(err);
+    } else {
+      res.json(dbResult);
+    }
+  });
+});
+
 router.post('/', 
 function(req, res) {
   accounts.add(req.body, function(err, dbResult) {

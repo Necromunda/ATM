@@ -13,6 +13,14 @@ const accounts = {
     getIban: function(id, callback) {
         return db.query('SELECT iban FROM accounts where account_id=?', [id], callback);
     },
+    execDebitTransaction: function(transaction, callback) {
+        return db.query('call debit_transfer(?,?,?,?)',
+        [transaction.senderIban, transaction.receiverIban, transaction.amount, transaction.date], callback);
+    },
+    execCreditTransaction: function(transaction, callback) {
+        return db.query('call credit_transfer(?,?,?,?)',
+        [transaction.senderIban, transaction.receiverIban, transaction.amount, transaction.date], callback);
+    },
     add: function(accounts, callback) {
       return db.query(
        'INSERT INTO accounts (iban,balance) VALUES(?,?)',

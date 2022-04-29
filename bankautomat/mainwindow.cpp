@@ -274,6 +274,7 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
     runStateMachine(State, Event);
     loggedIn = true;
     myToken = "Bearer " + token;
+    cardType = type;
     if (!bankW) {
         pBankMain = new bankmain;
         connect(pBankMain,SIGNAL(loggingOut(void)),
@@ -300,6 +301,8 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
                 this,SLOT(getSelectedDateTransfers(QString)));
         connect(pBankMain,SIGNAL(getIban(void)),
                 this,SLOT(getIban(void)));
+        connect(pBankMain,SIGNAL(postTransaction(QString, QString, QString)),
+                this,SLOT(execTransaction(QString, QString, QString)));
         bankW = true;
     };
     getName();
@@ -319,6 +322,7 @@ void MainWindow::loggedOut()
         cardNumber = "";
         accountId = "";
         myToken = "";
+        cardType = "";
         pBankMain->deleteLater();
         this->show();
         loggedIn = false;
@@ -342,8 +346,27 @@ void MainWindow::getIban()
 {
     disconnectRest();
     connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(recvAccountId(QByteArray)));
+            pBankMain,SLOT(recvIban(QByteArray)));
     emit getREST(myToken, "GET", "accounts/iban/"+accountId, "");
+}
+
+void MainWindow::execTransaction(QString pSenderIban, QString pRecvIban, QString pAmount)
+{
+    dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+    QJsonObject jsonObj;
+    jsonObj.insert("senderIban", pSenderIban);
+    jsonObj.insert("receiverIban", pRecvIban);
+    jsonObj.insert("amount", pAmount);
+    jsonObj.insert("date", dateTime);
+    if (cardType == "debit") {
+        emit restTransfer(myToken, "POST", "accounts/transaction/debit/", jsonObj);
+    } else if (cardType == "credit") {
+        emit restTransfer(myToken, "POST", "accounts/transaction/credit/", jsonObj);
+    } else {
+        qDebug() << "Transaction failed.";
+    }
+    Event = doneWithdrawing;
+    runStateMachine(State, Event);
 }
 
 void MainWindow::recvResultsFromREST(QByteArray msg)
@@ -355,7 +378,7 @@ void MainWindow::recvResultsFromREST(QByteArray msg)
 void MainWindow::getName()
 {
     connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(recvIban(QByteArray)));
+            pBankMain,SLOT(setName(QByteArray)));
     emit getREST(myToken, "GET", "cards/name/"+cardNumber, "");
 }
 

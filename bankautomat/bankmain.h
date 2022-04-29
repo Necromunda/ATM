@@ -47,6 +47,7 @@ private slots:
     void on_calendarWidget_clicked(const QDate &date);
     void on_transferMoneyButton_clicked();
     void recvIban(QByteArray);
+    void execTransaction(QString, QString, QString);
 
 signals:
     void loggingOut(void);
@@ -62,6 +63,7 @@ signals:
     void sendSelectedDate(QString);
     void getIban(void);
     void sendIban(QString);
+    void postTransaction(QString, QString, QString);
 
 private:
     Ui::bankmain *ui;

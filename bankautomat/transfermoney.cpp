@@ -6,10 +6,12 @@ transfermoney::transfermoney(QWidget *parent) :
     ui(new Ui::transfermoney)
 {
     ui->setupUi(this);
-//    ui->recvLineEdit->setValidator(new QValidator)
+    rx.setPattern("FI\\d{16}");
+    ui->recvLineEdit->setValidator(new QRegExpValidator(rx,this));
+    ui->amountLineEdit->setValidator(new QIntValidator(0, 9999, this));
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    timer->setInterval(30000);
+    timer->setInterval(60000);
     connect(timer,SIGNAL(timeout()),
             this,SLOT(timeout()));
     timer->start();
@@ -17,6 +19,7 @@ transfermoney::transfermoney(QWidget *parent) :
 
 transfermoney::~transfermoney()
 {
+    qDebug() << "Money transfer destructor";
     delete ui;
     ui = nullptr;
 }
@@ -50,11 +53,24 @@ void transfermoney::closeEvent(QCloseEvent *)
 void transfermoney::on_execTransaction_clicked()
 {
     resetTimer();
+    ui->transactionStatusLabel->clear();
+    QString tSendIban, tRecvIban, tAmount;
+    tSendIban = ui->senderLineEdit->text();
+    tRecvIban = ui->recvLineEdit->text();
+    tAmount = ui->amountLineEdit->text();
+    if (tRecvIban.count() == 18 && tAmount != "" && tAmount != "0") {
+        if (tSendIban == tRecvIban) {
+            ui->transactionStatusLabel->setText("Error: Duplicate Iban");
+        } else {
+            ui->transactionStatusLabel->setText("Success!");
+            emit execTransaction(tSendIban, tRecvIban, tAmount);
+        }
+    } else {
+        ui->transactionStatusLabel->setText("Error: Check input");
+    }
 }
-
 
 void transfermoney::on_closeButton_clicked()
 {
     this->close();
 }
-

@@ -67,7 +67,7 @@ private:
     RFID_DLL *pRFID;
     LOGIN_DLL *pLOGIN;
     REST_DLL *pREST;
-    QString dateTime, cardNumber, amount, accountId;
+    QString dateTime, cardNumber, amount, accountId, cardType;
 
     states State = waitingCard;
     events Event;
@@ -131,5 +131,6 @@ private slots:
     void on_exitApp_clicked();
     void disconnectRest(void);
     void getIban(void);
+    void execTransaction(QString, QString, QString);
 };
 #endif // MAINWINDOW_H
