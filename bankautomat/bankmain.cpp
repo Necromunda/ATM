@@ -34,13 +34,13 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
-//    qDebug() << "Bankmain timeout timer started";
+    qDebug() << "Bankmain timeout timer started";
     timer->start();
 }
 
 void bankmain::stopTimer()
 {
-//    qDebug() << "Bankmain timeout timer stopped";
+    qDebug() << "Bankmain timeout timer stopped";
     timer->stop();
 }
 
@@ -163,7 +163,7 @@ void bankmain::recvTransferLog(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -176,7 +176,7 @@ void bankmain::recvCustomTransfers(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -194,7 +194,7 @@ void bankmain::recvSelectedDateTransfers(QByteArray msg)
     QString log;
     foreach (const QJsonValue &value, json_array) {
         QJsonObject json_obj = value.toObject();
-        log+=QString::number(json_obj["transfer_id"].toInt())+". Withdraw. Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
+        log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
     ui->transferLogList->setText(log);
     emit disconnectRestSignal();
@@ -205,5 +205,34 @@ void bankmain::on_calendarWidget_clicked(const QDate &date)
     emit disconnectRestSignal();
     selectedDate = QDate::fromString(date.toString(Qt::ISODate),"yyyy-MM-dd").toString("dd-MM-yyyy");
     emit sendSelectedDate(selectedDate);
+}
+
+void bankmain::on_transferMoneyButton_clicked()
+{
+//    QDesktopServices::openUrl(QUrl("http://localhost:3000", QUrl::TolerantMode));
+    stopTimer();
+    pTransferMoney = new transfermoney;
+    connect(pTransferMoney,SIGNAL(startBankmainTimer(void)),
+            this,SLOT(startTimer(void)));
+    connect(this,SIGNAL(sendIban(QString)),
+            pTransferMoney,SLOT(setIban(QString)));
+    connect(pTransferMoney,SIGNAL(execTransaction(QString, QString, QString)),
+            this,SLOT(execTransaction(QString, QString, QString)));
+    emit getIban();
+    pTransferMoney->show();
+}
+
+void bankmain::recvIban(QByteArray msg)
+{
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+    QJsonObject json_obj = json_doc.object();
+    QString res = json_obj["iban"].toString();
+    emit sendIban(res);
+}
+
+void bankmain::execTransaction(QString sender, QString recv, QString amount)
+{
+    emit disconnectRestSignal();
+    emit postTransaction(sender, recv, amount);
 }
 

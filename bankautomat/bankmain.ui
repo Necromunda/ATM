@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Main interface</string>
   </property>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
@@ -144,6 +144,13 @@
      <widget class="QPushButton" name="drawMoneyButton">
       <property name="text">
        <string>Draw money</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="transferMoneyButton">
+      <property name="text">
+       <string>Transfer money</string>
       </property>
      </widget>
     </item>

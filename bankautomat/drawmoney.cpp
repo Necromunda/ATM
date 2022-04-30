@@ -11,7 +11,7 @@ drawmoney::drawmoney(QWidget *parent) :
     ui->customAmountLineEdit->setValidator(new QIntValidator(0, 10000, this));
     timer = new QTimer(this);
     timer->setSingleShot(true);
-    timer->setInterval(10000);
+    timer->setInterval(20000);
     connect(timer,SIGNAL(timeout()),
             this,SLOT(timeout()));
     timer->start();
@@ -72,9 +72,7 @@ void drawmoney::on_drawButton_clicked()
     } else {
         ui->drawMoneyLineEdit->clear();
         ui->drawMoneyLineEdit->setPlaceholderText("Insert amount");
-        if (ui->customAmountLineEdit->hasAcceptableInput()) {
-            ui->customAmountLineEdit->clear();
-        }
+        ui->customAmountLineEdit->clear();
         qDebug() << "Draw this amout: " << drawThis;
         emit drawThisAmount(drawThis);
     }

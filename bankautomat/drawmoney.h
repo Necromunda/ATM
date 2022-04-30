@@ -1,8 +1,8 @@
 #ifndef DRAWMONEY_H
 #define DRAWMONEY_H
 
-#include <QObject>
 #include <QDialog>
+#include <QObject>
 #include <QDebug>
 #include <QIntValidator>
 #include <QCloseEvent>
