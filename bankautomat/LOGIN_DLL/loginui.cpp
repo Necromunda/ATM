@@ -38,13 +38,13 @@ void LoginUi::resetTimer()
 
 void LoginUi::startTimer()
 {
-    qDebug() << "Login timeout timer started";
+//    qDebug() << "Login timeout timer started";
     timer->start();
 }
 
 void LoginUi::stopTimer()
 {
-    qDebug() << "Login timeout timer stopped";
+//    qDebug() << "Login timeout timer stopped";
     timer->stop();
 }
 

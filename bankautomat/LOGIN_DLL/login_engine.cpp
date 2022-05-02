@@ -76,7 +76,7 @@ void LOGIN_ENGINE::checkForCredit(QString method)
             QJsonDocument json_doc = QJsonDocument::fromJson(answer);
             QJsonObject json_obj = json_doc.object();
             QString credit = QString::number(json_obj["credit"].toInt());
-            qDebug() << "Card type: " << credit;
+//            qDebug() << "Card type: " << credit;
             manager->deleteLater();
             reply->deleteLater();
             emit askForDebitOrCredit(credit);
@@ -107,7 +107,7 @@ void LOGIN_ENGINE::recvCardType(QString type)
 
 void LOGIN_ENGINE::recvPin(QString code)
 {
-    qDebug() << code << "In login";
+//    qDebug() << code << "In login";
     emit startAuth(code);
 }
 

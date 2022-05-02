@@ -34,13 +34,13 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
-    qDebug() << "Bankmain timeout timer started";
+//    qDebug() << "Bankmain timeout timer started";
     timer->start();
 }
 
 void bankmain::stopTimer()
 {
-    qDebug() << "Bankmain timeout timer stopped";
+//    qDebug() << "Bankmain timeout timer stopped";
     timer->stop();
 }
 
