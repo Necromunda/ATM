@@ -48,6 +48,7 @@ private slots:
     void on_transferMoneyButton_clicked();
     void recvIban(QByteArray);
     void execTransaction(QString, QString, QString);
+    void recvUserInfo(QByteArray);
 
 signals:
     void loggingOut(void);

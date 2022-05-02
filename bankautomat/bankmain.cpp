@@ -34,7 +34,7 @@ void bankmain::resetTimer()
 
 void bankmain::startTimer()
 {
-//    qDebug() << "Bankmain timeout timer started";
+    qDebug() << "Bankmain timeout timer started";
     timer->start();
 }
 
@@ -238,5 +238,28 @@ void bankmain::execTransaction(QString sender, QString recv, QString amount)
 {
     emit disconnectRestSignal();
     emit postTransaction(sender, recv, amount);
+}
+
+void bankmain::recvUserInfo(QByteArray msg)
+{
+    emit disconnectRestSignal();
+    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
+        QJsonArray json_array = json_doc.array();
+    QString lName, lIban, lBalance, lUserId, lAccountId, lCredit;
+    foreach (const QJsonValue &value, json_array) {
+        QJsonObject json_obj = value.toObject();
+        lName+=json_obj["fullname"].toString();
+        lIban+=json_obj["iban"].toString();
+        lBalance+=QString::number(json_obj["balance"].toString().toInt());
+        lUserId+=QString::number(json_obj["user_id"].toString().toInt());
+        lAccountId+=QString::number(json_obj["account_id"].toString().toInt());
+        lCredit+=QString::number(json_obj["credit"].toString().toInt());
+    }
+    qDebug() << "Name: " << lName
+             << ". Iban: " << lIban
+             << ". Balance: " << lBalance
+             << ". User Id: " << lUserId
+             << ". Account Id: " << lAccountId
+             << ". Credit: " << lCredit;
 }
 

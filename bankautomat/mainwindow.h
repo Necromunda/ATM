@@ -132,5 +132,6 @@ private slots:
     void disconnectRest(void);
     void getIban(void);
     void execTransaction(QString, QString, QString);
+    void getUserInfo(void);
 };
 #endif // MAINWINDOW_H
