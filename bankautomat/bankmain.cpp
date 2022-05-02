@@ -196,7 +196,11 @@ void bankmain::recvSelectedDateTransfers(QByteArray msg)
         QJsonObject json_obj = value.toObject();
         log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
-    ui->transferLogList->setText(log);
+    if (log == "") {
+        ui->transferLogList->setText("No transfers found.");
+    } else {
+        ui->transferLogList->setText(log);
+    }
     emit disconnectRestSignal();
 }
 
