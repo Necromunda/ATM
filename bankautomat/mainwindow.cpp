@@ -440,6 +440,7 @@ void MainWindow::recvAccountId(QByteArray msg)
     QJsonObject json_obj = json_doc.object();
     accountId = QString::number(json_obj["accounts_account_id"].toInt());
     qDebug() << "Card: " << cardNumber << ", AccId: " << accountId;
+    getBalance();
 }
 
 void MainWindow::getTransferLog()

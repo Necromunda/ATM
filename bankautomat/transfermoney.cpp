@@ -53,6 +53,7 @@ void transfermoney::closeEvent(QCloseEvent *)
 void transfermoney::on_execTransaction_clicked()
 {
     resetTimer();
+    ui->amountLineEdit->clear();
     ui->transactionStatusLabel->clear();
     QString tSendIban, tRecvIban, tAmount;
     tSendIban = ui->senderLineEdit->text();

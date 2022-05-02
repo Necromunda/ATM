@@ -55,7 +55,7 @@ void drawmoney::closeEvent(QCloseEvent *)
 
 void drawmoney::negativeBal(QString bal)
 {
-    ui->drawMoneyLineEdit->setText(bal);
+    ui->drawMoneyLineEdit->setPlaceholderText(bal);
 }
 
 void drawmoney::on_closeButton_clicked()
