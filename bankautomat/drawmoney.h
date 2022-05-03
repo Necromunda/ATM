@@ -40,6 +40,7 @@ private slots:
 signals:
     void startBankmainTimer(void);
     void drawThisAmount(QString);
+    void updateBalance(void);
 
 private:
     Ui::drawmoney *ui;

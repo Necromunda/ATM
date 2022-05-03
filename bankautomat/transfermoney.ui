@@ -152,6 +152,22 @@
     <string>Amount</string>
    </property>
   </widget>
+  <widget class="QLabel" name="balanceLabel">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>20</y>
+     <width>47</width>
+     <height>13</height>
+    </rect>
+   </property>
+   <property name="frameShape">
+    <enum>QFrame::NoFrame</enum>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

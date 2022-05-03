@@ -306,7 +306,6 @@ void MainWindow::recvTokenFromLogin(QByteArray token, QString type)
         bankW = true;
     };
     getName();
-//    getUserInfo();
     this->hide();
     pBankMain->show();
     emit beginTimer();
@@ -368,13 +367,6 @@ void MainWindow::execTransaction(QString pSenderIban, QString pRecvIban, QString
     }
     Event = doneWithdrawing;
     runStateMachine(State, Event);
-}
-
-void MainWindow::getUserInfo()
-{
-    connect(this,SIGNAL(sendRestResult(QByteArray)),
-            pBankMain,SLOT(recvUserInfo(QByteArray)));
-    emit getREST(myToken, "GET", "users/info/"+cardNumber, "");
 }
 
 void MainWindow::recvResultsFromREST(QByteArray msg)

@@ -107,7 +107,6 @@ void LOGIN_ENGINE::recvCardType(QString type)
 
 void LOGIN_ENGINE::recvPin(QString code)
 {
-//    qDebug() << code << "In login";
     emit startAuth(code);
 }
 
@@ -115,7 +114,6 @@ void LOGIN_ENGINE::recvCardNumber(QString num)
 {
     cardNumber = num;
     loginSuccesful = false;
-//    qDebug() << cardNumber << "in login";
     cardLockHandler("status");
 }
 

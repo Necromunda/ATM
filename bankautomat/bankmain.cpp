@@ -131,8 +131,9 @@ void bankmain::on_drawMoneyButton_clicked()
             this,SLOT(drawMoney(QString)));
     connect(pDrawMoney,SIGNAL(startBankmainTimer(void)),
             this,SLOT(startTimer(void)));
+    connect(pDrawMoney,SIGNAL(updateBalance(void)),
+            this,SLOT(getBalance(void)));
     pDrawMoney->show();
-    emit updateBalance();
 }
 
 void bankmain::drawMoney(QString msg)
@@ -222,7 +223,15 @@ void bankmain::on_transferMoneyButton_clicked()
             pTransferMoney,SLOT(setIban(QString)));
     connect(pTransferMoney,SIGNAL(execTransaction(QString, QString, QString)),
             this,SLOT(execTransaction(QString, QString, QString)));
+    connect(this,SIGNAL(sendCardType(QString)),
+            pTransferMoney,SLOT(recvCardType(QString)));
+    connect(pTransferMoney,SIGNAL(getBalance(void)),
+            this,SLOT(getBalance(void)));
+    connect(this,SIGNAL(sendBalance(QString)),
+            pTransferMoney,SLOT(recvBalance(QString)));
     emit getIban();
+    emit sendCardType(cardType);
+    emit sendBalance(ui->balanceLabel->text());
     pTransferMoney->show();
 }
 
@@ -240,26 +249,7 @@ void bankmain::execTransaction(QString sender, QString recv, QString amount)
     emit postTransaction(sender, recv, amount);
 }
 
-void bankmain::recvUserInfo(QByteArray msg)
+void bankmain::getBalance()
 {
-    emit disconnectRestSignal();
-    QJsonDocument json_doc = QJsonDocument::fromJson(msg);
-        QJsonArray json_array = json_doc.array();
-    QString lName, lIban, lBalance, lUserId, lAccountId, lCredit;
-    foreach (const QJsonValue &value, json_array) {
-        QJsonObject json_obj = value.toObject();
-        lName+=json_obj["fullname"].toString();
-        lIban+=json_obj["iban"].toString();
-        lBalance+=QString::number(json_obj["balance"].toString().toInt());
-        lUserId+=QString::number(json_obj["user_id"].toString().toInt());
-        lAccountId+=QString::number(json_obj["account_id"].toString().toInt());
-        lCredit+=QString::number(json_obj["credit"].toString().toInt());
-    }
-    qDebug() << "Name: " << lName
-             << ". Iban: " << lIban
-             << ". Balance: " << lBalance
-             << ". User Id: " << lUserId
-             << ". Account Id: " << lAccountId
-             << ". Credit: " << lCredit;
+    emit updateBalance();
 }
-
