@@ -32,6 +32,7 @@ QString drawmoney::moneyHandler(int money)
 
 void drawmoney::timeout()
 {
+    qDebug() << "Draw money timeout";
     this->close();
 }
 
@@ -49,13 +50,14 @@ void drawmoney::closeEvent(QCloseEvent *)
         timer->stop();
     }
     timer->deleteLater();
+    emit updateBalance();
     emit startBankmainTimer();
     this->deleteLater();
 }
 
 void drawmoney::negativeBal(QString bal)
 {
-    ui->drawMoneyLineEdit->setText(bal);
+    ui->drawMoneyLineEdit->setPlaceholderText(bal);
 }
 
 void drawmoney::on_closeButton_clicked()

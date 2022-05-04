@@ -25,6 +25,14 @@ public:
     explicit bankmain(QWidget *parent = nullptr);
     ~bankmain();
 
+private:
+    Ui::bankmain *ui;
+    drawmoney *pDrawMoney;
+    transfermoney *pTransferMoney;
+    QTimer *timer;
+    QString cardType, selectedDate;
+    int bot, top;
+
 private slots:
     void resetTimer();
     void startTimer(void);
@@ -48,6 +56,7 @@ private slots:
     void on_transferMoneyButton_clicked();
     void recvIban(QByteArray);
     void execTransaction(QString, QString, QString);
+    void getBalance(void);
 
 signals:
     void loggingOut(void);
@@ -64,14 +73,9 @@ signals:
     void getIban(void);
     void sendIban(QString);
     void postTransaction(QString, QString, QString);
+    void sendCardType(QString);
+    void sendBalance(QString);
 
-private:
-    Ui::bankmain *ui;
-    drawmoney *pDrawMoney;
-    transfermoney *pTransferMoney;
-    QTimer *timer;
-    QString cardType, selectedDate;
-    int bot, top;
 };
 
 #endif // BANKMAIN_H

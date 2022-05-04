@@ -19,7 +19,7 @@ transfermoney::transfermoney(QWidget *parent) :
 
 transfermoney::~transfermoney()
 {
-    qDebug() << "Money transfer destructor";
+    qDebug() << "Transfer window destroyed";
     delete ui;
     ui = nullptr;
 }
@@ -46,6 +46,7 @@ void transfermoney::closeEvent(QCloseEvent *)
         timer->stop();
     }
     timer->deleteLater();
+    emit getBalance();
     emit startBankmainTimer();
     this->deleteLater();
 }
@@ -58,19 +59,44 @@ void transfermoney::on_execTransaction_clicked()
     tSendIban = ui->senderLineEdit->text();
     tRecvIban = ui->recvLineEdit->text();
     tAmount = ui->amountLineEdit->text();
+    int oldBal = QString(ui->balanceLabel->text()).toInt();
+    int newBal = QString(tAmount).toInt();
+    int currBal = oldBal - newBal;
     if (tRecvIban.count() == 18 && tAmount != "" && tAmount != "0") {
         if (tSendIban == tRecvIban) {
             ui->transactionStatusLabel->setText("Error: Duplicate Iban");
         } else {
-            ui->transactionStatusLabel->setText("Success!");
-            emit execTransaction(tSendIban, tRecvIban, tAmount);
+            if (cardType == "debit") {
+                if (currBal < 0) {
+                    ui->transactionStatusLabel->setText("Error: Balance");
+                } else {
+                    ui->transactionStatusLabel->setText("Success!");
+                    ui->balanceLabel->setText(QString::number(currBal));
+                    emit execTransaction(tSendIban, tRecvIban, tAmount);
+                }
+            } else {
+                ui->transactionStatusLabel->setText("Success!");
+                ui->balanceLabel->setText(QString::number(currBal));
+                emit execTransaction(tSendIban, tRecvIban, tAmount);
+            }
         }
     } else {
         ui->transactionStatusLabel->setText("Error: Check input");
     }
+    ui->amountLineEdit->clear();
 }
 
 void transfermoney::on_closeButton_clicked()
 {
     this->close();
+}
+
+void transfermoney::recvCardType(QString msg)
+{
+    cardType = msg;
+}
+
+void transfermoney::recvBalance(QString msg)
+{
+    ui->balanceLabel->setText(msg);
 }

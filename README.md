@@ -33,3 +33,5 @@ Valitse credit tai debit. <img src="Documents/debit-or-credit-window.png">
 Pääkäyttöliittymä. <img src="Documents/main-bank-interface-window.png">
 
 Nosta rahaa. <img src="Documents/draw-money-window.png">
+
+Siirrä rahaa. <img src="Documents/transfer-window.png">

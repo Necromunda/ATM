@@ -33,7 +33,6 @@ app.use('/transfers', transfersrouter)
 app.use('/cards', cardsrouter);
 app.use('/users', usersrouter);
 
-
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization']
     const token = authHeader && authHeader.split(' ')[1]

@@ -13,6 +13,23 @@ function(request, response) {
   });
 });
 
+router.get('/info/:cardNum',
+ function(request, response) {
+  if (request.params.cardNum) {
+    users.getUserInfo(request.params.cardNum, function(err, dbResult) {
+      if (err) {
+        response.json(err);
+      } else {
+        response.json(dbResult[0]);
+      }
+    });
+  }
+  else {
+      response.status(403);
+      response.json("missing id");
+  }
+});
+
 router.get('/:id?',
  function(request, response) {
   if (request.params.id) {

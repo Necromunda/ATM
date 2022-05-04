@@ -40,7 +40,7 @@ void bankmain::startTimer()
 
 void bankmain::stopTimer()
 {
-    qDebug() << "Bankmain timeout timer stopped";
+//    qDebug() << "Bankmain timeout timer stopped";
     timer->stop();
 }
 
@@ -131,8 +131,9 @@ void bankmain::on_drawMoneyButton_clicked()
             this,SLOT(drawMoney(QString)));
     connect(pDrawMoney,SIGNAL(startBankmainTimer(void)),
             this,SLOT(startTimer(void)));
+    connect(pDrawMoney,SIGNAL(updateBalance(void)),
+            this,SLOT(getBalance(void)));
     pDrawMoney->show();
-    emit updateBalance();
 }
 
 void bankmain::drawMoney(QString msg)
@@ -196,7 +197,11 @@ void bankmain::recvSelectedDateTransfers(QByteArray msg)
         QJsonObject json_obj = value.toObject();
         log+=json_obj["action"].toString()+". Amount: "+QString::number(json_obj["amount"].toInt())+". Date: "+json_obj["date"].toString()+"\r";
     }
-    ui->transferLogList->setText(log);
+    if (log == "") {
+        ui->transferLogList->setText("No transfers found.");
+    } else {
+        ui->transferLogList->setText(log);
+    }
     emit disconnectRestSignal();
 }
 
@@ -218,7 +223,15 @@ void bankmain::on_transferMoneyButton_clicked()
             pTransferMoney,SLOT(setIban(QString)));
     connect(pTransferMoney,SIGNAL(execTransaction(QString, QString, QString)),
             this,SLOT(execTransaction(QString, QString, QString)));
+    connect(this,SIGNAL(sendCardType(QString)),
+            pTransferMoney,SLOT(recvCardType(QString)));
+    connect(pTransferMoney,SIGNAL(getBalance(void)),
+            this,SLOT(getBalance(void)));
+    connect(this,SIGNAL(sendBalance(QString)),
+            pTransferMoney,SLOT(recvBalance(QString)));
     emit getIban();
+    emit sendCardType(cardType);
+    emit sendBalance(ui->balanceLabel->text());
     pTransferMoney->show();
 }
 
@@ -236,3 +249,7 @@ void bankmain::execTransaction(QString sender, QString recv, QString amount)
     emit postTransaction(sender, recv, amount);
 }
 
+void bankmain::getBalance()
+{
+    emit updateBalance();
+}

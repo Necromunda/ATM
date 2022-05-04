@@ -27,15 +27,19 @@ private slots:
     void closeEvent(QCloseEvent*);
     void on_execTransaction_clicked();
     void on_closeButton_clicked();
+    void recvCardType(QString);
+    void recvBalance(QString);
 
 signals:
     void startBankmainTimer(void);
     void execTransaction(QString, QString, QString);
+    void getBalance(void);
 
 private:
     Ui::transfermoney *ui;
     QTimer *timer;
     QRegExp rx;
+    QString cardType;
 };
 
 #endif // TRANSFERMONEY_H
