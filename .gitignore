@@ -21,3 +21,5 @@ bankautomat/REST_DLL/build/
 bankautomat/REST_DLL/*.user
 
 group1/banksimul.sql
+
+*.autosave
